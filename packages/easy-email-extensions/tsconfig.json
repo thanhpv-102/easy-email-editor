@@ -17,7 +17,7 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "sourceMap": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "outDir": "lib",
     "paths": {

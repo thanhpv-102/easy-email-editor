@@ -16,7 +16,7 @@ export function Section() {
   const noWrap = focusBlock?.data.value.noWrap;
 
   const onChange = useCallback(
-    checked => {
+    (checked: boolean) => {
       if (!focusBlock) return;
       focusBlock.data.value.noWrap = checked;
       if (checked) {

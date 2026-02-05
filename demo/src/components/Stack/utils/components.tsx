@@ -6,16 +6,21 @@ import React, { Children, isValidElement } from 'react';
 export function wrapWithComponent<P>(
   element: React.ReactNode | null | undefined,
   Component: React.ComponentType<P>,
-  props: P,
+  props: P & { key?: React.Key },
 ): React.ReactNode {
   if (element == null) {
     return null;
   }
 
+  // Extract key from props to pass directly (React 19 requirement)
+  // Use explicit destructuring to avoid any spreading issues
+  const propsWithKey = props as { key?: React.Key; [key: string]: any };
+  const { key: keyProp, ...componentProps } = propsWithKey;
+
   return isElementOfType(element, Component) ? (
     element
   ) : (
-      <Component {...props}>{element}</Component>
+      <Component key={keyProp} {...componentProps}>{element}</Component>
     );
 }
 
@@ -47,7 +52,7 @@ export function isElementOfType<P>(
   const { type: defaultType } = element;
   // Type override allows components to bypass default wrapping behavior. Ex: Stack, ResourceList...
   // See https://github.com/Shopify/app-extension-libs/issues/996#issuecomment-710437088
-  const overrideType = element.props?.__type__;
+  const overrideType = (element.props as any)?.__type__;
   const type = overrideType || defaultType;
   const Components = Array.isArray(Component) ? Component : [Component];
 
@@ -77,7 +82,7 @@ export function ConditionalWrapper({
   condition,
   wrapper,
   children,
-}: ConditionalWrapperProps): JSX.Element {
+}: ConditionalWrapperProps): React.ReactElement {
   return condition ? wrapper(children) : children;
 }
 
@@ -89,7 +94,7 @@ interface ConditionalRenderProps {
 export function ConditionalRender({
   condition,
   children,
-}: ConditionalRenderProps): JSX.Element {
+}: ConditionalRenderProps): React.ReactElement {
   return condition ? children : null;
 }
 
@@ -98,7 +103,7 @@ function hotReloadComponentCheck(
   AnotherComponent: React.ComponentType<any>,
 ) {
   const componentName = AComponent.name;
-  const anotherComponentName = (AnotherComponent as React.StatelessComponent<
+  const anotherComponentName = (AnotherComponent as React.FunctionComponent<
     any
   >).displayName;
 

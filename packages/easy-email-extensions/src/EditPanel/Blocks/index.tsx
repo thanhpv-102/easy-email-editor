@@ -57,8 +57,51 @@ export function Blocks() {
               header={cat.label}
             >
               <Grid.Row>
-                {cat.blocks.map((item, index) => {
-                  return <React.Fragment key={index}>{item}</React.Fragment>;
+                {cat.blocks.map((item, blockIndex) => {
+                  // Check if item is a draggable custom block object
+                  // React elements have $$typeof property, so we check for that
+                  if (
+                    typeof item === 'object' &&
+                    item !== null &&
+                    !React.isValidElement(item) &&
+                    'type' in item &&
+                    'children' in item
+                  ) {
+                    const customBlock = item as {
+                      type: string;
+                      payload?: any;
+                      title?: string;
+                      children: React.ReactNode;
+                      canDragAndDrop?: boolean;
+                    };
+                    // canDragAndDrop defaults to true if not specified
+                    const canDragAndDrop = customBlock.canDragAndDrop !== false;
+
+                    const blockContent = (
+                      <div className={styles.blockItemContainer}>
+                        {customBlock.children}
+                      </div>
+                    );
+
+                    return (
+                      <div key={blockIndex} className={styles.blockItem}>
+                        {canDragAndDrop ? (
+                          <BlockAvatarWrapper
+                            type={customBlock.type}
+                            payload={customBlock.payload}
+                          >
+                            {blockContent}
+                          </BlockAvatarWrapper>
+                        ) : (
+                          <div style={{ cursor: 'not-allowed', opacity: 0.6 }}>
+                            {blockContent}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+                  // Regular React node (component or element)
+                  return <React.Fragment key={blockIndex}>{item}</React.Fragment>;
                 })}
               </Grid.Row>
             </Collapse.Item>

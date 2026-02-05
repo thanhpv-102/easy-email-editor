@@ -15,8 +15,8 @@ export function DesktopEmailPreview() {
   const { pageData } = useEditorContext();
 
   const fonts = useMemo(() => {
-    return pageData.data.value.fonts || [];
-  }, [pageData.data.value.fonts]);
+    return pageData?.data.value.fonts || [];
+  }, [pageData?.data.value.fonts]);
 
   const isActive = activeTab === ActiveTabKeys.PC;
 
@@ -77,7 +77,7 @@ export function DesktopEmailPreview() {
           </div>
           {createPortal(
             <>
-              {fonts.map((item, index) => (
+              {fonts.map((item: any, index: number) => (
                 <link
                   key={index}
                   href={item.href}

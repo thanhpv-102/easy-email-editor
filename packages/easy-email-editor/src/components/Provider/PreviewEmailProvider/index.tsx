@@ -42,6 +42,8 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
   }, [mergeTags, previewInjectData]);
 
   useEffect(() => {
+    if (!lazyPageData) return;
+
     const breakpoint = parseInt(lazyPageData.data.value.breakpoint || '0');
     let adjustBreakPoint = breakpoint;
     if (breakpoint > 360) {
@@ -56,7 +58,7 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
           breakpoint: adjustBreakPoint + 'px',
         },
       },
-    };
+    } as typeof lazyPageData;
     let parseHtml = mjml(
       JsonToMjml({
         data: cloneData,

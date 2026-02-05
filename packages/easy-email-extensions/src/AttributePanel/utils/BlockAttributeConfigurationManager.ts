@@ -12,7 +12,7 @@ export class BlockAttributeConfigurationManager {
     });
   }
 
-  public static get<T extends ObjectComponent>(name: keyof T): () => JSX.Element | null {
+  public static get<T extends ObjectComponent>(name: keyof T): () => React.ReactElement | null {
     return (this.map as any)[name];
   }
 

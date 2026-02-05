@@ -5,7 +5,7 @@ import {
   MERGE_TAG_CLASS_NAME,
 } from 'easy-email-core';
 import { camelCase } from 'lodash';
-import React from 'react';
+import React, { JSX } from 'react';
 import { isTextBlock } from './isTextBlock';
 import { MergeTagBadge } from './MergeTagBadge';
 import {
@@ -49,10 +49,17 @@ export function HtmlStringToReactNodes(
     }
   });
 
+  // In React 19, we can't render the entire documentElement (html, head, body)
+  // Extract only the body content to avoid multiple document element errors
+  const bodyElement = doc.body;
+  if (!bodyElement) {
+    return <div>No content</div>;
+  }
+
   const reactNode = (
     <RenderReactNode
       selector={'0'}
-      node={doc.documentElement}
+      node={bodyElement}
       index={0}
     />
   );
@@ -88,6 +95,23 @@ const RenderReactNode = React.memo(function ({
     const tagName = node.tagName.toLowerCase();
     if (tagName === 'meta') return <></>;
 
+    // Prevent body elements from being nested in divs (React 19 hydration issue)
+    if (tagName === 'body') {
+      // Return the body's children instead of the body element itself
+      return (
+        <>
+          {[...node.childNodes].map((n, i) => (
+            <RenderReactNode
+              selector={getChildSelector(selector, i)}
+              key={i}
+              node={n as any}
+              index={i}
+            />
+          ))}
+        </>
+      );
+    }
+
     if (tagName === 'style') {
       return createElement(tagName, {
         key: index,
@@ -115,14 +139,23 @@ const RenderReactNode = React.memo(function ({
       });
     }
 
+    // Filter out whitespace text nodes for table elements to prevent hydration errors
+    const isTableElement = ['table', 'tbody', 'thead', 'tfoot', 'tr'].includes(tagName);
+    const filteredChildNodes = isTableElement
+      ? [...node.childNodes].filter(n => {
+          // Remove whitespace-only text nodes in table elements
+          return !(n.nodeType === Node.TEXT_NODE && (!n.textContent || n.textContent.trim() === ''));
+        })
+      : [...node.childNodes];
+
     const reactNode = createElement(tagName, {
       key: index,
       ...attributes,
       style: getStyle(node.getAttribute('style')),
       children:
-        node.childNodes.length === 0
+        filteredChildNodes.length === 0
           ? null
-          : [...node.childNodes].map((n, i) => (
+          : filteredChildNodes.map((n, i) => (
               <RenderReactNode
                 selector={getChildSelector(selector, i)}
                 key={i}

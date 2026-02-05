@@ -22,7 +22,7 @@ export function MjmlDomRender() {
     getShadowRoot().activeElement?.getAttribute('contenteditable') === 'true';
 
   useEffect(() => {
-    if (!isTextFocus && !isEqual(content, pageData)) {
+    if (!isTextFocus && content && !isEqual(content, pageData)) {
       setPageData(cloneDeep(content));
     }
   }, [content, pageData, setPageData, isTextFocus]);

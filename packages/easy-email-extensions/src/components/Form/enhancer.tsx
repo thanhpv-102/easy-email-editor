@@ -8,7 +8,7 @@ export interface EnhancerProps {
   name: string;
   onChangeAdapter?: (value: any) => any;
   validate?: (value: any) => string | undefined | Promise<string | undefined>;
-  config?: UseFieldConfig<any, any>;
+  config?: UseFieldConfig;
   changeOnBlur?: boolean;
   formItem?: FormItemProps;
   label?: FormItemProps['label'];

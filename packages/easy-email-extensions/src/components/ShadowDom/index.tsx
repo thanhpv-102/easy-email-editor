@@ -12,10 +12,13 @@ export const ShadowDom: React.FC<React.HTMLProps<HTMLElement>> = (props) => {
     }
   }, [ref]);
 
+  // Extract key and children to avoid React 19 spreading issues
+  const { key, children, ...divProps } = props;
+
   return (
     <>
-      <div {...(props as any)} ref={setRef}>
-        {root && ReactDOM.createPortal(props.children, root as any)}
+      <div key={key} {...divProps} ref={setRef}>
+        {root && ReactDOM.createPortal(children, root as any)}
       </div>
     </>
   );

@@ -64,11 +64,11 @@ const defaultImagesMap = {
   IMAGE_38:
     'https://easy-email-m-ryan.vercel.app/images/2a6d82e2-d1f6-4e30-ae05-1afe3cd03e70-22d186b0-c2f1-4aee-b33b-869cae26412e.png',
   IMAGE_39:
-    'https://easy-email-m-ryan.vercel.app/images/9f97bda2-82d6-47e7-80c1-40be94d5491f-88233d55-8715-43cd-9232-246440e33cd6.png',
+    'https://cdn.shopify.com/s/files/1/0863/8971/9346/files/biqsebynmw5lk3tzfybm1_ymztponegfngeef0cbype.png',
   IMAGE_40:
-    'https://easy-email-m-ryan.vercel.app/images/b8f00c77-12b0-4e61-a85e-96918c0035dc-b8344b64-8e79-424d-a974-8e13e6b1e7f8.png',
+    'https://cdn.shopify.com/s/files/1/0863/8971/9346/files/iqjhaqfya9drnsmid6hpf_vqp_wxhtulwic189okucr.png',
   IMAGE_41:
-    'https://easy-email-m-ryan.vercel.app/images/5fc6be85-0205-4ca9-bb9a-eb9335f94af2-2d41c4bb-2c00-4fe7-8b32-067e92df3ab3.png',
+    'https://cdn.shopify.com/s/files/1/0863/8971/9346/files/f88wdngiodai49pg8mpce_npr9exwlj4a_tsg0dvl_g.png',
   IMAGE_42:
     'https://easy-email-m-ryan.vercel.app/images/f6c9c054-f35a-4af7-957f-c7a6209972eb-7e3b42bf-8d97-466d-8662-8d3b1786e8b8.png',
   IMAGE_43:

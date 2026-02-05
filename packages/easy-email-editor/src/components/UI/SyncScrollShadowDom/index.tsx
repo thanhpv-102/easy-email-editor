@@ -12,7 +12,7 @@ export const SyncScrollShadowDom: React.FC<React.HTMLProps<HTMLElement> & { isAc
   const [ref, setRef] = useState<null | HTMLDivElement>(null);
   const { viewElementRef } = useDomScrollHeight();
   const { activeTab } = useActiveTab();
-  const { isActive, ...rest } = props;
+  const { isActive, key, children, ...rest } = props;
 
   const setFirstVisibleEle = useCallback(debounce((root: HTMLElement) => {
     if (!root.shadowRoot) return;
@@ -92,8 +92,8 @@ export const SyncScrollShadowDom: React.FC<React.HTMLProps<HTMLElement> & { isAc
 
   return (
     <>
-      <div {...(rest as any)} ref={setRef}>
-        {root && ReactDOM.createPortal(props.children, root as any)}
+      <div key={key} {...rest} ref={setRef}>
+        {root && ReactDOM.createPortal(children, root as any)}
       </div>
     </>
   );

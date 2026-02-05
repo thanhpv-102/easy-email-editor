@@ -66,10 +66,10 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
         try {
           const parseValue = MjmlToJson(event.target.value);
           if (parseValue.type !== BasicType.PAGE) {
-            const parentBlock = getParentByIdx(values, focusIdx)!;
+            const parentBlock = values && getParentByIdx(values, focusIdx)!;
             const parseBlock = BlockManager.getBlockByType(parseValue.type);
 
-            if (!parseBlock?.validParentType.includes(parentBlock?.type)) {
+            if (!parseBlock?.validParentType.includes(parentBlock?.type || '')) {
               throw new Error(t('Invalid content'));
             }
           } else if (focusIdx !== getPageIdx()) {

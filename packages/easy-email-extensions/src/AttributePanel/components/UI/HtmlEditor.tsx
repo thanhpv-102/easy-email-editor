@@ -42,16 +42,16 @@ export const HtmlEditor: React.FC<{
 
     const attributes = focusBlock.attributes as IText['attributes'];
     return {
-      color: attributes.color || pageData.data.value['text-color'],
-      fontSize: attributes['font-size'] || pageData.data.value['font-size'],
+      color: attributes.color || pageData?.data.value['text-color'],
+      fontSize: attributes['font-size'] || pageData?.data.value['font-size'],
       fontFamily:
-        attributes['font-family'] || pageData.data.value['font-family'],
+        attributes['font-family'] || pageData?.data.value['font-family'],
       fontWeight:
-        attributes['font-weight'] || pageData.data.value['font-weight'],
+        attributes['font-weight'] || pageData?.data.value['font-weight'],
       backgroundColor: attributes['container-background-color'],
       padding: attributes.padding,
     };
-  }, [focusBlock, pageData.data.value]);
+  }, [focusBlock, pageData?.data.value]);
 
   return (
     <Drawer
@@ -105,7 +105,7 @@ export const HtmlEditor: React.FC<{
           <ShadowDom
             style={{
               ...styles,
-              width: pageData.attributes.width || '600px',
+              width: pageData?.attributes.width || '600px',
               margin: 'auto',
             }}
           >

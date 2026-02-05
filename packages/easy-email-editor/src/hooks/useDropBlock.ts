@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState, useRef } from 'react';
-
-import { getNodeIdxFromClassName } from 'easy-email-core';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { getNodeIdxFromClassName } from '@thanhpv102/easy-email-core';
 import { getBlockNodeByChildEle } from '@/utils/getBlockNodeByChildEle';
 import { useBlock } from '@/hooks/useBlock';
 import { getDirectionPosition } from '@/utils/getDirectionPosition';
@@ -81,12 +80,12 @@ export function useDropBlock() {
         }
       };
 
-      const onDrop = (ev: MouseEvent) => {
+      const onDrop = () => {
         lastDragover.target = null;
       };
 
       const onDragOver = (ev: DragEvent) => {
-        if (!cacheDataTransfer.current) return;
+        if (!cacheDataTransfer.current || !cacheValues.current) return;
 
         // if (ev.target === lastDragover.target) {
         //   if (lastDragover.valid) {
@@ -140,7 +139,7 @@ export function useDropBlock() {
       const onCheckDragLeave = (ev: DragEvent) => {
         const dropEleList = [
           ...document.querySelectorAll(
-            `[${DATA_ATTRIBUTE_DROP_CONTAINER}="true"]`
+            `[${DATA_ATTRIBUTE_DROP_CONTAINER}="true"]`,
           ),
         ];
         const target = ev.target as HTMLElement;
@@ -219,6 +218,6 @@ export function useDropBlock() {
     () => ({
       setRef,
     }),
-    [setRef]
+    [setRef],
   );
 }

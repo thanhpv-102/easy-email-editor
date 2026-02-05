@@ -78,7 +78,6 @@ export function Padding(props: PaddingProps = {}) {
     <Form<{ top: string; right: string; left: string; bottom: string }>
       initialValues={paddingFormValues}
       subscription={{ submitting: true, pristine: true }}
-      enableReinitialize
       onSubmit={() => {}}
     >
       {() => {
@@ -160,7 +159,7 @@ export function Padding(props: PaddingProps = {}) {
 
 const PaddingChangeWrapper: React.FC<{ onChange: (val: string) => void }> = props => {
   const {
-    values: { top, right, bottom, left },
+    values: { top = '', right = '', bottom = '', left = '' } = {},
   } = useFormState();
   const { onChange } = props;
 

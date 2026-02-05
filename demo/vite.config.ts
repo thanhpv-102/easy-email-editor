@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
-import path from 'path';
-import { injectHtml } from 'vite-plugin-html';
+import react from '@vitejs/plugin-react';
+import * as path from 'path';
 
 export default defineConfig({
   server: {
@@ -36,9 +35,6 @@ export default defineConfig({
   },
 
   define: {},
-  esbuild: {
-    jsxInject: 'import "@arco-design/web-react/dist/css/arco.css";',
-  },
   build: {
     minify: 'terser',
     manifest: true,
@@ -75,12 +71,15 @@ export default defineConfig({
     },
   },
   plugins: [
-    reactRefresh(),
-
-    injectHtml({
-      data: {
-        buildTime: `<meta name="updated-time" content="${new Date().toUTCString()}" />`,
+    react(),
+    {
+      name: 'html-transform',
+      transformIndexHtml(html: string) {
+        return html.replace(
+          '__BUILD_TIME__',
+          `<meta name="updated-time" content="${new Date().toUTCString()}" />`
+        );
       },
-    }),
+    },
   ].filter(Boolean),
 });

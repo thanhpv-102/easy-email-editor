@@ -163,13 +163,13 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
   );
 
   const renderTitle: TreeProps['renderTitle'] = useCallback(
-    (nodeData) => {
+    (nodeData: any) => {
       return (
         <div
           style={{ display: 'inline-flex', width: '100%' }}
-          onContextMenu={(ev) => onContextMenu && onContextMenu(nodeData, ev)}
+          onContextMenu={(ev) => onContextMenu && onContextMenu(nodeData as T, ev)}
         >
-          {propsRenderTitle(nodeData)}
+          {propsRenderTitle(nodeData as T)}
         </div>
       );
     },
@@ -182,7 +182,7 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
   }, [propsDragEnd]);
 
   const onSelect: TreeProps['onSelect'] = useCallback(
-    (selectedKeys) => {
+    (selectedKeys: string[]) => {
       propsSelect(selectedKeys[0]);
     },
     [propsSelect]

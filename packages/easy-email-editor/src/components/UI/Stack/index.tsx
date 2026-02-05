@@ -1,9 +1,9 @@
-import React, { memo, NamedExoticComponent } from 'react';
+import React, { memo, NamedExoticComponent, isValidElement } from 'react';
 
 import { classNames, variationName } from './utils/css';
-import { elementChildren, wrapWithComponent } from './utils/components';
+import { elementChildren } from './utils/components';
 
-import { Item, ItemProps } from './components/Item';
+import { Item } from './components/Item';
 import styles from './Stack.module.scss';
 
 // From polaris-react
@@ -52,8 +52,13 @@ export const Stack = memo(function Stack({
     wrap === false && styles.noWrap,
   );
   const itemMarkup = elementChildren(children).map((child, index) => {
-    const props: ItemProps = { key: index };
-    return wrapWithComponent(child, Item, props);
+    // React 19: Don't create an object with key prop, pass it directly
+    if (isValidElement(child) && child.type === Item) {
+      return React.cloneElement(child, { key: index });
+    }
+    return (
+      <Item key={index}>{child}</Item>
+    );
   });
 
   return (

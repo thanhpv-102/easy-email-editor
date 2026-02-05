@@ -8,7 +8,7 @@ export function useEditorContext() {
   const helpers = useForm();
   const { initialized, setInitialized } = useContext(BlocksContext);
 
-  const { content } = formState.values;
+  const content = formState.values?.content;
   return {
     formState,
     formHelpers: helpers,

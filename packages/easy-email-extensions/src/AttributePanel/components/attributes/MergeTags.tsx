@@ -19,7 +19,7 @@ export const MergeTags: React.FC<{
   const { values } = useBlock();
 
   const contextMergeTags = useMemo(
-    () => getContextMergeTags(mergeTags, values, focusIdx),
+    () => values && getContextMergeTags(mergeTags, values, focusIdx),
     [mergeTags, values, focusIdx]
   );
 
@@ -51,6 +51,8 @@ export const MergeTags: React.FC<{
         );
       }
     };
+
+    if (!contextMergeTags) return treeData;
 
     Object.keys(contextMergeTags).map((key) =>
       deep(key, key, contextMergeTags, treeData)

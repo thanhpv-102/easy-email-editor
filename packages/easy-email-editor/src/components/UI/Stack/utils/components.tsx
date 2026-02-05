@@ -1,21 +1,25 @@
-import React, { Children, isValidElement } from 'react';
+import React, { Children, isValidElement, JSX } from 'react';
 
 // Wraps `element` in `Component`, if it is not already an instance of
 // `Component`. If `props` is passed, those will be added as props on the
 // wrapped component. If `element` is null, the component is not wrapped.
-export function wrapWithComponent<P extends any>(
+export function wrapWithComponent<P extends Record<string, any>>(
   element: React.ReactNode | null | undefined,
   Component: React.FC<P>,
-  props: P,
+  props: P & { key?: React.Key },
 ): React.ReactNode {
   if (element == null) {
     return null;
   }
 
+  // React 19 fix: Extract key from props to pass directly
+  const propsWithKey = props as { key?: React.Key; [key: string]: any };
+  const { key: keyProp, ...componentProps } = propsWithKey;
+
   return isElementOfType(element, Component) ? (
     element
   ) : (
-    <Component {...(props as any)}>{element}</Component>
+    <Component key={keyProp} {...componentProps as P}>{element}</Component>
   );
 }
 
@@ -26,9 +30,9 @@ const isComponent =
   process.env.NODE_ENV === 'development'
     ? hotReloadComponentCheck
     : (
-        AComponent: React.ComponentType<any>,
-        AnotherComponent: React.ComponentType<any>,
-      ) => AComponent === AnotherComponent;
+      AComponent: React.ComponentType<any>,
+      AnotherComponent: React.ComponentType<any>,
+    ) => AComponent === AnotherComponent;
 
 // Checks whether `element` is a React element of type `Component` (or one of
 // the passed components, if `Component` is an array of React components).
@@ -43,7 +47,7 @@ export function isElementOfType<P>(
   const { type: defaultType } = element;
   // Type override allows components to bypass default wrapping behavior. Ex: Stack, ResourceList...
   // See https://github.com/Shopify/app-extension-libs/issues/996#issuecomment-710437088
-  const overrideType = element.props?.__type__;
+  const overrideType = (element.props as any)?.__type__;
   const type = overrideType || defaultType;
   const Components = Array.isArray(Component) ? Component : [Component];
 
@@ -70,10 +74,10 @@ interface ConditionalWrapperProps {
 }
 
 export function ConditionalWrapper({
-  condition,
-  wrapper,
-  children,
-}: ConditionalWrapperProps): JSX.Element {
+                                     condition,
+                                     wrapper,
+                                     children,
+                                   }: ConditionalWrapperProps): JSX.Element {
   return condition ? wrapper(children) : children;
 }
 
@@ -83,9 +87,9 @@ interface ConditionalRenderProps {
 }
 
 export function ConditionalRender({
-  condition,
-  children,
-}: ConditionalRenderProps): JSX.Element {
+                                    condition,
+                                    children,
+                                  }: ConditionalRenderProps): JSX.Element {
   return condition ? children : null;
 }
 

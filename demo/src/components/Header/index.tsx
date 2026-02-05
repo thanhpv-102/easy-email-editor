@@ -7,7 +7,7 @@ export interface HeaderProps extends Omit<PageHeaderProps, 'onBack'> {
   title: React.ReactNode;
 }
 
-export const Header: React.FC<HeaderProps> = (props) => {
+export const Header = (props: HeaderProps) => {
   const history = useHistory();
   const { backUrl } = props;
   return (

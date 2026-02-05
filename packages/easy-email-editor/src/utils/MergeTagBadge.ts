@@ -40,10 +40,19 @@ export class MergeTagBadge {
     const container = document.createElement('div');
     container.innerHTML = content;
     container.querySelectorAll('.easy-email-merge-tag').forEach((item: any) => {
-      item.parentNode?.replaceChild(
-        document.createTextNode(generateMergeTag(item.value)),
-        item
-      );
+      // Fix React 19 parentNode replaceChild error
+      if (item.parentNode) {
+        try {
+          item.parentNode.replaceChild(
+            document.createTextNode(generateMergeTag(item.value)),
+            item
+          );
+        } catch (error) {
+          // Fallback for React 19 compatibility
+          console.warn('DOM manipulation failed, using fallback method:', error);
+          item.outerHTML = generateMergeTag(item.value);
+        }
+      }
     });
 
     return container.innerHTML;

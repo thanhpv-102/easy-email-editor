@@ -11,10 +11,39 @@ type BlockDataItem = Omit<
 export const BlockRenderer = (props: BlockDataItem) => {
   const { data } = props;
   const { mode, context, dataSource } = useEmailRenderContext();
-  if (data.data.hidden) return null;
-  const block = BlockManager.getBlockByType(data.type);
-  if (!block) return null;
-  return <>{block.render({ ...props, mode, context, dataSource })}</>;
+
+  // Safe data access
+  if (data?.data?.hidden) return null;
+
+  const block = BlockManager.getBlockByType(data?.type);
+  if (!block) {
+    console.warn(`Block type "${data?.type}" not found in BlockManager`);
+    return null;
+  }
+
+  // Ensure data has required structure
+  const safeData = {
+    ...data,
+    data: {
+      ...(data?.data || {}),
+      value: data?.data?.value || {},
+      hidden: data?.data?.hidden || false,
+    },
+    attributes: data?.attributes || {},
+    children: Array.isArray(data?.children) ? data.children : [],
+  };
+
+  try {
+    return <>{block.render({ ...props, data: safeData, mode, context, dataSource })}</>;
+  } catch (error) {
+    console.error(`Error rendering block "${data?.type}":`, error);
+    // Return a fallback or empty fragment to prevent crash
+    return (
+      <>
+        {`<!-- Error rendering block ${data?.type}: ${error instanceof Error ? error.message : String(error)} -->`}
+      </>
+    );
+  }
 };
 
 // const BlockEditRenderer = (props: BlockDataItem) => {

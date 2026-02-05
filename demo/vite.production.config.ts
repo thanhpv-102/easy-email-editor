@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import styleImport from 'vite-plugin-style-import';
-import path from 'path';
-import { injectHtml } from 'vite-plugin-html';
+import react from '@vitejs/plugin-react';
+import * as path from 'path';
 
 export default defineConfig({
   resolve: {
@@ -60,6 +60,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    react(),
     styleImport({
       libs: [
         // Dynamic import @arco-design styles
@@ -77,10 +78,14 @@ export default defineConfig({
         },
       ],
     }),
-    injectHtml({
-      data: {
-        buildTime: `<meta name="updated-time" content="${new Date().toUTCString()}" />`,
+    {
+      name: 'html-transform',
+      transformIndexHtml(html: string) {
+        return html.replace(
+          '__BUILD_TIME__',
+          `<meta name="updated-time" content="${new Date().toUTCString()}" />`
+        );
       },
-    }),
+    },
   ].filter(Boolean),
 });

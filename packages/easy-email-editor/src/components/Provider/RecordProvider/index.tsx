@@ -31,7 +31,7 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props =>
   const indexRef = useRefState(index);
 
   const statusRef = useRef<RecordStatus>(undefined);
-  const currentData = useRef<IEmailTemplate>();
+  const currentData = useRef<IEmailTemplate | undefined>(undefined);
 
   if (index >= 0 && data.length > 0) {
     currentData.current = data[index];
@@ -55,7 +55,9 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props =>
         form.reset(data[prevIndex]);
       },
       reset: () => {
-        form.reset();
+        if (data.length > 0) {
+          form.reset(data[0]);
+        }
       },
       undoable: index > 0,
       redoable: index < data.length - 1,
@@ -67,13 +69,16 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props =>
       statusRef.current = undefined;
       return;
     }
+
+    if (!formState.values) return;
+
     const currentItem = currentData.current;
 
     const isChanged = !(
       currentItem &&
       isEqual(formState.values.content, currentItem.content) &&
       formState.values.subTitle === currentItem.subTitle &&
-      formState.values.subTitle === currentItem.subTitle
+      formState.values.subject === currentItem.subject
     );
 
     if (isChanged) {
@@ -82,7 +87,7 @@ export const RecordProvider: React.FC<{ children?: React.ReactNode }> = props =>
       setData(oldData => {
         const list = oldData.slice(0, indexRef.current + 1);
 
-        const newData = [...list, cloneDeep(formState.values)].slice(-MAX_RECORD_SIZE);
+        const newData = [...list, cloneDeep(formState.values!)].slice(-MAX_RECORD_SIZE);
 
         return newData;
       });

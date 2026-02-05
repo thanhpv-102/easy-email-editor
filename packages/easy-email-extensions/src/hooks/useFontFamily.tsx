@@ -5,7 +5,7 @@ export function useFontFamily() {
   const { fontList: defaultFontList } = useEditorProps();
   const { pageData } = useEditorContext();
 
-  const addFonts = pageData.data.value.fonts;
+  const addFonts = pageData?.data.value.fonts;
 
   const fontList = useMemo(() => {
     const fonts: Array<{

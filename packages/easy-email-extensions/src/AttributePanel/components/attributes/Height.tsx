@@ -8,7 +8,7 @@ export function Height({
   config,
 }: {
   inline?: boolean;
-  config?: UseFieldConfig<any>;
+  config?: UseFieldConfig;
 }) {
   const { focusIdx } = useFocusIdx();
 
@@ -17,7 +17,7 @@ export function Height({
       <Stack wrap={false}>
         <Stack.Item fill>
           <TextField
-            label={t('Height')}
+            label={'Height'}
             name={`${focusIdx}.attributes.height`}
             quickchange
             inline={inline}

@@ -287,22 +287,27 @@ export function Tools(props: ToolsProps) {
       id={RICH_TEXT_TOOL_BAR}
       style={{ display: 'flex', flexWrap: 'nowrap' }}
     >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        <BasicTools />
-        {tools.flatMap((tool, index) => [
-          tool,
-          <div
-            className='easy-email-extensions-divider'
-            key={`divider-${index}`}
-          />,
-        ])}
-      </div>
-      {toolbar?.suffix?.(execCommand)}
+      <>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <BasicTools />
+          {tools.map((tool, index) => {
+            return (
+              <React.Fragment key={index}>
+                {tool}
+                <div
+                  className='easy-email-extensions-divider'
+                />
+              </React.Fragment>
+            );
+          })}
+        </div>
+        {toolbar?.suffix?.(execCommand)}
+      </>
     </div>
   );
 }

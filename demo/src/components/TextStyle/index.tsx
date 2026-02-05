@@ -8,7 +8,7 @@ export interface TextStyleProps {
   size?: 'largest' | 'extraLarge' | 'large' | 'medium' | 'small' | 'smallest';
 }
 
-export const TextStyle: React.FC<TextStyleProps> = props => {
+export const TextStyle = (props: TextStyleProps) => {
   const { variation = '', size = 'small' } = props;
   return (
     <span className={classnames(styles[variation], styles[size] || size)}>
