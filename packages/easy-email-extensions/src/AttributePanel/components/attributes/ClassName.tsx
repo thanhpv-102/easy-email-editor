@@ -7,7 +7,11 @@ export function ClassName() {
 
   return useMemo(() => {
     return (
-      <TextField label={t('Class name')} name={`${focusIdx}.attributes.css-class`} />
+      <TextField
+        label={t('Class name')}
+        name={`${focusIdx}.attributes.css-class`}
+        key={`${focusIdx}.attributes.css-class`}
+      />
     );
   }, [focusIdx]);
 }

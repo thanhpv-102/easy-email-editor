@@ -1,6 +1,7 @@
 import React from 'react';
-import { Tooltip, TooltipProps } from '@arco-design/web-react';
-import { IconQuestionCircle } from '@arco-design/web-react/icon';
+import { Tooltip, TooltipProps } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import styles from './index.module.scss';
 
 export function Help(
   props: TooltipProps &
@@ -9,9 +10,14 @@ export function Help(
     }
 ) {
   return (
-    <Tooltip {...{ ...props, style: undefined }} content={props.title}>
+    <Tooltip
+      {...{ ...props, style: undefined }}
+      title={props.title}
+      classNames={{ root: styles.helpTooltip }}
+      getPopupContainer={() => document.body}
+    >
       <span style={{ cursor: 'pointer' }}>
-        <IconQuestionCircle style={props.style} />
+        <QuestionCircleOutlined style={props.style} />
       </span>
     </Tooltip>
   );

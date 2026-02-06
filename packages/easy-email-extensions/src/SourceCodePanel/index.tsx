@@ -1,18 +1,6 @@
-import { Collapse, Input, Message } from '@arco-design/web-react';
-import {
-  BasicType,
-  BlockManager,
-  getPageIdx,
-  getParentByIdx,
-  IBlockData,
-  JsonToMjml,
-} from 'easy-email-core';
-import {
-  useBlock,
-  useFocusIdx,
-  useEditorContext,
-  useEditorProps,
-} from 'easy-email-editor';
+import { Collapse, Input, App } from 'antd';
+import { BasicType, BlockManager, getPageIdx, getParentByIdx, IBlockData, JsonToMjml } from 'easy-email-core';
+import { useBlock, useEditorContext, useEditorProps, useFocusIdx } from 'easy-email-editor';
 import { cloneDeep } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { MjmlToJson } from '@extensions/utils/MjmlToJson';
@@ -21,6 +9,7 @@ import styles from './index.module.scss';
 export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: boolean; mjmlReadOnly: boolean }) {
   const { setValueByIdx, focusBlock, values } = useBlock();
   const { focusIdx } = useFocusIdx();
+  const { message } = App.useApp();
 
   const [mjmlText, setMjmlText] = useState('');
   const { pageData } = useEditorContext();
@@ -33,7 +22,7 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
 
   const onChangeCode = useCallback(
     (event: React.FocusEvent<HTMLTextAreaElement>) => {
-      if(!jsonReadOnly){
+      if (!jsonReadOnly) {
         try {
           const parseValue = JSON.parse(
             JSON.stringify(eval('(' + event.target.value + ')')),
@@ -52,20 +41,21 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
             throw new Error(t('Invalid content'));
           }
           setValueByIdx(focusIdx, parseValue);
-        } catch (error: any) {
-          Message.error(error?.message || error);
+        } catch (error: unknown) {
+          const errorMessage = error instanceof Error ? error.message : String(error);
+          message.error(errorMessage);
         }
       }
     },
-    [focusIdx, setValueByIdx],
+    [focusIdx, setValueByIdx, jsonReadOnly, message],
   );
 
   const onMjmlChange = useCallback(
     (event: React.FocusEvent<HTMLTextAreaElement>) => {
-      if(!mjmlReadOnly){
+      if (!mjmlReadOnly) {
         try {
           const parseValue = MjmlToJson(event.target.value);
-          if (parseValue.type !== BasicType.PAGE) {
+          if (parseValue.type !== BasicType.PAGE as string) {
             const parentBlock = values && getParentByIdx(values, focusIdx)!;
             const parseBlock = BlockManager.getBlockByType(parseValue.type);
 
@@ -77,20 +67,20 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
           }
 
           setValueByIdx(focusIdx, parseValue);
-        } catch (error) {
-          Message.error(t('Invalid content'));
+        } catch {
+          message.error(t('Invalid content'));
         }
       }
     },
-    [focusIdx, setValueByIdx, values],
+    [focusIdx, setValueByIdx, values, mjmlReadOnly, message],
   );
 
-  const onChangeMjmlText = useCallback((value: string) => {
-    setMjmlText(value);
+  const onChangeMjmlText = useCallback((event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMjmlText(event.target.value);
   }, []);
 
   useEffect(() => {
-    focusBlock &&
+    if (focusBlock) {
       setMjmlText(
         JsonToMjml({
           idx: focusIdx,
@@ -100,16 +90,16 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
           dataSource: cloneDeep(mergeTags),
         }),
       );
+    }
   }, [focusBlock, focusIdx, pageData, mergeTags]);
 
   if (!focusBlock) return null;
 
   return (
-    <Collapse>
-      <Collapse.Item
-        name='json'
+    <Collapse className={styles.collapsePanel}>
+      <Collapse.Panel
+        key="json"
         header={t('Json source')}
-        contentStyle={{ padding: '8px 13px' }}
       >
         <Input.TextArea
           key={code}
@@ -119,11 +109,10 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
           readOnly={jsonReadOnly}
           className={styles.customTextArea}
         />
-      </Collapse.Item>
-      <Collapse.Item
-        name='mjml'
+      </Collapse.Panel>
+      <Collapse.Panel
+        key="mjml"
         header={t('MJML source')}
-        contentStyle={{ padding: '8px 13px' }}
       >
         <Input.TextArea
           key={code}
@@ -134,7 +123,7 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
           readOnly={mjmlReadOnly}
           className={styles.customTextArea}
         />
-      </Collapse.Item>
+      </Collapse.Panel>
     </Collapse>
   );
 }

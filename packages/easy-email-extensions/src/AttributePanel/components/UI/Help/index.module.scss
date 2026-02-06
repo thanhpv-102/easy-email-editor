@@ -1,0 +1,9 @@
+.helpTooltip {
+  :global {
+    .ant-tooltip-inner {
+      z-index: 10000 !important;
+    }
+  }
+
+  z-index: 10000 !important;
+}

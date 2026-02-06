@@ -9,48 +9,48 @@ import { FontWeight } from '../../attributes/FontWeight';
 import { FontFamily } from '../../attributes/FontFamily';
 import { AttributesPanelWrapper } from '../../attributes/AttributesPanelWrapper';
 import { useFocusIdx } from 'easy-email-editor';
-import { Collapse, Grid, Space } from '@arco-design/web-react';
+import { Col, Collapse, Row, Space } from 'antd';
 
 export function AccordionTitle() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper>
       <Collapse defaultActiveKey={['0', '1', '2']}>
-        <Collapse.Item name='0' header={t('Setting')}>
-          <Space direction='vertical'>
+        <Collapse.Panel key="0" header={'Setting'}>
+          <Space orientation="vertical" size="small">
             <TextAreaField
-              label={t('Content')}
+              label={'Content'}
               name={`${focusIdx}.data.value.content`}
             />
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <Color />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
+              </Col>
+              <Col offset={1} span={11}>
                 <BackgroundColor />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <FontSize />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
+              </Col>
+              <Col offset={1} span={11}>
                 <FontFamily />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <FontWeight />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11} />
-            </Grid.Row>
+              </Col>
+              <Col offset={1} span={11} />
+            </Row>
 
-            <Padding title={t('Padding')} attributeName='padding' />
+            <Padding title={'Padding'} attributeName="padding" />
           </Space>
-        </Collapse.Item>
+        </Collapse.Panel>
       </Collapse>
     </AttributesPanelWrapper>
   );

@@ -1,9 +1,9 @@
 import { article, IArticle } from '@demo/services/article';
 import createSliceState from './common/createSliceState';
-import { Message } from '@arco-design/web-react';
+import { App } from 'antd';
 import { history } from '@demo/utils/history';
 import { emailToImage } from '@demo/utils/emailToImage';
-import { IBlockData, BlockManager, BasicType, AdvancedType } from 'easy-email-core';
+import { AdvancedType, BasicType, BlockManager, IBlockData } from 'easy-email-core';
 import { IEmailTemplate } from 'easy-email-editor';
 import { getTemplate } from '@demo/config/getTemplate';
 
@@ -104,9 +104,10 @@ export default createSliceState({
       },
     ) => {
       try {
+        const { message } = App.useApp();
         let isDefaultTemplate = await getTemplate(payload.id);
         if (isDefaultTemplate) {
-          Message.error('Cannot change the default template');
+          message.error('Cannot change the default template');
           return;
         }
 
@@ -128,9 +129,10 @@ export default createSliceState({
     },
     removeById: async (state, payload: { id: number; success: () => void }) => {
       try {
+        const { message } = App.useApp();
         await article.deleteArticle(payload.id);
         payload.success();
-        Message.success('Removed success.');
+        message.success('Saved success');
       } catch (error: any) {
         if (error?.response?.status === 404) {
           throw {

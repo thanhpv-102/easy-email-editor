@@ -1,14 +1,11 @@
 import { IEmailTemplate } from '@/typings';
-import { Form, useForm, useFormState, useField } from 'react-final-form';
-import arrayMutators from 'final-form-arrays';
+import { Form, useForm, useFormState, useField, FormApi, FormState } from '@/utils/formBridge';
 import React, { useMemo, useEffect, useState } from 'react';
 import { BlocksProvider } from '..//BlocksProvider';
 import { HoverIdxProvider } from '../HoverIdxProvider';
 import { PropsProvider, PropsProviderProps } from '../PropsProvider';
 import { RecordProvider } from '../RecordProvider';
 import { ScrollProvider } from '../ScrollProvider';
-import { Config, FormApi, FormState } from 'final-form';
-import setFieldTouched from 'final-form-set-field-touched';
 import { FocusBlockLayoutProvider } from '../FocusBlockLayoutProvider';
 import { PreviewEmailProvider } from '../PreviewEmailProvider';
 import { LanguageProvider } from '../LanguageProvider';
@@ -21,8 +18,8 @@ export interface EmailEditorProviderProps<T extends IEmailTemplate = any>
     props: FormState<T>,
     helper: FormApi<IEmailTemplate, Partial<IEmailTemplate>>,
   ) => React.ReactNode;
-  onSubmit?: Config<IEmailTemplate, Partial<IEmailTemplate>>['onSubmit'];
-  validationSchema?: Config<IEmailTemplate, Partial<IEmailTemplate>>['validate'];
+  onSubmit?: (values: IEmailTemplate) => void | Promise<any>;
+  validationSchema?: (values: IEmailTemplate) => Record<string, any> | Promise<Record<string, any>>;
 }
 
 export const EmailEditorProvider = <T extends any>(
@@ -52,8 +49,6 @@ export const EmailEditorProvider = <T extends any>(
       initialValues={initialValues}
       onSubmit={onSubmit}
       validate={validationSchema}
-      mutators={{ ...arrayMutators, setFieldTouched: setFieldTouched as any }}
-      subscription={{ submitting: true, pristine: true }}
     >
       {() => (
         <>

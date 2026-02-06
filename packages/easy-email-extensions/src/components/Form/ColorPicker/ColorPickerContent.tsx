@@ -1,5 +1,6 @@
-import { Button, Space } from '@arco-design/web-react';
+import { Button, Space } from 'antd';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+
 
 import styles from '../index.module.scss';
 
@@ -44,7 +45,7 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
       <div style={{ padding: '0px 16px' }}>
         <Space
           wrap
-          size='mini'
+          size='small'
         >
           {presetColorList.map(item => {
             return (

@@ -1,4 +1,4 @@
-import { IPage } from '@thanhpv102/easy-email-core';
+import { IPage } from 'easy-email-core';
 import { JSX } from 'react';
 
 export interface IEmailTemplate {

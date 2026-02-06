@@ -8,6 +8,6 @@ export function useAddToCollection() {
   return {
     modal,
     modalVisible,
-    setModalVisible
+    setModalVisible,
   };
 }

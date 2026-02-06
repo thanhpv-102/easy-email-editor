@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
 
-import { Menu, Popover } from '@arco-design/web-react';
+import { Dropdown } from 'antd';
+import type { MenuProps } from 'antd';
 import { ToolItem } from '../ToolItem';
 import { IconFont } from 'easy-email-editor';
 import { useFontFamily } from '@extensions/hooks/useFontFamily';
-import styleText from '../../styles/ToolsPopover.css?inline';
 
 export interface FontFamilyProps {
-  execCommand: (cmd: string, value: any) => void;
+  execCommand: (cmd: string, value: string) => void;
   getPopupContainer: () => HTMLElement;
 }
 
@@ -28,48 +28,41 @@ export function FontFamily(props: FontFamilyProps) {
     setVisible(v);
   }, []);
 
+  const menuItems: MenuProps['items'] = fontList.map(item => ({
+    key: item.value,
+    label: (
+      <div style={{ lineHeight: '30px', height: 30 }}>
+        {item.label}
+      </div>
+    ),
+  }));
+
+  const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
+    onChange(key);
+  };
+
   return (
-    <Popover
-      trigger='click'
-      color='#fff'
-      position='left'
-      className='easy-email-extensions-Tools-Popover'
-      popupVisible={visible}
-      onVisibleChange={onVisibleChange}
-      content={(
-        <>
-          <style>{styleText}</style>
-          <div
-            style={{
-              maxWidth: 150,
-              maxHeight: 350,
-              overflowY: 'auto',
-              overflowX: 'hidden',
-            }}
-          >
-            <Menu
-              onClickMenuItem={onChange}
-              selectedKeys={[]}
-              style={{ border: 'none', padding: 0 }}
-            >
-              {fontList.map(item => (
-                <Menu.Item
-                  style={{ lineHeight: '30px', height: 30 }}
-                  key={item.value}
-                >
-                  {item.label}
-                </Menu.Item>
-              ))}
-            </Menu>
-          </div>
-        </>
-      )}
+    <Dropdown
+      trigger={['click']}
+      placement="bottomLeft"
+      open={visible}
+      onOpenChange={onVisibleChange}
       getPopupContainer={props.getPopupContainer}
+      menu={{
+        items: menuItems,
+        onClick: handleMenuClick,
+        style: {
+          maxWidth: 150,
+          maxHeight: 350,
+          overflowY: 'auto',
+          overflowX: 'hidden',
+        }
+      }}
     >
       <ToolItem
         title={t('Font family')}
-        icon={<IconFont iconName='icon-font-family' />}
+        icon={<IconFont iconName="icon-font-family" />}
       />
-    </Popover>
+    </Dropdown>
   );
 }

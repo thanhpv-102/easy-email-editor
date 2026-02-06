@@ -89,7 +89,7 @@ interface ConditionalRenderProps {
 export function ConditionalRender({
                                     condition,
                                     children,
-                                  }: ConditionalRenderProps): JSX.Element {
+                                  }: ConditionalRenderProps): JSX.Element | null {
   return condition ? children : null;
 }
 

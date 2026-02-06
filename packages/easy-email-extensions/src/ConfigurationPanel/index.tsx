@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Tabs } from '@arco-design/web-react';
+import { Tabs } from 'antd';
+import { LeftOutlined } from '@ant-design/icons';
 import { AttributePanel } from '@extensions/AttributePanel';
 import { SourceCodePanel } from '@extensions/SourceCodePanel';
 import { FullHeightOverlayScrollbars } from '@extensions/components/FullHeightOverlayScrollbars';
-import { IconLeft } from '@arco-design/web-react/icon';
 import styles from './index.module.scss';
 
 export interface ConfigurationPanelProps {
@@ -16,13 +16,13 @@ export interface ConfigurationPanelProps {
 }
 
 export function ConfigurationPanel({
-  showSourceCode,
-  height,
-  onBack,
-  compact,
-  jsonReadOnly,
-  mjmlReadOnly,
-}: ConfigurationPanelProps) {
+                                     showSourceCode,
+                                     height,
+                                     onBack,
+                                     compact,
+                                     jsonReadOnly,
+                                     mjmlReadOnly,
+                                   }: ConfigurationPanelProps) {
   const [inited, setInited] = useState(false);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export function ConfigurationPanel({
       {showSourceCode ? (
         <Tabs
           className={styles.tabs}
-          renderTabHeader={(_, DefaultHeader) =>
+          renderTabBar={(props, DefaultTabBar) =>
             !compact ? (
               <div
                 className={styles.largeTabsHeader}
@@ -52,43 +52,45 @@ export function ConfigurationPanel({
                   style={{ padding: 10, cursor: 'pointer' }}
                   onClick={onBack}
                 >
-                  <IconLeft fontSize={16} />
+                  <LeftOutlined style={{ fontSize: 16 }} />
                 </div>
-
-                <DefaultHeader style={{ flex: 1 }} />
+                <DefaultTabBar {...props} style={{ flex: 1 }} />
               </div>
             ) : (
               <div
                 className={styles.largeTabsHeader}
                 style={{ display: 'flex', alignItems: 'center' }}
               >
-                <DefaultHeader style={{ flex: 1 }} />
+                <DefaultTabBar {...props} style={{ flex: 1 }} />
               </div>
             )
           }
-        >
-          <Tabs.TabPane
-            title={
-              <div style={{ height: 40, lineHeight: '40px' }}>{t('Configuration')}</div>
-            }
-          >
-            <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-              <AttributePanel />
-            </FullHeightOverlayScrollbars>
-          </Tabs.TabPane>
-
-          <Tabs.TabPane
-            destroyOnHide
-            key='Source code'
-            title={
-              <div style={{ height: 40, lineHeight: '40px' }}>{t('Source code')}</div>
-            }
-          >
-            <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-              <SourceCodePanel jsonReadOnly={jsonReadOnly} mjmlReadOnly={mjmlReadOnly} />
-            </FullHeightOverlayScrollbars>
-          </Tabs.TabPane>
-        </Tabs>
+          items={[
+            {
+              key: 'configuration',
+              label: (
+                <div style={{ height: 40, lineHeight: '40px' }}>{'Configuration'}</div>
+              ),
+              children: (
+                <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
+                  <AttributePanel />
+                </FullHeightOverlayScrollbars>
+              ),
+            },
+            {
+              key: 'source-code',
+              label: (
+                <div style={{ height: 40, lineHeight: '40px' }}>{'Source code'}</div>
+              ),
+              children: (
+                <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
+                  <SourceCodePanel jsonReadOnly={jsonReadOnly} mjmlReadOnly={mjmlReadOnly} />
+                </FullHeightOverlayScrollbars>
+              ),
+              destroyOnHidden: true,
+            },
+          ]}
+        />
       ) : (
         <AttributePanel />
       )}

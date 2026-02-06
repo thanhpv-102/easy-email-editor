@@ -1,9 +1,8 @@
-import { FieldArray } from 'react-final-form-arrays';
+import { FieldArray, Stack, TextStyle, useBlock, useFocusIdx } from 'easy-email-editor';
 import React from 'react';
-import { IconDelete, IconPlus } from '@arco-design/web-react/icon';
+import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { TextField } from '.';
-import { Button } from '@arco-design/web-react';
-import { Stack, TextStyle, useBlock, useFocusIdx } from 'easy-email-editor';
+import { Button } from 'antd';
 import { Help } from '@extensions/AttributePanel/components/UI/Help';
 import { IPage } from 'easy-email-core';
 
@@ -12,37 +11,36 @@ export function AddFont() {
   const { focusIdx } = useFocusIdx();
   const value: IPage['data']['value'] = focusBlock?.data.value;
   return (
-    <FieldArray
-      name={`${focusIdx}.data.value.fonts`}
-      render={arrayHelpers => {
+    <FieldArray name={`${focusIdx}.data.value.fonts`}>
+      {({ fields }) => {
         return (
           <div>
             <Stack
               vertical
-              spacing='tight'
+              spacing="tight"
             >
-              <Stack distribution='equalSpacing'>
-                <TextStyle variation='strong'>
+              <Stack distribution="equalSpacing">
+                <TextStyle variation="strong">
                   {t('Import font')} <Help title={t('Points to a hosted css file')} />
                 </TextStyle>
                 <Stack>
                   <Button
-                    size='small'
-                    icon={<IconPlus />}
-                    onClick={() => arrayHelpers.fields.push({ name: '', href: '' })}
+                    size="small"
+                    icon={<PlusOutlined />}
+                    onClick={() => fields.push({ name: '', href: '' })}
                   />
                 </Stack>
               </Stack>
 
               <Stack
                 vertical
-                spacing='extraTight'
+                spacing="extraTight"
               >
                 {value.fonts?.map((item, index) => {
                   return (
                     <div key={index}>
                       <Stack
-                        alignment='center'
+                        alignment="center"
                         wrap={false}
                       >
                         <Stack.Item fill>
@@ -59,12 +57,12 @@ export function AddFont() {
                         </Stack.Item>
                         <Stack
                           vertical
-                          spacing='loose'
+                          spacing="loose"
                         >
                           <Stack.Item />
                           <Button
-                            icon={<IconDelete />}
-                            onClick={() => arrayHelpers.fields.remove(index)}
+                            icon={<DeleteOutlined />}
+                            onClick={() => fields.remove(index)}
                           />
                         </Stack>
                       </Stack>
@@ -76,6 +74,6 @@ export function AddFont() {
           </div>
         );
       }}
-    />
+    </FieldArray>
   );
 }

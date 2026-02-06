@@ -1,11 +1,8 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { InputWithUnitField } from '../../../components/Form';
-import { useFocusIdx, Stack, useBlock, TextStyle, IconFont } from 'easy-email-editor';
-import { createBlockDataByType } from 'easy-email-core';
-import { Form, useFormState } from 'react-final-form';
-import { Button, Grid, Space, Tooltip } from '@arco-design/web-react';
-import { get } from 'lodash';
-import { pixelAdapter } from '../adapter';
+
+import React, { useCallback, useMemo } from 'react';
+import { InputWithUnit } from '../../../components/Form/InputWithUnit';
+import { useFocusIdx, Stack, useBlock, TextStyle, IconFont, Field } from 'easy-email-editor';
+import { Button, Row, Col, Space, Tooltip, Form } from 'antd';
 
 export interface PaddingProps {
   title?: string;
@@ -13,159 +10,132 @@ export interface PaddingProps {
   name?: string;
   showResetAll?: boolean;
 }
-export function Padding(props: PaddingProps = {}) {
-  const { title = t('Padding'), attributeName = 'padding', name, showResetAll } = props;
-  const { focusBlock, change, values } = useBlock();
-  const { focusIdx } = useFocusIdx();
 
-  const type = focusBlock && focusBlock.type;
+// Helper component to handle individual padding fields without using enhancer
+const PaddingFieldInput: React.FC<{
+  label: string;
+  paddingIndex: 0 | 1 | 2 | 3; // top, right, bottom, left
+  paddingFieldName: string;
+  inline?: boolean;
+}> = ({ label, paddingIndex, paddingFieldName, inline }) => {
+  const labelCol = inline
+    ? { span: 7, style: { textAlign: 'right' as const, paddingRight: 0 } }
+    : { span: 24, style: { paddingRight: 0 } };
 
-  const defaultConfig = useMemo(
-    () => (type ? createBlockDataByType(type) : undefined),
-    [type],
-  );
-
-  const paddingValue: string | undefined = useMemo(() => {
-    if (name) {
-      return get(values, name);
-    }
-    return focusBlock?.attributes[attributeName];
-  }, [attributeName, focusBlock?.attributes, name, values]);
-
-  const defaultPaddingValue: string | undefined = useMemo(() => {
-    if (name) {
-      return null;
-    }
-    return defaultConfig?.attributes[attributeName];
-  }, [attributeName, defaultConfig?.attributes, name]);
-
-  const paddingFormValues = useMemo(() => {
-    const paddingList = paddingValue?.split(' ');
-    const defaultPaddingList = defaultPaddingValue?.split(' ');
-
-    const top = paddingList ? paddingList[0] : defaultPaddingList?.[0] || '';
-    const right = paddingList ? paddingList[1] : defaultPaddingList?.[1] || '';
-    const bottom = paddingList ? paddingList[2] : defaultPaddingList?.[2] || '';
-    const left = paddingList ? paddingList[3] : defaultPaddingList?.[3] || '';
-
-    return {
-      top,
-      left,
-      bottom,
-      right,
-    };
-  }, [defaultPaddingValue, paddingValue]);
-
-  const onChancePadding = useCallback(
-    (val: string) => {
-      if (name) {
-        change(name, val);
-      } else {
-        change(focusIdx + `.attributes[${attributeName}]`, val);
-      }
-    },
-    [name, change, focusIdx, attributeName],
-  );
-  const onResetPadding = useCallback(() => {
-    if (name) {
-      change(name, '0px 0px 0px 0px');
-    } else {
-      change(focusIdx + `.attributes[${attributeName}]`, '0px 0px 0px 0px');
-    }
-  }, [name, change, focusIdx, attributeName]);
+  const wrapperCol = inline
+    ? { span: 16, offset: 1 }
+    : { span: 24 };
 
   return (
-    <Form<{ top: string; right: string; left: string; bottom: string }>
-      initialValues={paddingFormValues}
-      subscription={{ submitting: true, pristine: true }}
-      onSubmit={() => {}}
+    <Field
+      name={paddingFieldName}
     >
-      {() => {
+      {({ input: { value, onChange } }) => {
+        const paddingParts = (value || '0px 0px 0px 0px').split(/\s+/);
+        const currentValue = paddingParts[paddingIndex] || '0px';
+
+        const handleChange = (newVal: string) => {
+          const newParts = [...paddingParts];
+          newParts[paddingIndex] = newVal;
+          // Ensure we have exactly 4 parts
+          while (newParts.length < 4) newParts.push('0px');
+          onChange(newParts.slice(0, 4).join(' '));
+        };
+
         return (
-          <>
-            <Stack
-              vertical
-              spacing='extraTight'
-            >
-              <Space align='center'>
-                <TextStyle variation='strong'>{title}</TextStyle>
-                {showResetAll && (
-                  <Tooltip content='Remove all padding'>
-                    <Button
-                      onClick={onResetPadding}
-                      size='mini'
-                      icon={(
-                        <IconFont
-                          iconName='icon-remove'
-                          size={12}
-                        />
-                      )}
-                    />
-                  </Tooltip>
-                )}
-              </Space>
-
-              <Grid.Row>
-                <Grid.Col span={11}>
-                  <InputWithUnitField
-                    label={t('Top (px)')}
-                    name='top'
-                    autoComplete='off'
-                    config={pixelAdapter}
-                  />
-                </Grid.Col>
-                <Grid.Col
-                  offset={1}
-                  span={11}
-                >
-                  <InputWithUnitField
-                    label={t('Left (px)')}
-                    name='left'
-                    autoComplete='off'
-                    config={pixelAdapter}
-                  />
-                </Grid.Col>
-              </Grid.Row>
-
-              <Grid.Row>
-                <Grid.Col span={11}>
-                  <InputWithUnitField
-                    label={t('Bottom (px)')}
-                    name='bottom'
-                    config={pixelAdapter}
-                    autoComplete='off'
-                  />
-                </Grid.Col>
-                <Grid.Col
-                  offset={1}
-                  span={11}
-                >
-                  <InputWithUnitField
-                    label={t('Right (px)')}
-                    name='right'
-                    autoComplete='off'
-                    config={pixelAdapter}
-                  />
-                </Grid.Col>
-              </Grid.Row>
-            </Stack>
-            <PaddingChangeWrapper onChange={onChancePadding} />
-          </>
+          <Form.Item
+            label={label}
+            labelCol={labelCol}
+            wrapperCol={wrapperCol}
+            style={{ margin: 0 }}
+            labelAlign='left'
+          >
+            <InputWithUnit
+              value={currentValue}
+              onChange={handleChange}
+            />
+          </Form.Item>
         );
       }}
-    </Form>
+    </Field>
+  );
+};
+
+export function Padding(props: PaddingProps = {}) {
+  const { title = t('Padding'), attributeName = 'padding', name, showResetAll } = props;
+  const { change } = useBlock();
+  const { focusIdx } = useFocusIdx();
+
+  const paddingFieldName = useMemo(() => {
+    if (name) {
+      return name;
+    }
+    return focusIdx + `.attributes[${attributeName}]`;
+  }, [name, focusIdx, attributeName]);
+
+  const onResetPadding = useCallback(() => {
+    change(paddingFieldName, '0px 0px 0px 0px');
+  }, [paddingFieldName, change]);
+
+  return (
+    <>
+      <Stack
+        vertical
+        spacing='extraTight'
+      >
+        <Space align='center' size='small'>
+          <TextStyle variation='strong'>{title}</TextStyle>
+          {showResetAll && (
+            <Tooltip title='Remove all padding'>
+              <Button
+                onClick={onResetPadding}
+                size='small'
+                icon={(
+                  <IconFont
+                    iconName='icon-remove'
+                    size={12}
+                  />
+                )}
+              />
+            </Tooltip>
+          )}
+        </Space>
+
+        <Row>
+          <Col span={11}>
+            <PaddingFieldInput
+              label={t('Top (px)')}
+              paddingIndex={0}
+              paddingFieldName={paddingFieldName}
+            />
+          </Col>
+          <Col offset={1} span={11}>
+            <PaddingFieldInput
+              label={t('Left (px)')}
+              paddingIndex={3}
+              paddingFieldName={paddingFieldName}
+            />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col span={11}>
+            <PaddingFieldInput
+              label={t('Bottom (px)')}
+              paddingIndex={2}
+              paddingFieldName={paddingFieldName}
+            />
+          </Col>
+          <Col offset={1} span={11}>
+            <PaddingFieldInput
+              label={t('Right (px)')}
+              paddingIndex={1}
+              paddingFieldName={paddingFieldName}
+            />
+          </Col>
+        </Row>
+      </Stack>
+    </>
   );
 }
 
-const PaddingChangeWrapper: React.FC<{ onChange: (val: string) => void }> = props => {
-  const {
-    values: { top = '', right = '', bottom = '', left = '' } = {},
-  } = useFormState();
-  const { onChange } = props;
-
-  useEffect(() => {
-    onChange([top, right, bottom, left].join(' '));
-  }, [top, right, bottom, left, onChange]);
-
-  return <></>;
-};

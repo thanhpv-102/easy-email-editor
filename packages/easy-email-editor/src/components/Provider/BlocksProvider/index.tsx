@@ -1,8 +1,7 @@
-import { EventManager } from '@';
-import { EventType } from '@/utils/EventManager';
+import { EventManager, EventType } from '@/utils/EventManager';
 import { getPageIdx } from 'easy-email-core';
 import { isFunction } from 'lodash';
-import React, { useState, useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 export enum ActiveTabKeys {
   EDIT = 'EDIT',
@@ -23,15 +22,20 @@ export const BlocksContext = React.createContext<{
   setActiveTab: React.Dispatch<React.SetStateAction<ActiveTabKeys>>;
 }>({
   initialized: false,
-  setInitialized: () => {},
+  setInitialized: () => {
+  },
   focusIdx: getPageIdx(),
-  setFocusIdx: () => {},
+  setFocusIdx: () => {
+  },
   dragEnabled: false,
-  setDragEnabled: () => {},
+  setDragEnabled: () => {
+  },
   collapsed: false,
-  setCollapsed: () => {},
+  setCollapsed: () => {
+  },
   activeTab: ActiveTabKeys.EDIT,
-  setActiveTab: () => {},
+  setActiveTab: () => {
+  },
 });
 
 export const BlocksProvider: React.FC<{ children?: React.ReactNode }> = props => {
@@ -50,19 +54,22 @@ export const BlocksProvider: React.FC<{ children?: React.ReactNode }> = props =>
             currentTab,
             nextTab,
           });
-          if (next) return nextTab;
-          return currentTab;
+          // Only block if explicitly false
+          if (next === false) return currentTab;
+          return nextTab;
+        });
+      } else {
+        setActiveTab(currentTab => {
+          const nextTab = handler;
+          const next = EventManager.exec(EventType.ACTIVE_TAB_CHANGE, {
+            currentTab,
+            nextTab,
+          });
+          // Only block if explicitly false
+          if (next === false) return currentTab;
+          return nextTab;
         });
       }
-      setActiveTab(currentTab => {
-        let nextTab = handler as ActiveTabKeys;
-        const next = EventManager.exec(EventType.ACTIVE_TAB_CHANGE, {
-          currentTab,
-          nextTab,
-        });
-        if (next) return nextTab;
-        return currentTab;
-      });
     },
     [],
   );

@@ -1,8 +1,19 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Tree, TreeSelect } from '@arco-design/web-react';
+import { Tree, TreeSelect } from 'antd';
 import { get, isObject } from 'lodash';
 import { useBlock, useEditorProps, useFocusIdx } from 'easy-email-editor';
 import { getContextMergeTags } from '@extensions/utils/getContextMergeTags';
+
+interface TreeNodeData {
+  key: string;
+  value: string;
+  title: string;
+  children: TreeNodeData[];
+}
+
+interface MergeTagObject {
+  [key: string]: string | number | boolean | MergeTagObject | MergeTagObject[] | undefined;
+}
 
 export const MergeTags: React.FC<{
   onChange: (v: string) => void;
@@ -24,19 +35,14 @@ export const MergeTags: React.FC<{
   );
 
   const treeOptions = useMemo(() => {
-    const treeData: Array<{
-      key: any;
-      value: any;
-      title: string;
-      children: never[];
-    }> = [];
+    const treeData: TreeNodeData[] = [];
     const deep = (
       key: string,
       title: string,
-      parent: { [key: string]: any; children?: any[] },
-      mapData: Array<any> = []
+      parent: MergeTagObject,
+      mapData: TreeNodeData[] = []
     ) => {
-      const currentMapData = {
+      const currentMapData: TreeNodeData = {
         key: key,
         value: key,
         title: title,
@@ -45,8 +51,8 @@ export const MergeTags: React.FC<{
 
       mapData.push(currentMapData);
       const current = parent[title];
-      if (current && typeof current === 'object') {
-        Object.keys(current).map((childKey) =>
+      if (current && typeof current === 'object' && !Array.isArray(current)) {
+        Object.keys(current as Record<string, unknown>).forEach((childKey) =>
           deep(key + '.' + childKey, childKey, current, currentMapData.children)
         );
       }
@@ -54,7 +60,7 @@ export const MergeTags: React.FC<{
 
     if (!contextMergeTags) return treeData;
 
-    Object.keys(contextMergeTags).map((key) =>
+    Object.keys(contextMergeTags).forEach((key) =>
       deep(key, key, contextMergeTags, treeData)
     );
     return treeData;
@@ -102,18 +108,19 @@ export const MergeTags: React.FC<{
         <TreeSelect
           value={props.value}
           size='small'
-          dropdownMenuStyle={{ maxHeight: 400, overflow: 'auto' }}
-          placeholder={t('Please select')}
+          popupMatchSelectWidth
+          placeholder={'Please select'}
           treeData={treeOptions}
           onChange={(val) => onSelect(val)}
+          style={{ maxHeight: 400, overflow: 'auto' }}
         />
       ) : (
         <Tree
           expandedKeys={expandedKeys}
-          onExpand={setExpandedKeys}
+          onExpand={(keys) => setExpandedKeys(keys.map(k => String(k)))}
           selectedKeys={[]}
           treeData={treeOptions}
-          onSelect={(vals: any[]) => onSelect(vals[0])}
+          onSelect={(selectedKeys) => onSelect(String(selectedKeys[0]))}
           style={{
             maxHeight: 400,
             overflow: 'auto',

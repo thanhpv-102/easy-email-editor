@@ -1,5 +1,5 @@
 import { IconFont, BlockAvatarWrapper } from 'easy-email-editor';
-import { Button } from '@arco-design/web-react';
+import { Button } from 'antd';
 import { getIconNameByBlockType } from '@extensions';
 import React from 'react';
 import { BlockManager, IBlockData, RecursivePartial } from 'easy-email-core';
@@ -17,6 +17,14 @@ export function DragIcon<T extends IBlockData = any>(props: DragIconProps<T>) {
       <Button
         type='text'
         title={block?.name}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 0,
+          width: '100%',
+          height: '100%',
+        }}
         icon={(
           <IconFont
             iconName={getIconNameByBlockType(props.type)}

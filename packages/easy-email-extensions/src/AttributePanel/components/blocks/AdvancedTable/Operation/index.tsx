@@ -1,9 +1,9 @@
 import { cloneDeep } from 'lodash';
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import TableColumnTool from './tableTool';
+import TableColumnTool, { IBorderTool } from './tableTool';
 import { getShadowRoot, useBlock, useFocusIdx } from 'easy-email-editor';
-
+import { IAdvancedTableData } from 'easy-email-core';
 export function TableOperation() {
   const shadowRoot = getShadowRoot();
   const { focusIdx } = useFocusIdx();
@@ -13,50 +13,47 @@ export function TableOperation() {
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
   const tool = useRef<TableColumnTool | null>(null);
-
   useEffect(() => {
-    // Check if shadowRoot and target container exist before proceeding
+    // Check if shadowRoot exists before proceeding
     if (!shadowRoot) return;
-
-    const targetContainer = shadowRoot.querySelector('body');
+    // Use the shadow root itself as the container, not looking for a body element
+    const targetContainer = shadowRoot;
     if (!targetContainer) {
-      console.warn('Shadow DOM body not found for TableOperation');
+      console.warn('Shadow DOM not found for TableOperation');
       return;
     }
-
-    const borderTool: any = {
-      top: topRef.current,
-      bottom: bottomRef.current,
-      left: leftRef.current,
-      right: rightRef.current,
+    // Ensure all refs are available before creating the tool
+    const top = topRef.current;
+    const bottom = bottomRef.current;
+    const left = leftRef.current;
+    const right = rightRef.current;
+    if (!top || !bottom || !left || !right) {
+      return;
+    }
+    // TypeScript now knows these are non-null HTMLDivElements
+    const borderTool: IBorderTool = {
+      top: top as HTMLElement,
+      bottom: bottom as HTMLElement,
+      left: left as HTMLElement,
+      right: right as HTMLElement,
     };
-
     tool.current = new TableColumnTool(borderTool, targetContainer);
-
     return () => {
       tool.current?.destroy();
     };
   }, [shadowRoot]);
-
   useEffect(() => {
     if (tool.current) {
-      tool.current.changeTableData = (data: any[][]) => {
+      tool.current.changeTableData = (data: IAdvancedTableData[][]) => {
         change(`${focusIdx}.data.value.tableSource`, cloneDeep(data));
       };
       tool.current.tableData = cloneDeep(focusBlock?.data?.value?.tableSource || []);
     }
   }, [focusIdx, focusBlock, change]);
-
   // Don't render if shadowRoot is not available
   if (!shadowRoot) {
     return null;
   }
-
-  const targetContainer = shadowRoot.querySelector('body');
-  if (!targetContainer) {
-    return null;
-  }
-
   return (
     <>
       {createPortal(
@@ -66,7 +63,7 @@ export function TableOperation() {
           <div ref={leftRef} />
           <div ref={rightRef} />
         </div>,
-        targetContainer,
+        shadowRoot as DocumentFragment,
       )}
     </>
   );

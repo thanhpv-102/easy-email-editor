@@ -61,9 +61,9 @@ export function generateAdvancedContentBlock<T extends IBlockData>(option: {
       }
 
       if (
-        parentBlockData.type === BasicType.PAGE ||
-        parentBlockData.type === BasicType.WRAPPER ||
-        parentBlockData.type === AdvancedType.WRAPPER
+        parentBlockData.type === BasicType.PAGE.toString() ||
+        parentBlockData.type === BasicType.WRAPPER.toString() ||
+        parentBlockData.type === AdvancedType.WRAPPER.toString()
       ) {
         return (
           <Section padding='0px' text-align='left'>

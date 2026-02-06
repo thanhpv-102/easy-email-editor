@@ -13,7 +13,7 @@ export function generateAdvancedTableBlock(option: {
 }) {
   return createCustomBlock<AdvancedTableBlock>({
     get name() {
-      return t('Table');
+      return 'Table';
     },
     type: option.type,
     validParentType: [BasicType.COLUMN],

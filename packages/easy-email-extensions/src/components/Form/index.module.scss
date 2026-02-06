@@ -50,3 +50,195 @@
     display: none !important;
   }
 }
+
+// Global styles cho Antd Select/Radio/Checkbox dropdown
+:global {
+  .ant-select {
+    font-size: 12px !important;
+  }
+
+  .ant-select-selector {
+    height: 26px !important;
+    padding: 2px 6px !important;
+    font-size: 12px !important;
+  }
+
+  .ant-select-selection-item {
+    font-size: 12px !important;
+    line-height: 26px !important;
+  }
+
+  .ant-select-dropdown {
+    font-size: 12px !important;
+  }
+
+  .ant-select-dropdown .ant-select-item {
+    font-size: 12px !important;
+  }
+
+  .ant-select-dropdown .ant-select-item-option {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+
+  .ant-radio-group {
+    font-size: 12px !important;
+  }
+
+  .ant-checkbox-group {
+    font-size: 12px !important;
+  }
+
+  .easy-email-overlay {
+    font-size: 12px !important;
+  }
+
+  .easy-email-overlay .ant-select-selector {
+    height: 26px !important;
+    padding: 2px 6px !important;
+  }
+
+  .easy-email-overlay .ant-select-item-option {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+}
+
+:global(.attributePanel) {
+  :global {
+    .arco-input-wrapper {
+      padding: 4px 6px !important;
+    }
+
+    .arco-input {
+      font-size: 12px !important;
+      height: 26px !important;
+      line-height: 26px !important;
+    }
+
+    .ant-input {
+      font-size: 12px !important;
+      height: 26px !important;
+      line-height: 26px !important;
+    }
+
+    input::placeholder {
+      font-size: 12px !important;
+    }
+
+    .ant-input::placeholder {
+      font-size: 12px !important;
+    }
+
+    .arco-form-item-label-content {
+      font-size: 12px !important;
+    }
+
+    .ant-form-item-label-content {
+      font-size: 12px !important;
+    }
+
+    .ant-form-item-label > label {
+      font-size: 12px !important;
+    }
+
+    // Thu nhỏ help text
+    .ant-form-item-explain {
+      font-size: 12px !important;
+    }
+
+    .arco-form-item-message {
+      font-size: 12px !important;
+    }
+
+    .ant-form-item-label {
+      padding: 0 !important;
+    }
+
+    textarea {
+      font-size: 12px !important;
+      line-height: 1.4 !important;
+    }
+
+    .arco-select {
+      font-size: 12px !important;
+    }
+
+    .arco-select-view {
+      height: 26px !important;
+      padding: 4px 6px !important;
+      font-size: 12px !important;
+    }
+
+    // Antd select option
+    .ant-select-item {
+      font-size: 12px !important;
+    }
+
+    .ant-select-item-option {
+      font-size: 12px !important;
+      padding: 6px 12px !important;
+    }
+
+    // Antd select dropdown
+    .ant-select-dropdown {
+      font-size: 12px !important;
+    }
+
+    .ant-select-dropdown .ant-select-item-option {
+      font-size: 12px !important;
+      padding: 6px 12px !important;
+    }
+
+    // Antd radio
+    .ant-radio {
+      font-size: 12px !important;
+    }
+
+    .ant-radio-wrapper {
+      font-size: 12px !important;
+    }
+
+    .ant-radio-inner {
+      width: 16px !important;
+      height: 16px !important;
+    }
+
+    // Antd checkbox
+    .ant-checkbox {
+      font-size: 12px !important;
+    }
+
+    .ant-checkbox-wrapper {
+      font-size: 12px !important;
+    }
+
+    .ant-checkbox-inner {
+      width: 16px !important;
+      height: 16px !important;
+    }
+
+    .arco-color-picker-trigger {
+      width: 28px !important;
+      height: 28px !important;
+    }
+
+    .arco-btn {
+      padding: 4px 8px !important;
+      height: 28px !important;
+      font-size: 12px !important;
+    }
+
+    .ant-btn {
+      padding: 4px 8px !important;
+      font-size: 12px !important;
+      height: 28px !important;
+    }
+
+    .ant-btn-sm {
+      padding: 4px 8px !important;
+      height: 28px !important;
+      font-size: 12px !important;
+    }
+  }
+}

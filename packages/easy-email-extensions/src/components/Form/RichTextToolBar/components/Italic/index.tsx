@@ -1,11 +1,12 @@
-import { PopoverProps, Tooltip } from '@arco-design/web-react';
+import { Tooltip } from 'antd';
+import type { TooltipProps } from 'antd';
 import React, { useCallback, useMemo } from 'react';
 import { IconFont } from 'easy-email-editor';
 import { ToolItem } from '../ToolItem';
 import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
 import { useSelectionRange } from '@extensions/AttributePanel/hooks/useSelectionRange';
 
-export interface LinkProps extends PopoverProps {
+export interface LinkProps extends Omit<TooltipProps, 'title'> {
   currentRange: Range | null | undefined;
   onChange: () => void;
 }
@@ -35,12 +36,13 @@ export function Italic(props: LinkProps) {
   }, [node, onChange, setRangeByElement]);
 
   return (
-    <Tooltip
-      color='#fff'
-      position='tl'
-      content={t('Italic')}
-    >
-      <ToolItem title={t('Italic')} isActive={Boolean(node)} icon={<IconFont iconName='icon-italic' />} onClick={onClick} />
+    <Tooltip title={t('Italic')}>
+      <ToolItem
+        title={t('Italic')}
+        isActive={Boolean(node)}
+        icon={<IconFont iconName="icon-italic" />}
+        onClick={onClick}
+      />
     </Tooltip>
   );
 }

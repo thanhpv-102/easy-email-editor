@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ContentEditableType, DATA_CONTENT_EDITABLE_TYPE, getShadowRoot } from 'easy-email-editor';
-import { useField, useForm } from 'react-final-form';
+import { useField, useForm } from 'easy-email-editor';
 
 export interface InlineTextProps {
   idx: string;

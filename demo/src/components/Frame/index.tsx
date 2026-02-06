@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { Layout, Menu, Breadcrumb } from '@arco-design/web-react';
+import React, { useEffect, useMemo } from 'react';
+import { Layout, Menu, Breadcrumb } from 'antd';
+import type { MenuProps } from 'antd';
 import { Stack } from '../Stack';
 import { pushEvent } from '@demo/utils/pushEvent';
 import { githubButtonGenerate } from '@demo/utils/githubButtonGenerate';
 import { useShowCommercialEditor } from '@demo/hooks/useShowCommercialEditor';
 
-const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 interface FrameProps {
@@ -25,6 +25,17 @@ export default function Frame({
     githubButtonGenerate();
   }, []);
   const { featureEnabled } = useShowCommercialEditor();
+
+  const menuItems: MenuProps['items'] = useMemo(() => [
+    {
+      key: 'sub1',
+      label: 'Templates',
+      children: [
+        { key: '1', label: 'Templates' },
+      ],
+    },
+  ], []);
+
   return (
     <Layout>
       <Header style={{ padding: '0 20px', backgroundColor: '#001529' }}>
@@ -94,21 +105,15 @@ export default function Frame({
             defaultSelectedKeys={['1']}
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
-          >
-            <SubMenu
-              key='sub1'
-              title='Templates'
-            >
-              <Menu.Item key='1'>Templates</Menu.Item>
-            </SubMenu>
-          </Menu>
+            items={menuItems}
+          />
         </Sider>
         <Layout style={{ padding: 24 }}>
           <Stack vertical>
             {breadcrumb && (
-              <Breadcrumb>
-                <Breadcrumb.Item>{breadcrumb}</Breadcrumb.Item>
-              </Breadcrumb>
+              <Breadcrumb
+                items={[{ title: breadcrumb }]}
+              />
             )}
 
             <Stack

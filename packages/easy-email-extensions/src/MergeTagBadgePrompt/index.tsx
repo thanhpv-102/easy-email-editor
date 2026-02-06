@@ -1,3 +1,4 @@
+
 import {
   useEditorContext,
   useEditorProps,
@@ -140,12 +141,12 @@ export function MergeTagBadgePrompt() {
         <div ref={popoverRef} onClick={onClick} className={classnames('easy-email-merge-tag-popover')}>
           <div className='easy-email-merge-tag-popover-container'>
             <h3>
-              <span>{t('Default value')}</span>
+              <span>{'Default value'}</span>
               <IconFont style={{ color: 'rgb(92, 95, 98)' }} iconName='icon-close' onClick={onClose} />
             </h3>
             <div className={'easy-email-merge-tag-popover-desc'}>
               <p>
-                {t('If a personalized text value isn\"t available, then a default value is shown.')}
+                {'If a personalized text value isn\"t available, then a default value is shown.'}
               </p>
               <div className='easy-email-merge-tag-popover-desc-label'>
                 <input autoFocus value={text} onChange={onChange} type="text" autoComplete='off' maxLength={40} />
@@ -154,7 +155,7 @@ export function MergeTagBadgePrompt() {
                 </div>
               </div>
               <div className='easy-email-merge-tag-popover-desc-label-button'>
-                <button onClick={onSave}>{t('Save')}</button>
+                <button onClick={onSave}>{'Save'}</button>
               </div>
             </div>
           </div>

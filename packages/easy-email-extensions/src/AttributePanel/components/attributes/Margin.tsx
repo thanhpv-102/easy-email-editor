@@ -8,11 +8,11 @@ export function Margin() {
   return useMemo(() => {
     return (
       <Stack vertical spacing='extraTight'>
-        <TextStyle size='large'>{t('Margin')}</TextStyle>
+        <TextStyle size='medium'>{'Margin'}</TextStyle>
         <Stack wrap={false}>
           <Stack.Item fill>
             <TextField
-              label={t('Top')}
+              label={'Top'}
               quickchange
               name={`${focusIdx}.attributes.marginTop`}
               inline
@@ -20,7 +20,7 @@ export function Margin() {
           </Stack.Item>
           <Stack.Item fill>
             <TextField
-              label={t('Bottom')}
+              label={'Bottom'}
               quickchange
               name={`${focusIdx}.attributes.marginBottom`}
               inline
@@ -31,7 +31,7 @@ export function Margin() {
         <Stack wrap={false}>
           <Stack.Item fill>
             <TextField
-              label={t('Left')}
+              label={'Left'}
               quickchange
               name={`${focusIdx}.attributes.marginLeft`}
               inline
@@ -39,7 +39,7 @@ export function Margin() {
           </Stack.Item>
           <Stack.Item fill>
             <TextField
-              label={t('Right')}
+              label={'Right'}
               quickchange
               name={`${focusIdx}.attributes.marginRight`}
               inline

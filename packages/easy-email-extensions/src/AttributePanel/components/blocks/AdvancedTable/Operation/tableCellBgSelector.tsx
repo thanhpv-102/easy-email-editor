@@ -1,4 +1,4 @@
-import { Input } from '@arco-design/web-react';
+import { Input } from 'antd';
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
@@ -18,24 +18,24 @@ const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
     if (!rootDom) {
       return;
     }
-    const observer = new ResizeObserver(e => {
+    const observer = new ResizeObserver(() => {
       setColor('#ffffff');
     });
     observer.observe(rootDom);
     return () => {
       observer.disconnect();
     };
-  }, []);
+  }, [rootDom]);
 
   return (
     <div
       onClick={e => e.stopPropagation()}
       className='easy-email-table-operation-menu-bg-item'
     >
-      <div>Set Background Color</div>
+      <div>{t('Set Background Color')}</div>
       <div>
         <div className='easy-email-table-operation-menu-bg-item-color'>
-          <div style={{ backgroundColor: color }}></div>
+          <div style={{ backgroundColor: color }} />
           <input
             type='color'
             value={color}
@@ -43,12 +43,11 @@ const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
           />
         </div>
         <Input.Search
-          height={28}
-          searchButton='Set'
+          enterButton={t('Set')}
           onSearch={() => bgColorHandler(color)}
           value={color}
           onKeyDown={e => e.stopPropagation()}
-          onChange={e => setColor(e)}
+          onChange={e => setColor(e.target.value)}
         />
       </div>
     </div>
@@ -57,7 +56,7 @@ const CellBackgroundSelector: React.FC<CellBackgroundSelectorProps> = ({
 
 const getCellBackgroundSelectorRoot = (
   bgColorHandler: CellBackgroundSelectorProps['bgColorHandler'],
-  rootDom: any,
+  rootDom: Element,
 ) => {
   const node = document.createElement('div');
 

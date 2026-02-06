@@ -54,9 +54,7 @@ export function ShortcutToolbar() {
         type={AdvancedType.SECTION}
       />
 
-      <IconFont
-        onClick={() => blocksPanelRef.current?.click()}
-        iconName='icon-more'
+      <div
         style={{
           display: 'flex',
           alignItems: 'center',
@@ -64,11 +62,27 @@ export function ShortcutToolbar() {
           width: 30,
           height: 30,
           borderRadius: '50%',
+          cursor: 'pointer',
           color: 'var(--color-text-2)',
           boxShadow: '0 0 12px -3px var(--color-text-2)',
-          fontSize: 18,
         }}
-      />
+        onClick={() => blocksPanelRef.current?.click()}
+      >
+        <IconFont
+          iconName='icon-more'
+          style={{
+            fontSize: 18,
+            margin: 0,
+            padding: 0,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            lineHeight: 1,
+            verticalAlign: 'middle',
+            height: '1em',
+          }}
+        />
+      </div>
     </Stack>
   );
 }

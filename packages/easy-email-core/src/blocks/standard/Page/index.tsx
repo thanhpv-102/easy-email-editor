@@ -40,7 +40,7 @@ export type IPage = IBlockData<
 
 export const Page = createBlock<IPage>({
   get name() {
-    return t('Page');
+    return 'Page';
   },
   type: BasicType.PAGE,
   create: payload => {

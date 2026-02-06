@@ -26,6 +26,12 @@
     }
   }
 }
+:global(#BlockLayerManager) {
+  width: 100%;
+}
+:global(#BlockLayerManager .arco-tree) {
+  width: 100%;
+}
 :global(#BlockLayerManager .arco-tree-node-expanded) {
   overflow: hidden;
 }

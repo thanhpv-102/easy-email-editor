@@ -29,7 +29,7 @@ export default defineConfig({
         'react-dom',
         'react-dom/server',
         'mjml-browser',
-        'react-final-form',
+        'react-hook-form',
         'easy-email-core',
       ],
       output: {},

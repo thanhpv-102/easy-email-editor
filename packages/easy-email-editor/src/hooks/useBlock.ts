@@ -8,7 +8,7 @@ import {
   getValueByIdx,
   BlockManager,
   createBlockDataByType,
-} from '@thanhpv102/easy-email-core';
+} from 'easy-email-core';
 import { cloneDeep, debounce, get } from 'lodash';
 import { useCallback, useContext } from 'react';
 
@@ -41,8 +41,6 @@ export function useBlock() {
       payload?: any;
       canReplace?: boolean;
     }) => {
-      const start = console.time();
-
       let { type, parentIdx, positionIndex, payload } = params;
       let nextFocusIdx: string;
       const values = cloneDeep(getState().values) as IEmailTemplate;
@@ -94,21 +92,19 @@ export function useBlock() {
       const fixedBlock = BlockManager.getBlockByType(child.type);
       if (!fixedBlock?.validParentType.includes(parent.type)) {
         console.error(
-          `${block.type} cannot be used inside ${
-            parentBlock.type
-          }, only inside: ${block.validParentType.join(', ')}`
+          `${child.type} cannot be used inside ${
+            parent.type
+          }, only inside: ${fixedBlock?.validParentType.join(', ') || 'unknown'}`
         );
         return;
       }
 
       parent.children.splice(positionIndex, 0, child);
-      console.timeLog();
       change(parentIdx, parent); // listeners not notified
       setFocusIdx(nextFocusIdx);
       scrollBlockEleIntoView({
         idx: nextFocusIdx,
       });
-      console.timeEnd();
     },
     [autoComplete, change, getState, setFocusIdx]
   );
@@ -211,7 +207,7 @@ export function useBlock() {
       const parent = get(values, getParentIdx(idx) || '') as IBlockData | null;
       const blockIndex = getIndexByIdx(idx);
       if (!parentIdx || !parent) {
-        if (block.type === BasicType.PAGE) {
+        if (block.type === BasicType.PAGE.toString()) {
           console.error('Page node can not remove');
           return;
         }

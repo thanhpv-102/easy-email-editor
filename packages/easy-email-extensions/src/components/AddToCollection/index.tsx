@@ -1,7 +1,6 @@
-import { Modal } from '@arco-design/web-react';
-import { Stack, useBlock, useEditorProps } from 'easy-email-editor';
+import { Modal } from 'antd';
+import { Form, Stack, useBlock, useEditorProps } from 'easy-email-editor';
 import React from 'react';
-import { Form } from 'react-final-form';
 import { v4 as uuidv4 } from 'uuid';
 import { ImageUploaderField, TextAreaField, TextField } from '../Form';
 
@@ -38,28 +37,28 @@ export const AddToCollection: React.FC<{
         <Modal
           maskClosable={false}
           style={{ zIndex: 2000 }}
-          visible={visible}
-          title={t('Add to collection')}
+          open={visible}
+          title={'Add to collection'}
           onOk={() => handleSubmit()}
           onCancel={() => setVisible(false)}
         >
           <Stack vertical>
             <Stack.Item />
             <TextField
-              label={t('Title')}
-              name='label'
+              label={'Title'}
+              name="label"
               validate={(val: string) => {
-                if (!val) return t('Title required!');
+                if (!val) return 'Title required!';
                 return undefined;
               }}
             />
-            <TextAreaField label={t('Description')} name='helpText' />
+            <TextAreaField label={'Description'} name="helpText" />
             <ImageUploaderField
-              label={t('Thumbnail')}
+              label={'Thumbnail'}
               name={'thumbnail'}
               uploadHandler={onUploadImage}
               validate={(val: string) => {
-                if (!val) return t('Thumbnail required!');
+                if (!val) return 'Thumbnail required!';
                 return undefined;
               }}
             />

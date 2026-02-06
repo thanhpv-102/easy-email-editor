@@ -1,14 +1,12 @@
 /* eslint-disable react/jsx-wrap-multilines */
-import { Input, Popover, PopoverProps } from '@arco-design/web-react';
+import { Input, Popover, PopoverProps } from 'antd';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { ColorResult, SketchPicker } from 'react-color';
+import { HexColorPicker } from 'react-colorful';
 import { PresetColorsContext } from '../../AttributePanel/components/provider/PresetColorsProvider';
 import { getImg } from '@extensions/AttributePanel/utils/getImg';
 import styles from './index.module.scss';
 
-const SketchPickerCom = SketchPicker as any;
-
-export interface ColorPickerProps extends PopoverProps {
+export interface ColorPickerProps extends Omit<PopoverProps, 'content' | 'title'> {
   onChange?: (val: string) => void;
   value?: string;
   label: string;
@@ -16,28 +14,18 @@ export interface ColorPickerProps extends PopoverProps {
   showInput?: boolean;
 }
 
-const getCollapseItemEle = (node: HTMLElement | null): HTMLElement | null => {
-  if (!node) return null;
-  if (node.classList.contains('arco-collapse-item')) {
-    return node;
-  }
-  return getCollapseItemEle(node.parentElement);
-};
-
 export function ColorPicker(props: ColorPickerProps) {
   const { colors: presetColors, addCurrentColor } = useContext(PresetColorsContext);
   const [color, setColor] = useState('');
   const { value = '', onChange, children, showInput = true } = props;
-  const [refEle, setRefEle] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     setColor(value);
   }, [value]);
 
   const onChangeComplete = useCallback(
-    (color: ColorResult, event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.value && event.target.value.replace('#', '').length < 6) return;
-      const newColor = color.hex;
+    (newColor: string) => {
+      if (newColor && newColor.replace('#', '').length < 6) return;
       setColor(newColor);
       onChange?.(newColor);
       addCurrentColor(newColor);
@@ -46,10 +34,11 @@ export function ColorPicker(props: ColorPickerProps) {
   );
 
   const onInputChange = useCallback(
-    (value: string) => {
-      setColor(value);
-      onChange?.(value);
-      addCurrentColor(value);
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const newValue = e.target.value;
+      setColor(newValue);
+      onChange?.(newValue);
+      addCurrentColor(newValue);
     },
     [addCurrentColor, onChange],
   );
@@ -59,23 +48,35 @@ export function ColorPicker(props: ColorPickerProps) {
         title={props.label}
         trigger='click'
         {...props}
-        // getPopupContainer={() => getCollapseItemEle(refEle) as any}
-        position='top'
+        placement='top'
         content={
           <div className={styles.colorPicker}>
-            <SketchPickerCom
-              presetColors={presetColors}
+            <HexColorPicker
               color={color}
-              disableAlpha
-              onChangeComplete={onChangeComplete}
+              onChange={onChangeComplete}
             />
+            {presetColors && presetColors.length > 0 && (
+              <div style={{ marginTop: 10, display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                {presetColors.map((presetColor: string, index: number) => (
+                  <div
+                    key={index}
+                    onClick={() => onChangeComplete(presetColor)}
+                    style={{
+                      width: 20,
+                      height: 20,
+                      borderRadius: 4,
+                      backgroundColor: presetColor,
+                      cursor: 'pointer',
+                      border: '1px solid #ddd',
+                    }}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         }
       >
-        <div
-          style={{ display: 'inline-flex' }}
-          ref={setRefEle}
-        >
+        <div style={{ display: 'inline-flex' }}>
           {children || (
             <div
               style={{
@@ -98,7 +99,6 @@ export function ColorPicker(props: ColorPickerProps) {
                     position: 'relative',
                     display: 'block',
                     border: '1px solid var(--color-neutral-3, rgb(229, 230, 235))',
-
                     borderRadius: 2,
                     width: '100%',
                     height: '100%',
@@ -108,6 +108,7 @@ export function ColorPicker(props: ColorPickerProps) {
                 />
               ) : (
                 <img
+                  alt="Color picker"
                   style={{
                     maxWidth: '100%',
                     maxHeight: '100%',

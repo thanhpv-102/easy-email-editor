@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Frame from '@demo/components/Frame';
 import templateList from '@demo/store/templateList';
-import { Button } from '@arco-design/web-react';
+import { Button } from 'antd';
 import { CardItem } from './components/CardItem';
 import { Stack } from '@demo/components/Stack';
 import { history } from '@demo/utils/history';

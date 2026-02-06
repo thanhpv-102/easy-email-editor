@@ -1,3 +1,4 @@
+
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { getNodeTypeFromClassName, BlockManager } from 'easy-email-core';
@@ -8,6 +9,7 @@ import { awaitForElement } from '@extensions/utils/awaitForElement';
 export function HoverTooltip() {
   const { hoverIdx, direction, isDragging } = useHoverIdx();
   const lazyHoverIdx = useLazyState(hoverIdx, 60);
+  const effectiveHoverIdx = isDragging ? hoverIdx : lazyHoverIdx;
   const { focusIdx } = useFocusIdx();
   const [isTop, setIsTop] = useState(false);
   const { initialized } = useEditorContext();
@@ -25,8 +27,8 @@ export function HoverTooltip() {
     const rootBounds = rootRef.current;
     if (!initialized) return;
 
-    if (lazyHoverIdx) {
-      const promiseObj = awaitForElement<HTMLDivElement>(lazyHoverIdx);
+    if (effectiveHoverIdx) {
+      const promiseObj = awaitForElement<HTMLDivElement>(effectiveHoverIdx);
       promiseObj.promise.then(blockNode => {
         if (rootBounds) {
           const { top } = blockNode.getBoundingClientRect();
@@ -34,6 +36,8 @@ export function HoverTooltip() {
         }
 
         setBlockNode(blockNode);
+      }).catch(() => {
+        // Element not found, ignore
       });
 
       return () => {
@@ -42,7 +46,7 @@ export function HoverTooltip() {
     } else {
       setBlockNode(null);
     }
-  }, [lazyHoverIdx, initialized]);
+  }, [effectiveHoverIdx, initialized]);
 
   const block = useMemo(() => {
     return blockNode
@@ -50,8 +54,10 @@ export function HoverTooltip() {
       : null;
   }, [blockNode]);
 
-  if (focusIdx === hoverIdx && !isDragging) return null;
+  // When dragging, always show tooltip even if it's the focused block
+  if (!isDragging && focusIdx === hoverIdx) return null;
   if (!block || !blockNode) return null;
+
 
   return (
     <>
@@ -91,25 +97,22 @@ interface TipNodeProps {
 }
 
 function TipNode(props: TipNodeProps) {
-  const { direction, title, lineWidth, type } = props;
+  const { direction = 'none', title, lineWidth, type } = props;
+
   const dragTitle = useMemo(() => {
     if (direction === 'top' || direction === 'noEnoughTop') {
-      return `${t('Insert before')} ${title}`;
+      return `${'Insert before'} ${title}`;
     } else if (direction === 'bottom') {
-      return `${t('Insert after')} ${title}`;
+      return `${'Insert after'} ${title}`;
     } else if (direction === 'right' || direction === 'left') {
-      return t('Drag here');
-    }    
-    return `${t('Drag to')} ${title}`;
+      return 'Drag here';
+    }
+    return `${'Drag to'} ${title}`;
   }, [direction, title]);
 
   const color = useMemo(() => {
-    if (type === 'drag') {
-      return 'var(--hover-color)';
-    } else {
-      return 'var(--hover-color)';
-    }
-  }, [type]);
+    return 'var(--hover-color, #1890ff)';
+  }, []);
 
   return (
     <div
@@ -183,7 +186,7 @@ function TipNode(props: TipNodeProps) {
             left: 0,
             width: '100%',
             height: '100%',
-            ...directionImage[props.direction || 'none'],
+            ...(directionImage[direction] || directionImage.none),
           }}
         >
           <div
@@ -198,7 +201,7 @@ function TipNode(props: TipNodeProps) {
               whiteSpace: 'nowrap',
               padding: '1px 5px',
 
-              ...positionStyleMap[props.direction || 'none'],
+              ...(positionStyleMap[direction] || positionStyleMap.none),
             }}
           >
             {dragTitle}
@@ -209,7 +212,7 @@ function TipNode(props: TipNodeProps) {
   );
 }
 
-const positionStyleMap: Record<string, any> = {
+const positionStyleMap: Record<string, React.CSSProperties> = {
   noEnoughTop: {
     top: '0%',
     left: '50%',
@@ -249,7 +252,7 @@ const positionStyleMap: Record<string, any> = {
   },
 };
 
-const directionImage: Record<string, any> = {
+const directionImage: Record<string, React.CSSProperties> = {
   top: {
     backgroundImage: `linear-gradient(
       to bottom,

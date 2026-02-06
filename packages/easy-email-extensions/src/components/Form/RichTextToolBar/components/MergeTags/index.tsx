@@ -1,12 +1,11 @@
 import React, { useCallback } from 'react';
-
 import { MergeTags as MergeTagsOptions } from '@extensions/AttributePanel';
-import { Popover } from '@arco-design/web-react';
+import { Popover } from 'antd';
 import { ToolItem } from '../ToolItem';
 import { IconFont } from 'easy-email-editor';
 
 export interface MergeTagsProps {
-  execCommand: (cmd: string, value: any) => void;
+  execCommand: (cmd: string, value: string) => void;
   getPopupContainer: () => HTMLElement;
 }
 
@@ -28,30 +27,21 @@ export function MergeTags(props: MergeTagsProps) {
 
   return (
     <Popover
-      trigger='click'
-      color='#fff'
-      position='left'
-      popupVisible={visible}
-      onVisibleChange={onVisibleChange}
-      style={{ zIndex: 10 }}
-      triggerProps={{
-        popupStyle: {
-          backgroundColor: 'var(--color-bg-5);',
-        },
-      }}
-      content={
-        <>
-          <MergeTagsOptions
-            value=''
-            onChange={onChange}
-          />
-        </>
-      }
+      trigger="click"
+      placement="bottomLeft"
+      open={visible}
+      onOpenChange={onVisibleChange}
       getPopupContainer={props.getPopupContainer}
+      content={(
+        <MergeTagsOptions
+          value=""
+          onChange={onChange}
+        />
+      )}
     >
       <ToolItem
         title={t('Merge tag')}
-        icon={<IconFont iconName='icon-merge-tags' />}
+        icon={<IconFont iconName="icon-merge-tags" />}
       />
     </Popover>
   );

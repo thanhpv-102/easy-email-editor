@@ -1,29 +1,26 @@
 import {
+  Input as AntdInput,
   InputNumber,
-  Input as ArcoInput,
-  Switch,
-  Slider,
-  SliderProps,
   InputNumberProps,
+  Slider,
+  Switch,
   SwitchProps,
-  TextAreaProps,
-  CheckboxGroupProps,
   TreeSelect,
   TreeSelectProps,
-} from '@arco-design/web-react';
-import { ImageUploaderProps, ImageUploader } from './ImageUploader';
-import { UploadField as Uploader, UploadFieldProps } from './UploadField';
+} from 'antd';
+import type { SliderSingleProps } from 'antd/es/slider';
+import type { TextAreaProps } from 'antd/es/input';
+import type { SearchProps as InputSearchProps } from 'antd/es/input/Search';
+import { ImageUploader, ImageUploaderProps } from './ImageUploader';
 import { Select, SelectProps } from './Select';
 import { RadioGroup, RadioGroupProps } from './RadioGroup';
-import enhancer from './enhancer';
+import enhancer, { EnhancerProps } from './enhancer';
 import { Input, InputProps } from './Input';
 import { InputWithUnit, InputWithUnitProps } from './InputWithUnit';
-import { CheckBoxGroup } from './CheckBoxGroup';
+import { CheckBoxGroup, CheckboxGroupProps } from './CheckBoxGroup';
 import { EditTab, EditTabProps } from './EditTab';
 import { EditGridTab, EditGridTabProps } from './EditGridTab';
-import { InlineText, InlineTextProps } from './InlineTextField';
-import { AutoCompleteProps, AutoComplete } from './AutoComplete';
-import { InputSearchProps } from '@arco-design/web-react/es/Input';
+import { AutoComplete, AutoCompleteProps } from './AutoComplete';
 import { ColorPickerField } from './ColorPickerField';
 
 export { RichTextField } from './RichTextField';
@@ -35,21 +32,19 @@ export const InputWithUnitField = enhancer<InputWithUnitProps>(
   value => value,
 );
 
-export const SearchField = enhancer<InputSearchProps>(ArcoInput.Search, val => val);
+export const SearchField = enhancer<InputSearchProps>(AntdInput.Search, val => val);
 
-export const TextAreaField = enhancer<TextAreaProps>(ArcoInput.TextArea, val => val);
+export const TextAreaField = enhancer<TextAreaProps>(AntdInput.TextArea, val => val);
 
-export const NumberField = enhancer<InputNumberProps>(InputNumber, e => e);
+export const NumberField: React.FC<EnhancerProps & Omit<InputNumberProps, 'value' | 'onChange' | 'mutators'>> = enhancer<InputNumberProps>(InputNumber, e => e);
 
-export const SliderField = enhancer<SliderProps>(Slider, e => e);
-
-export const UploadField = enhancer<UploadFieldProps>(Uploader, val => val);
+export const SliderField = enhancer<SliderSingleProps>(Slider, e => e);
 
 export const ImageUploaderField = enhancer<ImageUploaderProps>(ImageUploader, url => url);
 
 export const SelectField = enhancer<SelectProps>(Select, e => e);
 
-export const TreeSelectField = enhancer<TreeSelectProps>(TreeSelect, e => e);
+export const TreeSelectField: React.FC<EnhancerProps & Omit<TreeSelectProps, 'value' | 'onChange' | 'mutators'>> = enhancer<TreeSelectProps>(TreeSelect, e => e);
 
 export const AutoCompleteField = enhancer<AutoCompleteProps>(AutoComplete, e => e);
 
@@ -57,12 +52,10 @@ export const RadioGroupField = enhancer<RadioGroupProps>(RadioGroup, value => va
 
 export const SwitchField = enhancer<SwitchProps>(Switch, e => e);
 
-export const CheckboxField = enhancer<CheckboxGroupProps<any>>(CheckBoxGroup, e => e);
+export const CheckboxField = enhancer<CheckboxGroupProps>(CheckBoxGroup, e => e);
 
-export const EditTabField = enhancer<EditTabProps>(EditTab, (e: any[]) => e);
-export const EditGridTabField = enhancer<EditGridTabProps>(EditGridTab, (e: any[]) => e);
-
-export const InlineTextField = enhancer<InlineTextProps>(InlineText, value => value);
+export const EditTabField = enhancer<EditTabProps>(EditTab, (e: unknown[]) => e);
+export const EditGridTabField = enhancer<EditGridTabProps>(EditGridTab, (e: unknown[]) => e);
 
 export { ColorPickerField };
 

@@ -5,7 +5,6 @@ import { createBlock } from '@core/utils/createBlock';
 import { AccordionElement } from '../AccordionElement';
 import { AccordionTitle } from '../AccordionTitle';
 import { AccordionText } from '../AccordionText';
-import { getImg } from '@core/utils/getImg';
 import { mergeBlock } from '@core/utils/mergeBlock';
 import { t } from '@core/utils';
 import { BasicBlock } from '@core/components/BasicBlock';
@@ -25,13 +24,12 @@ export type IAccordion = IBlockData<
     'icon-unwrapped-url'?: string;
     'icon-wrapped-alt'?: string;
     'icon-wrapped-url'?: string;
-  },
-  {}
+  }
 >;
 
 export const Accordion = createBlock<IAccordion>({
   get name() {
-    return t('Accordion');
+    return 'Accordion';
   },
   type: BasicType.ACCORDION,
   validParentType: [BasicType.COLUMN],
@@ -46,8 +44,8 @@ export const Accordion = createBlock<IAccordion>({
         'icon-width': '32px',
         'icon-align': 'middle',
         'icon-position': 'right',
-        'icon-unwrapped-url': getImg('IMAGE_09'),
-        'icon-wrapped-url': getImg('IMAGE_10'),
+        'icon-unwrapped-url': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSI2IDkgMTIgMTUgMTggOSIvPjwvc3ZnPg==',
+        'icon-wrapped-url': 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NjY2NjYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cG9seWxpbmUgcG9pbnRzPSIxOCAxNSAxMiA5IDYgMTUiLz48L3N2Zz4=',
         padding: '10px 25px 10px 25px',
         border: '1px solid #d9d9d9',
       },

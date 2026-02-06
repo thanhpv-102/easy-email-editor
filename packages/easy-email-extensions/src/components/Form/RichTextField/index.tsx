@@ -13,8 +13,10 @@ import {
 import React, { useCallback, useEffect, useState } from 'react';
 import { InlineText, InlineTextProps } from '../InlineTextField';
 import { RichTextToolBar } from '../RichTextToolBar';
-import { Field, FieldInputProps } from 'react-final-form';
+import { Field, FieldRenderProps } from 'easy-email-editor';
 import { debounce } from 'lodash';
+
+export type FieldInputProps = FieldRenderProps['input'];
 
 export const RichTextField = (
   props: Omit<InlineTextProps, 'onChange' | 'mutators'>
@@ -93,7 +95,7 @@ export const RichTextField = (
 
 function FieldWrapper(
   props: Omit<InlineTextProps, 'onChange'> & {
-    input: FieldInputProps<any, HTMLElement>;
+    input: FieldInputProps;
     contentEditableType: string | null;
   }
 ) {
@@ -102,7 +104,7 @@ function FieldWrapper(
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debounceCallbackChange = useCallback(
-    debounce((val) => {
+    debounce((val: string) => {
       if (enabledMergeTagsBadge) {
         input.onChange(MergeTagBadge.revert(val, mergeTagGenerate));
       } else {

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useEditorProps, useFocusIdx } from 'easy-email-editor';
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
@@ -11,7 +12,7 @@ import {
   SelectField,
   TextField,
 } from '@extensions/components/Form';
-import { Collapse, Grid, Space } from '@arco-design/web-react';
+import { Collapse, Row, Col, Space } from 'antd';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 
@@ -58,33 +59,33 @@ export function Accordion() {
   return (
     <AttributesPanelWrapper>
       <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
-        <Collapse.Item
-          name='0'
+        <Collapse.Panel
+          key='0'
           header={t('Setting')}
         >
-          <Space direction='vertical'>
-            <Grid.Row>
-              <Grid.Col span={11}>
+          <Space orientation='vertical' size='small'>
+            <Row>
+              <Col span={11}>
                 <BackgroundColor />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <FontFamily />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
             <Padding />
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <InputWithUnitField
                   label={t('Icon width')}
                   name={`${focusIdx}.attributes.icon-width`}
                 />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
@@ -92,19 +93,19 @@ export function Accordion() {
                   label={t('Icon height')}
                   name={`${focusIdx}.attributes.icon-height`}
                 />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <ImageUploaderField
                   label={t('Unwrapped icon')}
                   name={`${focusIdx}.attributes.icon-unwrapped-url`}
                   //helpText={t('The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.')}
                   uploadHandler={onUploadImage}
                 />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
@@ -113,18 +114,18 @@ export function Accordion() {
                   name={`${focusIdx}.attributes.icon-wrapped-url`}
                   uploadHandler={onUploadImage}
                 />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <RadioGroupField
                   label={t('Icon position')}
                   name={`${focusIdx}.attributes.icon-position`}
                   options={positionOptions}
                 />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
@@ -134,23 +135,23 @@ export function Accordion() {
                   name={`${focusIdx}.attributes.icon-align`}
                   options={alignOptions}
                 />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
             <TextField
               label={t('Border')}
               name={`${focusIdx}.attributes.border`}
             />
           </Space>
-        </Collapse.Item>
-        <Collapse.Item
-          name='4'
+        </Collapse.Panel>
+        <Collapse.Panel
+          key='4'
           header={t('Extra')}
         >
-          <Grid.Col span={24}>
+          <Col span={24}>
             <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
+          </Col>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );

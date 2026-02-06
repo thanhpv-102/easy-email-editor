@@ -1,11 +1,11 @@
-import { Tooltip } from '@arco-design/web-react';
+import { Tooltip } from 'antd';
 import { classnames } from '@extensions/utils/classnames';
 import React from 'react';
 
 export const ToolItem: React.FC<{
   title?: string;
   icon: React.ReactNode;
-  onClick?: React.MouseEventHandler<any>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   trigger?: string;
   style?: React.CSSProperties;
   isActive?: boolean;
@@ -25,9 +25,8 @@ export const ToolItem: React.FC<{
   }
   return (
     <Tooltip
-      mini
-      position='bottom'
-      content={props.title}
+      placement='bottom'
+      title={props.title}
     >
       <button
         tabIndex={-1}

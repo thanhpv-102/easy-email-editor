@@ -1,25 +1,20 @@
 import React from 'react';
 import { Padding } from '@extensions/AttributePanel/components/attributes/Padding';
-import {
-  ColorPickerField,
-  ImageUploaderField,
-  SwitchField,
-  TextField,
-} from '@extensions/components/Form';
+import { ColorPickerField, ImageUploaderField, SwitchField, TextField } from '@extensions/components/Form';
 import { Width } from '@extensions/AttributePanel/components/attributes/Width';
 import { Height } from '@extensions/AttributePanel/components/attributes/Height';
 import { Link } from '@extensions/AttributePanel/components/attributes/Link';
 import { Align } from '@extensions/AttributePanel/components/attributes/Align';
 
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
-import { Collapse, Grid, Space } from '@arco-design/web-react';
+import { Col, Collapse, Row, Space } from 'antd';
 import { Border } from '@extensions/AttributePanel/components/attributes/Border';
 import { Stack, useEditorProps, useFocusIdx } from 'easy-email-editor';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 import { imageHeightAdapter, pixelAdapter } from '../../adapter';
 
 const fullWidthOnMobileAdapter = {
-  format(obj: any) {
+  format(obj: boolean | string) {
     return Boolean(obj);
   },
   parse(val: string) {
@@ -36,13 +31,13 @@ export function Image() {
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapseWrapper defaultActiveKey={['0', '1', '2', '3', '4']}>
-        <Collapse.Item
-          name='1'
+        <Collapse.Panel
+          key="1"
           header={t('Setting')}
         >
           <Stack
             vertical
-            spacing='tight'
+            spacing="tight"
           >
             <ImageUploaderField
               label={t('src')}
@@ -64,65 +59,65 @@ export function Image() {
               config={fullWidthOnMobileAdapter}
             />
           </Stack>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='0'
+        <Collapse.Panel
+          key="0"
           header={t('Dimension')}
         >
-          <Space direction='vertical'>
-            <Grid.Row>
-              <Grid.Col span={11}>
+          <Space orientation="vertical" size="small">
+            <Row>
+              <Col span={11}>
                 <Width config={pixelAdapter} />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <Height config={imageHeightAdapter} />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
             <Padding showResetAll />
-            <Grid.Row>
-              <Grid.Col span={24}>
+            <Row>
+              <Col span={24}>
                 <Align />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
           </Space>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='2'
+        <Collapse.Panel
+          key="2"
           header={t('Link')}
         >
           <Stack
             vertical
-            spacing='tight'
+            spacing="tight"
           >
             <Link />
           </Stack>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='3'
+        <Collapse.Panel
+          key="3"
           header={t('Border')}
         >
           <Border />
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='4'
+        <Collapse.Panel
+          key="4"
           header={t('Extra')}
         >
-          <Grid.Row>
-            <Grid.Col span={11}>
+          <Row>
+            <Col span={11}>
               <TextField
                 label={t('title')}
                 name={`${focusIdx}.attributes.title`}
               />
-            </Grid.Col>
-            <Grid.Col
+            </Col>
+            <Col
               offset={1}
               span={11}
             >
@@ -130,15 +125,15 @@ export function Image() {
                 label={t('alt')}
                 name={`${focusIdx}.attributes.alt`}
               />
-            </Grid.Col>
-          </Grid.Row>
-          <Grid.Col span={24}>
+            </Col>
+          </Row>
+          <Col span={24}>
             <TextField
               label={t('class name')}
               name={`${focusIdx}.attributes.css-class`}
             />
-          </Grid.Col>
-        </Collapse.Item>
+          </Col>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );

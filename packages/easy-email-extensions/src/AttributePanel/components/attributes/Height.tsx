@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 import { TextField } from '../../../components/Form';
-import { useFocusIdx, Stack } from 'easy-email-editor';
-import { UseFieldConfig } from 'react-final-form';
+import { Stack, UseFieldConfig, useFocusIdx } from 'easy-email-editor';
 
 export function Height({
-  inline,
-  config,
-}: {
+                         inline,
+                         config,
+                       }: {
   inline?: boolean;
   config?: UseFieldConfig;
 }) {

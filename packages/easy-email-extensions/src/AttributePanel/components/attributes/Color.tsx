@@ -9,6 +9,7 @@ export function Color({ title = t('Color') }: { title?: string; inline?: boolean
     <ColorPickerField
       label={title}
       name={`${focusIdx}.attributes.color`}
+      key={`${focusIdx}.attributes.color`}
     />
   );
 }

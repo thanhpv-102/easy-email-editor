@@ -90,6 +90,6 @@ export const EmailEditor = () => {
         <>{fixedContainer}</>
       </div>
     ),
-    [activeTab, containerHeight, fixedContainer, onBeforeChangeTab, onChangeTab]
+    [activeTab, containerHeight, fixedContainer]
   );
 };

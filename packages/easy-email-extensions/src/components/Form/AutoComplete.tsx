@@ -1,12 +1,13 @@
 import React, { useMemo } from 'react';
-import { AutoComplete as ArcoAutoComplete, AutoCompleteProps as ArcoAutoCompleteProps } from '@arco-design/web-react';
+import { AutoComplete as AntdAutoComplete } from 'antd';
+import type { AutoCompleteProps as AntdAutoCompleteProps } from 'antd';
 import { isString } from 'lodash';
 
 export interface AutoCompleteProps
-  extends Omit<ArcoAutoCompleteProps, 'onChange' | 'options'> {
+  extends Omit<AntdAutoCompleteProps, 'onChange' | 'options'> {
   quickchange?: boolean;
   value: string;
-  options: Array<{ value: any; label: any }>;
+  options: Array<{ value: string | number; label: string | number }>;
   onChange: (val: string) => void;
   showSearch?: boolean;
 }
@@ -21,13 +22,17 @@ export function AutoComplete(props: AutoCompleteProps) {
           (isString(item.label) && item.label.toLowerCase().startsWith(selectedValue))
         );
       })
-      .map(item => ({ ...item, name: item.label }));
+      .map(item => ({
+        value: String(item.value),
+        label: String(item.label)
+      }));
   }, [props.options, props.value]);
 
   return (
-    <ArcoAutoComplete
+    <AntdAutoComplete
       {...props}
-      data={options}
+      options={options}
+      onChange={props.onChange}
     />
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Message } from '@arco-design/web-react';
+import { message } from 'antd';
 import { useAppSelector } from '@demo/hooks/useAppSelector';
 import toast from '@demo/store/common/toast';
 

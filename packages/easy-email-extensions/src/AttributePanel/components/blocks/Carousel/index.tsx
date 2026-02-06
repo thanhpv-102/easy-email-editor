@@ -8,14 +8,14 @@ import {
   SelectField,
   TextField,
 } from '@extensions/components/Form';
-import { IconLink } from '@arco-design/web-react/icon';
-import { Collapse, Grid, Space } from '@arco-design/web-react';
+import { Col, Collapse, Row, Space } from 'antd';
 import { Stack, useEditorProps, useFocusIdx } from 'easy-email-editor';
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
 import { Align } from '@extensions/AttributePanel/components/attributes/Align';
 import { ICarousel } from 'easy-email-core';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
+import { LinkOutlined } from '@ant-design/icons';
 
 const options = [
   {
@@ -37,11 +37,11 @@ export function Carousel() {
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapseWrapper defaultActiveKey={['0', '1', '2', '3', '4']}>
-        <Collapse.Item
-          name='0'
+        <Collapse.Panel
+          key="0"
           header={t('Dimension')}
         >
-          <Space direction='vertical'>
+          <Space orientation="vertical" size="small">
             <InputWithUnitField
               label={t('Thumbnail width')}
               name={`${focusIdx}.attributes.tb-width`}
@@ -57,24 +57,23 @@ export function Carousel() {
             />
             <Align inline />
           </Space>
-        </Collapse.Item>
-        <Collapse.Item
-          name='4'
-          contentStyle={{ padding: 0 }}
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="4"
           header={t('Images')}
         >
           <Stack
             vertical
-            spacing='tight'
+            spacing="tight"
           >
             <EditTabField
-              tabPosition='top'
+              tabPlacement="top"
               name={`${focusIdx}.data.value.images`}
-              label=''
+              label=""
               labelHidden
-              renderItem={(item, index) => (
+              renderItem={(item: unknown, index: number) => (
                 <CarouselImage
-                  item={item}
+                  item={item as ICarousel['data']['value']['images'][number]}
                   index={index}
                 />
               )}
@@ -84,19 +83,19 @@ export function Carousel() {
               }}
             />
           </Stack>
-        </Collapse.Item>
-        <Collapse.Item
-          name='3'
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="3"
           header={t('Icon')}
         >
-          <Grid.Row>
-            <Grid.Col span={11}>
+          <Row>
+            <Col span={11}>
               <TextField
                 label={t('Left icon')}
                 name={`${focusIdx}.attributes.left-icon`}
               />
-            </Grid.Col>
-            <Grid.Col
+            </Col>
+            <Col
               offset={1}
               span={11}
             >
@@ -104,35 +103,35 @@ export function Carousel() {
                 label={t('Right icon')}
                 name={`${focusIdx}.attributes.right-icon`}
               />
-            </Grid.Col>
-          </Grid.Row>
+            </Col>
+          </Row>
 
-          <Grid.Row>
-            <Grid.Col span={11}>
+          <Row>
+            <Col span={11}>
               <InputWithUnitField
                 label={t('Icon width')}
                 name={`${focusIdx}.attributes.icon-width`}
               />
-            </Grid.Col>
-            <Grid.Col
+            </Col>
+            <Col
               offset={1}
               span={11}
             />
-          </Grid.Row>
-        </Collapse.Item>
+          </Row>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='1'
+        <Collapse.Panel
+          key="1"
           header={t('Border')}
         >
-          <Grid.Row>
-            <Grid.Col span={11}>
+          <Row>
+            <Col span={11}>
               <ColorPickerField
                 label={t('Hovered border')}
                 name={`${focusIdx}.attributes.tb-hover-border-color`}
               />
-            </Grid.Col>
-            <Grid.Col
+            </Col>
+            <Col
               offset={1}
               span={11}
             >
@@ -140,16 +139,16 @@ export function Carousel() {
                 label={t('Selected Border')}
                 name={`${focusIdx}.attributes.tb-selected-border-color`}
               />
-            </Grid.Col>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Col span={11}>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={11}>
               <TextField
                 label={t('Border of the thumbnails')}
                 name={`${focusIdx}.attributes.tb-border`}
               />
-            </Grid.Col>
-            <Grid.Col
+            </Col>
+            <Col
               offset={1}
               span={11}
             >
@@ -157,33 +156,32 @@ export function Carousel() {
                 label={t('Border radius of the thumbnails')}
                 name={`${focusIdx}.attributes.tb-border-radius`}
               />
-            </Grid.Col>
-          </Grid.Row>
-        </Collapse.Item>
-        <Collapse.Item
-          name='4'
+            </Col>
+          </Row>
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="4"
           header={t('Extra')}
         >
-          <Grid.Col span={24}>
+          <Col span={24}>
             <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
+          </Col>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );
 }
 
 function CarouselImage({
-  item,
   index,
 }: {
-  item: ICarousel['data']['value']['images'];
+  item: ICarousel['data']['value']['images'][number];
   index: number;
 }) {
   const { focusIdx } = useFocusIdx();
   const { onUploadImage } = useEditorProps();
   return (
-    <Space direction='vertical'>
+    <Space orientation="vertical" size="small">
       <ImageUploaderField
         label={t('Image')}
         labelHidden
@@ -193,15 +191,15 @@ function CarouselImage({
         )}
         uploadHandler={onUploadImage}
       />
-      <Grid.Row>
-        <Grid.Col span={11}>
+      <Row>
+        <Col span={11}>
           <TextField
-            prefix={<IconLink />}
+            prefix={<LinkOutlined />}
             label={t('Url')}
             name={`${focusIdx}.data.value.images.[${index}].href`}
           />
-        </Grid.Col>
-        <Grid.Col
+        </Col>
+        <Col
           offset={1}
           span={11}
         >
@@ -219,12 +217,12 @@ function CarouselImage({
               },
             ]}
           />
-        </Grid.Col>
-      </Grid.Row>
+        </Col>
+      </Row>
 
       <TextField
         label={t('Title')}
-        name={`${focusIdx}.data.value.image.[${index}].title`}
+        name={`${focusIdx}.data.value.images.[${index}].title`}
       />
     </Space>
   );

@@ -8,7 +8,6 @@ import {
   TextField,
 } from '@extensions/components/Form';
 import { Align } from '@extensions/AttributePanel/components/attributes/Align';
-import { IconLink } from '@arco-design/web-react/icon';
 import { Color } from '@extensions/AttributePanel/components/attributes/Color';
 import { ContainerBackgroundColor } from '@extensions/AttributePanel/components/attributes/ContainerBackgroundColor';
 import { FontFamily } from '@extensions/AttributePanel/components/attributes/FontFamily';
@@ -17,25 +16,26 @@ import { FontStyle } from '@extensions/AttributePanel/components/attributes/Font
 import { FontWeight } from '@extensions/AttributePanel/components/attributes/FontWeight';
 
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
-import { Collapse, Grid, Space } from '@arco-design/web-react';
+import { Col, Collapse, Row, Space } from 'antd';
 import { TextDecoration } from '@extensions/AttributePanel/components/attributes/TextDecoration';
 import { LineHeight } from '@extensions/AttributePanel/components/attributes/LineHeight';
 import { useBlock, useEditorProps, useFocusIdx } from 'easy-email-editor';
 import { ISocial } from 'easy-email-core';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
+import { LinkOutlined } from '@ant-design/icons';
 
 const options = [
   {
     value: 'vertical',
     get label() {
-      return t('vertical');
+      return 'vertical';
     },
   },
   {
     value: 'horizontal',
     get label() {
-      return t('horizontal');
+      return 'horizontal';
     },
   },
 ];
@@ -49,108 +49,107 @@ export function Social() {
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapseWrapper defaultActiveKey={['0', '1', '2', '3']}>
-        <Collapse.Item
-          name='1'
-          header={t('Setting')}
+        <Collapse.Panel
+          key="1"
+          header={'Setting'}
         >
-          <Space direction='vertical'>
+          <Space orientation="vertical" size="small">
             <RadioGroupField
-              label={t('Mode')}
+              label={'Mode'}
               name={`${focusIdx}.attributes.mode`}
               options={options}
             />
 
             <Align />
           </Space>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='3'
-          header={t('Typography')}
+        <Collapse.Panel
+          key="3"
+          header={'Typography'}
         >
-          <Space direction='vertical'>
-            <Grid.Row>
-              <Grid.Col span={11}>
+          <Space orientation="vertical" size="small">
+            <Row>
+              <Col span={11}>
                 <FontFamily />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <FontSize />
-              </Grid.Col>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={11}>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={11}>
                 <FontWeight />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <LineHeight />
-              </Grid.Col>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={11}>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={11}>
                 <Color />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
-                <ContainerBackgroundColor title={t('Background color')} />
-              </Grid.Col>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={11}>
+                <ContainerBackgroundColor title={'Background color'} />
+              </Col>
+            </Row>
+            <Row>
+              <Col span={11}>
                 <TextDecoration />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <FontStyle />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
           </Space>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='2'
+        <Collapse.Panel
+          key="2"
           header={t('Social item')}
-          contentStyle={{ padding: 10 }}
         >
           <EditGridTabField
-            tabPosition='top'
+            tabPlacement="top"
             name={`${focusIdx}.data.value.elements`}
-            label=''
+            label=""
             labelHidden
-            renderItem={(item, index) => (
+            renderItem={(item, index: number) => (
               <SocialElement
-                item={item}
+                item={item as ISocial['data']['value']['elements'][number]}
                 index={index}
               />
             )}
           />
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='0'
+        <Collapse.Panel
+          key="0"
           header={t('Dimension')}
         >
           <Space
-            direction='vertical'
-            size='large'
+            orientation="vertical"
+            size="large"
           >
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <InputWithUnitField
                   label={t('Icon width')}
                   name={`${focusIdx}.attributes.icon-size`}
                 />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
@@ -158,28 +157,28 @@ export function Social() {
                   label={t('Border radius')}
                   name={`${focusIdx}.attributes.border-radius`}
                 />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
             <Padding />
             <Padding
-              attributeName='inner-padding'
+              attributeName="inner-padding"
               title={t('Icon padding')}
             />
             <Padding
-              attributeName='text-padding'
+              attributeName="text-padding"
               title={t('Text padding')}
             />
           </Space>
-        </Collapse.Item>
-        <Collapse.Item
-          name='4'
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="4"
           header={t('Extra')}
         >
-          <Grid.Col span={24}>
+          <Col span={24}>
             <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
+          </Col>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );
@@ -205,7 +204,7 @@ function SocialElement({
   }, [socialIcons]);
 
   return (
-    <Space direction='vertical'>
+    <Space orientation="vertical" size="small">
       <ImageUploaderField
         label={t('Image')}
         autoCompleteOptions={autoCompleteOptions}
@@ -215,39 +214,39 @@ function SocialElement({
         uploadHandler={onUploadImage}
       />
 
-      <Grid.Row>
-        <Grid.Col span={11}>
+      <Row>
+        <Col span={11}>
           <TextField
             label={t('Content')}
             name={`${focusIdx}.data.value.elements.[${index}].content`}
             quickchange
           />
-        </Grid.Col>
-        <Grid.Col
+        </Col>
+        <Col
           offset={1}
           span={11}
         >
           <TextField
-            prefix={<IconLink />}
+            prefix={<LinkOutlined />}
             label={t('Link')}
             name={`${focusIdx}.data.value.elements.[${index}].href`}
           />
-        </Grid.Col>
-      </Grid.Row>
-      {/* <Grid.Row>
-        <Grid.Col span={11}>
+        </Col>
+      </Row>
+      {/* <Row>
+        <Col span={11}>
           <InputWithUnitField
             label={t('Icon width')}
             name={`${focusIdx}.data.value.elements.[${index}].icon-size`}
           />
-        </Grid.Col>
-        <Grid.Col offset={1} span={11}>
+        </Col>
+        <Col offset={1} span={11}>
           <InputWithUnitField
             label={t('Icon height')}
             name={`${focusIdx}.data.value.elements.[${index}].icon-height`}
           />
-        </Grid.Col>
-      </Grid.Row> */}
+        </Col>
+      </Row> */}
     </Space>
   );
 }

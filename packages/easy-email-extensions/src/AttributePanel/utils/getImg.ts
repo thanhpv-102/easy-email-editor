@@ -2,13 +2,13 @@ import { ImageManager } from 'easy-email-core';
 
 const defaultImagesMap = {
   IMAGE_59:
-    'https://easy-email-m-ryan.vercel.app/images/06ca521d-9728-4de6-a709-1b75a828bfc3-2a9b1224-3d71-43b8-b52f-e7cdcdc9107b.png',
+    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiM0Rjc5QTQiIHJ4PSI0Ii8+PHBhdGggZD0iTTkgMTFWOWgyTDggNiA1IDloMlYxMWgyem02IDJWOTE4bC0zIDNoLTJWOUg4bDMtM3ptMCA2bC0zIDNoMlYyMUg4di0ybC0zIDMgMy0zSDd2LTJsMy0zIDMgM3oiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=',
   AttributePanel_01:
-    'https://easy-email-m-ryan.vercel.app/images/e22f78f2-aa76-408d-ba94-c95c7abe1908-image.png',
+    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiM2NjY2ZmYiIHJ4PSI0Ii8+PHBhdGggZD0iTTEyIDJMMTUuMDkgOC4yNkwyMiA5LjI3TDE3IDENCMTRMMTggMjFMMTIgMTcuNzdMNiAyMUw3IDE0LjE0TDIgOS4yN0w4LjkxIDguMjZMMTIgMloiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=',
   AttributePanel_02:
-    'https://easy-email-m-ryan.vercel.app/images/3e952a6e-2506-470e-b395-3e0d995157c5.png',
+    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiNGRjZCNkIiIHJ4PSI0Ii8+PHBhdGggZD0iTTMgMTlMNSAxN00xOSA1TDEwIDEzLjk5TDEwIDE0SDE0TDIzIDVNMTkgNUwyMyAxTTEwIDE0SDE0TTMgMTlRMyAyMiA2IDE5IiBzdHJva2U9IiNmZmZmZmYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+',
   AttributePanel_03:
-    'https://easy-email-m-ryan.vercel.app/images/Fi_vI4vyLhTM-Tp6ivq4dR_ieGHk.png',
+    'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIGZpbGw9IiMxNkEzNEEiIHJ4PSI0Ii8+PHBhdGggZD0iTTUgMTJMMTAgMTdMMTkgOCIgc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==',
 };
 
 ImageManager.add(defaultImagesMap);

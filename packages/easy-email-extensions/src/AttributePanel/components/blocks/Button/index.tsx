@@ -14,19 +14,18 @@ import { FontFamily } from '../../attributes/FontFamily';
 import { TextDecoration } from '../../attributes/TextDecoration';
 import { LineHeight } from '../../attributes/LineHeight';
 import { LetterSpacing } from '../../attributes/LetterSpacing';
-import { Collapse, Grid, Popover, Space, Button as ArcoButton } from '@arco-design/web-react';
+import { Col, Collapse, Popover, Row, Space, Button as AntButton } from 'antd';
 import { TextField } from '../../../../components/Form';
-import { IconFont, useEditorProps, useFocusIdx } from 'easy-email-editor';
+import { IconFont, useEditorProps, useField, useFocusIdx } from 'easy-email-editor';
 import { AttributesPanelWrapper } from '../../attributes/AttributesPanelWrapper';
 import { MergeTags } from '../../attributes';
-import { useField } from 'react-final-form';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 
 export function Button() {
   const { focusIdx } = useFocusIdx();
   const { input } = useField(`${focusIdx}.data.value.content`, {
-    parse: v => v,
+    parse: (v: string) => v,
   });
 
   const { mergeTags } = useEditorProps();
@@ -34,28 +33,28 @@ export function Button() {
   return (
     <AttributesPanelWrapper>
       <CollapseWrapper defaultActiveKey={['-1', '0', '1', '2', '3']}>
-        <Collapse.Item
-          name='-1'
-          header={t('Setting')}
+        <Collapse.Panel
+          key="-1"
+          header={'Setting'}
         >
-          <Space direction='vertical'>
+          <Space orientation="vertical" size="small">
             <TextField
               label={(
                 <Space>
-                  <span>{t('Content')}</span>
+                  <span>{'Content'}</span>
                   {mergeTags && (
                     <Popover
-                      trigger='click'
+                      trigger="click"
                       content={(
                         <MergeTags
-                          value={input.value}
+                          value={input.value || ''}
                           onChange={input.onChange}
                         />
                       )}
                     >
-                      <ArcoButton
-                        type='text'
-                        icon={<IconFont iconName='icon-merge-tags' />}
+                      <AntButton
+                        type="text"
+                        icon={<IconFont iconName="icon-merge-tags" />}
                       />
                     </Popover>
                   )}
@@ -65,119 +64,119 @@ export function Button() {
             />
             <Link />
           </Space>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='0'
-          header={t('Dimension')}
+        <Collapse.Panel
+          key="0"
+          header={'Dimension'}
         >
-          <Space direction='vertical'>
-            <Grid.Row>
-              <Grid.Col span={11}>
+          <Space orientation="vertical" size="small">
+            <Row>
+              <Col span={11}>
                 <Width />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <FontWeight />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
             <Padding
-              title={t('Padding')}
-              attributeName='padding'
+              title={'Padding'}
+              attributeName="padding"
               showResetAll
             />
             <Padding
-              title={t('Inner padding')}
-              attributeName='inner-padding'
+              title={'Inner padding'}
+              attributeName="inner-padding"
             />
           </Space>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='1'
-          header={t('Color')}
+        <Collapse.Panel
+          key="1"
+          header={'Color'}
         >
-          <Space direction='vertical'>
-            <Grid.Row>
-              <Grid.Col span={11}>
-                <Color title={t('Text color')} />
-              </Grid.Col>
-              <Grid.Col
+          <Space orientation="vertical" size="small">
+            <Row>
+              <Col span={11}>
+                <Color title={'Text color'} />
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
-                <BackgroundColor title={t('Button color')} />
-              </Grid.Col>
-              <Grid.Col span={11}>
-                <ContainerBackgroundColor title={t('Background color')} />
-              </Grid.Col>
-            </Grid.Row>
+                <BackgroundColor title={'Button color'} />
+              </Col>
+              <Col span={11}>
+                <ContainerBackgroundColor title={'Background color'} />
+              </Col>
+            </Row>
           </Space>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='2'
-          header={t('Typography')}
+        <Collapse.Panel
+          key="2"
+          header={'Typography'}
         >
-          <Space direction='vertical'>
-            <Grid.Row>
-              <Grid.Col span={11}>
+          <Space orientation="vertical" size="small">
+            <Row>
+              <Col span={11}>
                 <FontFamily />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <FontSize />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <FontWeight />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <LineHeight />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <TextDecoration />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <LetterSpacing />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
             <Align />
 
             <FontStyle />
           </Space>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='3'
-          header={t('Border')}
+        <Collapse.Panel
+          key="3"
+          header={'Border'}
         >
           <Border />
-        </Collapse.Item>
-        <Collapse.Item
-          name='4'
-          header={t('Extra')}
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="4"
+          header={'Extra'}
         >
-          <Grid.Col span={24}>
+          <Col span={24}>
             <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
+          </Col>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );

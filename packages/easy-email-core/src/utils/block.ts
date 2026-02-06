@@ -73,7 +73,7 @@ export const getParentByType = <T extends IBlockData>(
   let parentIdx = getParentIdx(idx);
   while (parentIdx) {
     const parent = get(context, parentIdx) as T;
-    if (parent && parent.type === type) return parent;
+    if (parent && parent.type === type.toString()) return parent;
     parentIdx = getParentIdx(idx);
   }
 
@@ -116,7 +116,7 @@ export const getParenRelativeByType = <T extends IBlockData>(
   let parentIdx: string | undefined = idx;
   while (parentIdx) {
     const parent = get(context, parentIdx) as T;
-    if (parent && parent.type === type) {
+    if (parent && parent.type === type.toString()) {
       return {
         insertIndex: prevIdx
           ? getIndexByIdx(prevIdx)

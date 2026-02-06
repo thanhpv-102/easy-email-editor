@@ -9,7 +9,7 @@ import {
   getParentByIdx,
   BasicType,
   AdvancedType,
-} from '@thanhpv102/easy-email-core';
+} from 'easy-email-core';
 import { DirectionPosition } from './getDirectionPosition';
 
 interface Params {
@@ -73,7 +73,6 @@ export function getInsertPosition(params: Params) {
         const prevParent = getParentByIdx(context, parentData.parentIdx);
         if (prevParent) {
           const isLeft = directionPosition.horizontal.direction === 'left';
-          console.log('idx', parentData.parentIdx);
           return {
             parentIdx: getParentIdx(parentData.parentIdx)!,
             insertIndex: isLeft

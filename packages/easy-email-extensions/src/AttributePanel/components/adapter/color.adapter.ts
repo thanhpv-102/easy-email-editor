@@ -15,7 +15,7 @@ export const colorAdapter = {
     try {
       if (val.length === 6 && Color(`#${val}`).hex()) return `#${val}`;
     } catch (error) {
-      console.log('err', val);
+      console.error('err colorAdapter', val, error);
     }
     return val;
   },

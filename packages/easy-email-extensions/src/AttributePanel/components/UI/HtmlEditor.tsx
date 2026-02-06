@@ -1,4 +1,4 @@
-import { Button, Drawer } from '@arco-design/web-react';
+import { Button, Drawer } from 'antd';
 import React, { Suspense, useEffect, useMemo, useState } from 'react';
 import { BasicType, IText } from 'easy-email-core';
 import { Stack, TextStyle, useBlock, useEditorContext, useFocusIdx } from 'easy-email-editor';
@@ -56,25 +56,25 @@ export const HtmlEditor: React.FC<{
   return (
     <Drawer
       placement='left'
-      headerStyle={{ display: 'block', lineHeight: '48px' }}
       title={(
         <Stack distribution='equalSpacing'>
-          <TextStyle variation='strong' size='large'>
-            {t('Html')}
+          <TextStyle variation='strong' size='medium'>
+            {'Html'}
           </TextStyle>
           <Stack>
             <Button type='primary' onClick={onSave}>
-              {t('Save')}
+              {'Save'}
             </Button>
           </Stack>
         </Stack>
       )}
-      closable={false}
-      escToExit={false}
-      width='100vw'
-      visible={visible}
+      open={visible}
       footer={null}
-      bodyStyle={{ padding: 0, overflow: 'hidden' }}
+      styles={{
+        header: { display: 'block', lineHeight: '48px' },
+        body: { padding: 0, overflow: 'hidden' },
+        wrapper: { width: '100vw' },
+      }}
     >
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flex: 1, height: '100%' }}>
@@ -92,7 +92,7 @@ export const HtmlEditor: React.FC<{
                   color: '#fff',
                 }}
               >
-                {t('Editor Loading...')}
+                {'Editor Loading...'}
               </div>
             )}
           >

@@ -1,45 +1,35 @@
-import { InputProps as ArcoInputProps } from '@arco-design/web-react';
 import React from 'react';
-import { Input } from './Input';
+import { Input } from 'antd';
+import type { InputProps } from 'antd';
 
-export interface InputWithUnitProps extends Omit<ArcoInputProps, 'onChange'> {
+export interface InputWithUnitProps extends Omit<InputProps, 'onChange'> {
   value: string;
   onChange: (val: string) => void;
-  unitOptions?: Array<{ value: string; label: string }> | 'default' | 'percent';
+  unitOptions?: Array<{ value: string; label: string; }> | 'default' | 'percent';
   quickchange?: boolean;
 }
-
-const defaultUnitOptions = [
-  {
-    value: 'px',
-    label: 'px',
-  },
-];
-
-const percentUnitOptions = [
-  {
-    value: 'px',
-    label: 'px',
-  },
-  {
-    value: '%',
-    label: '%',
-  },
-];
 
 export function InputWithUnit(props: InputWithUnitProps) {
   const {
     value = '',
-    onKeyDown: onPropsKeyDown,
-    unitOptions: propsUnitOptions,
+    onKeyDown,
+    onChange,
+    unitOptions: _unitOptions,
+    quickchange: _quickchange,
     ...restProps
   } = props;
+
+  // Handle input change
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
 
   return (
     <Input
       value={value}
+      onChange={handleChange}
+      onKeyDown={onKeyDown}
       {...restProps}
-      quickchange
     />
   );
 }

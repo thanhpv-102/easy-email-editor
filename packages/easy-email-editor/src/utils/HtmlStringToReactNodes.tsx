@@ -1,24 +1,10 @@
-import {
-  BasicType,
-  getNodeIdxFromClassName,
-  getNodeTypeFromClassName,
-  MERGE_TAG_CLASS_NAME,
-} from 'easy-email-core';
+import { BasicType, getNodeIdxFromClassName, getNodeTypeFromClassName, MERGE_TAG_CLASS_NAME } from 'easy-email-core';
 import { camelCase } from 'lodash';
 import React, { JSX } from 'react';
-import { isTextBlock } from './isTextBlock';
-import { MergeTagBadge } from './MergeTagBadge';
-import {
-  ContentEditableType,
-  DATA_CONTENT_EDITABLE_IDX,
-  DATA_CONTENT_EDITABLE_TYPE,
-} from '@/constants';
+import { getContentEditableClassName, isTextBlock, MergeTagBadge } from '@';
+import { ContentEditableType, DATA_CONTENT_EDITABLE_IDX, DATA_CONTENT_EDITABLE_TYPE } from '@/constants';
 import { isButtonBlock } from './isButtonBlock';
-import {
-  getContentEditableIdxFromClassName,
-  getContentEditableTypeFromClassName,
-} from './contenteditable';
-import { getContentEditableClassName } from './getContentEditableClassName';
+import { getContentEditableIdxFromClassName, getContentEditableTypeFromClassName } from './contenteditable';
 import { isNavbarBlock } from './isNavbarBlock';
 import { isTableBlock } from './isTableBlock';
 
@@ -67,11 +53,11 @@ export function HtmlStringToReactNodes(
   return reactNode;
 }
 
-const RenderReactNode = React.memo(function ({
-  node,
-  index,
-  selector,
-}: {
+const RenderReactNode = React.memo(function({
+                                              node,
+                                              index,
+                                              selector,
+                                            }: {
   node: HTMLElement;
   index: number;
   selector: string;
@@ -143,9 +129,9 @@ const RenderReactNode = React.memo(function ({
     const isTableElement = ['table', 'tbody', 'thead', 'tfoot', 'tr'].includes(tagName);
     const filteredChildNodes = isTableElement
       ? [...node.childNodes].filter(n => {
-          // Remove whitespace-only text nodes in table elements
-          return !(n.nodeType === Node.TEXT_NODE && (!n.textContent || n.textContent.trim() === ''));
-        })
+        // Remove whitespace-only text nodes in table elements
+        return !(n.nodeType === Node.TEXT_NODE && (!n.textContent || n.textContent.trim() === ''));
+      })
       : [...node.childNodes];
 
     const reactNode = createElement(tagName, {
@@ -156,13 +142,13 @@ const RenderReactNode = React.memo(function ({
         filteredChildNodes.length === 0
           ? null
           : filteredChildNodes.map((n, i) => (
-              <RenderReactNode
-                selector={getChildSelector(selector, i)}
-                key={i}
-                node={n as any}
-                index={i}
-              />
-            )),
+            <RenderReactNode
+              selector={getChildSelector(selector, i)}
+              key={i}
+              node={n as any}
+              index={i}
+            />
+          )),
     });
 
     return <>{reactNode}</>;

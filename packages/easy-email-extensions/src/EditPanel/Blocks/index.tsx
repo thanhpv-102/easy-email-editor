@@ -1,8 +1,8 @@
-import { Collapse, Grid, Space, Typography } from '@arco-design/web-react';
+import { Collapse, Row, Col, Space, Typography } from 'antd';
 import { AdvancedType, BlockManager, IBlockData } from 'easy-email-core';
 import { BlockAvatarWrapper, IconFont } from 'easy-email-editor';
 import React, { useMemo, useState } from 'react';
-import { IconCaretRight, IconCaretUp } from '@arco-design/web-react/icon';
+import { CaretRightOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { getIconNameByBlockType } from '@extensions/utils/getIconNameByBlockType';
 import styles from './index.module.scss';
 import { useExtensionProps } from '@extensions/components/Providers/ExtensionProvider';
@@ -24,13 +24,13 @@ export function Blocks() {
       {categories.map((cat, index) => {
         if (cat.displayType === 'column') {
           return (
-            <Collapse.Item
+            <Collapse.Panel
               key={index}
-              contentStyle={{ padding: '0px 20px' }}
-              name={cat.label}
+              style={{ padding: '0px 20px' }}
+              extra={cat.label}
               header={cat.label}
             >
-              <Space direction='vertical'>
+              <Space orientation='vertical'>
                 <div />
               </Space>
               {cat.blocks.map((item) => (
@@ -41,22 +41,22 @@ export function Blocks() {
                 />
               ))}
 
-              <Space direction='vertical'>
+              <Space orientation='vertical'>
                 <div />
               </Space>
-            </Collapse.Item>
+            </Collapse.Panel>
           );
         }
 
         if (cat.displayType === 'custom') {
           return (
-            <Collapse.Item
+            <Collapse.Panel
               key={index}
-              contentStyle={{ padding: 0, paddingBottom: 0, paddingTop: 20 }}
-              name={cat.label}
+              style={{ padding: 0, paddingBottom: 0, paddingTop: 20 }}
+              extra={cat.label}
               header={cat.label}
             >
-              <Grid.Row>
+              <Row>
                 {cat.blocks.map((item, blockIndex) => {
                   // Check if item is a draggable custom block object
                   // React elements have $$typeof property, so we check for that
@@ -103,23 +103,23 @@ export function Blocks() {
                   // Regular React node (component or element)
                   return <React.Fragment key={blockIndex}>{item}</React.Fragment>;
                 })}
-              </Grid.Row>
-            </Collapse.Item>
+              </Row>
+            </Collapse.Panel>
           );
         }
         return (
-          <Collapse.Item
+          <Collapse.Panel
             key={index}
-            contentStyle={{ padding: 0, paddingBottom: 0, paddingTop: 20 }}
-            name={cat.label}
+            style={{ padding: 0, paddingBottom: 0, paddingTop: 20 }}
+            extra={cat.label}
             header={cat.label}
           >
-            <Grid.Row>
+            <Row>
               {cat.blocks.map((item, index) => {
                 return <BlockItem key={index} {...(item as any)} />;
               })}
-            </Grid.Row>
-          </Collapse.Item>
+            </Row>
+          </Collapse.Panel>
         );
       })}
     </Collapse>
@@ -177,7 +177,7 @@ function LayoutItem({
       >
         <span>{title}</span>
         {columns.length > 1 && (
-          <span>{!visible ? <IconCaretRight /> : <IconCaretUp />}</span>
+          <span>{!visible ? <CaretRightOutlined /> : <CaretUpOutlined />}</span>
         )}
       </p>
       {columns.map((item, index) => {

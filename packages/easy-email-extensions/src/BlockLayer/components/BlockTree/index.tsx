@@ -1,12 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Tree } from '@arco-design/web-react';
-import { AllowDrop, NodeInstance, TreeProps } from '@arco-design/web-react/es/Tree/interface';
+import { Tree } from 'antd';
+import type { DataNode, TreeProps, EventDataNode } from 'antd/es/tree';
 import { debounce } from 'lodash';
 import { transparentImage } from './transparentImage';
 
 interface TreeNode<T> {
   id: string;
   children?: T[];
+}
+
+// Extended data node interface to include our custom properties
+interface ExtendedDataNode extends DataNode {
+  dataRef?: unknown;
+  parent?: unknown;
+  parentKey?: string;
 }
 
 export interface BlockTreeProps<T extends TreeNode<T>> {
@@ -44,8 +51,33 @@ img.width = 0;
 img.height = 0;
 img.src = transparentImage;
 
-const fileNames = {
-  key: 'id',
+// Transform TreeNode data to DataNode format for antd Tree
+const transformTreeData = <T extends TreeNode<T> & { parent?: unknown }>(data: T[] | undefined, parentKey?: string): DataNode[] => {
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    return [];
+  }
+
+  return data
+    .filter((item): item is T => {
+      const isValid = Boolean(item && item.id);
+      if (!isValid) {
+        console.error('[BlockTree] Filtering out item without id:', item);
+      }
+      return isValid;
+    })
+    .map((item) => {
+      const hasChildren = Array.isArray(item.children) && item.children.length > 0;
+
+      const node: ExtendedDataNode = {
+        key: item.id,
+        title: item.id, // This will be overridden by titleRender
+        children: hasChildren ? transformTreeData(item.children as T[], item.id) : undefined,
+        dataRef: item as unknown, // Store original data for callbacks
+        parentKey: parentKey, // Store parent key for proper tree navigation
+        parent: item.parent, // Extract parent from the original data item
+      };
+      return node;
+    });
 };
 
 export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
@@ -70,8 +102,8 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
   const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
 
   const onExpand = useCallback(
-    (keys: string[]) => {
-      setExpandedKeys(keys);
+    (keys: React.Key[]) => {
+      setExpandedKeys(keys.map(key => String(key)));
     },
     [setExpandedKeys]
   );
@@ -95,65 +127,82 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
   }, [props.expandedKeys]);
 
   const onDragStart = useCallback(
-    (e: React.DragEvent<HTMLSpanElement>, node: NodeInstance) => {
+    (info: { event: React.DragEvent; node: EventDataNode<DataNode> }) => {
+      const { event: e, node } = info;
       e.dataTransfer.dropEffect = 'none';
       // e.dataTransfer.setDragImage(img, 0, 0);
-      const dragNodeData = (node.props as any).dataRef as T;
+      const extendedNode = node as unknown as ExtendedDataNode;
+      const dragNodeData = extendedNode.dataRef as T;
       dragNode.current = {
         dataRef: dragNodeData,
-        parent: (node.props as any).parent,
-        key: node.props._key as string,
-        parentKey: node.props.parentKey as string,
+        parent: extendedNode.parent as T,
+        key: node.key as string,
+        parentKey: extendedNode.parentKey as string,
       };
       propsDragStart?.();
     },
     [propsDragStart]
   );
 
-  const onDragMove: AllowDrop = useCallback(
-    (option) => {
+  const onDragMove = useCallback(
+    (option: { dragNode: EventDataNode<DataNode>; dropNode: EventDataNode<DataNode>; dropPosition: number }) => {
       if (!dragNode.current) return false;
-      const dropData = (option.dropNode.props as any).dataRef as T;
-      const dropId = option.dropNode.props._key!;
+      const extendedDropNode = option.dropNode as unknown as ExtendedDataNode;
+      const dropData = extendedDropNode.dataRef as T;
+      const dropId = option.dropNode.key;
       const currentDropData: Parameters<BlockTreeProps<T>['allowDrop']>[0] = {
         dragNode: { key: dragNode.current.key },
         dropNode: {
           dataRef: dropData,
-          parent: (option.dropNode.props as any).parent,
-          key: dropId,
+          parent: extendedDropNode.parent as T,
+          key: dropId as string,
         },
         dropPosition: option.dropPosition,
       };
       const isAllowDrop = allowDrop(currentDropData);
 
-      if (isAllowDrop) {
-        return true;
-      }
-
-      return false;
+      return Boolean(isAllowDrop);
     },
     [allowDrop]
   );
 
+  // Wrapper to match antd Tree's allowDrop signature
+  const allowDropWrapper = useCallback(
+    (options: unknown) => {
+      const typedOptions = options as { dragNode: DataNode; dropNode: DataNode; dropPosition: number };
+      // Convert to our expected format
+      const convertedOptions = {
+        dragNode: typedOptions.dragNode as unknown as EventDataNode<DataNode>,
+        dropNode: typedOptions.dropNode as unknown as EventDataNode<DataNode>,
+        dropPosition: typedOptions.dropPosition,
+      };
+      return onDragMove(convertedOptions);
+    },
+    [onDragMove]
+  );
+
   const onDrop = useCallback(
     (info: {
-      e: React.DragEvent<HTMLSpanElement>;
-      dragNode: NodeInstance | null;
-      dropNode: NodeInstance | null;
+      event: React.DragEvent;
+      node: EventDataNode<DataNode>;
+      dragNode: EventDataNode<DataNode>;
+      dragNodesKeys: React.Key[];
       dropPosition: number;
+      dropToGap: boolean;
     }) => {
-      const { dropNode, dropPosition, e } = info;
+      const { node: dropNode, dropPosition, event: e } = info;
       e.dataTransfer.dropEffect = 'move';
       if (!dragNode.current || !dropNode) return;
 
-      const dropData = (dropNode.props as any).dataRef as T;
+      const extendedDropNode = dropNode as unknown as ExtendedDataNode;
+      const dropData = extendedDropNode.dataRef as T;
       const currentDropData: Parameters<BlockTreeProps<T>['onDrop']>[0] = {
         dragNode: dragNode.current,
         dropNode: {
           dataRef: dropData,
-          parent: (dropNode.props as any).parent,
-          key: dropNode.props._key as string,
-          parentKey: dropNode.props.parentKey as string,
+          parent: extendedDropNode.parent as T,
+          key: dropNode.key as string,
+          parentKey: extendedDropNode.parentKey as string,
         },
         dropPosition,
       };
@@ -162,14 +211,14 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
     [propsDrop]
   );
 
-  const renderTitle: TreeProps['renderTitle'] = useCallback(
-    (nodeData: any) => {
+  const titleRender = useCallback(
+    (nodeData: DataNode & { dataRef?: T }) => {
       return (
         <div
           style={{ display: 'inline-flex', width: '100%' }}
-          onContextMenu={(ev) => onContextMenu && onContextMenu(nodeData as T, ev)}
+          onContextMenu={(ev) => onContextMenu && onContextMenu(nodeData.dataRef as T, ev)}
         >
-          {propsRenderTitle(nodeData as T)}
+          {propsRenderTitle(nodeData.dataRef as T)}
         </div>
       );
     },
@@ -181,9 +230,9 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
     propsDragEnd?.();
   }, [propsDragEnd]);
 
-  const onSelect: TreeProps['onSelect'] = useCallback(
-    (selectedKeys: string[]) => {
-      propsSelect(selectedKeys[0]);
+  const onSelect = useCallback(
+    (selectedKeys: React.Key[]) => {
+      propsSelect(selectedKeys[0] as string);
     },
     [propsSelect]
   );
@@ -198,6 +247,8 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
     }
   }, [blockTreeRef]);
 
+  const transformedTreeData = useMemo(() => transformTreeData(treeData), [treeData]);
+
   return useMemo(
     () => (
       <div ref={setBlockTreeRef} onMouseLeave={props.onMouseLeave}>
@@ -206,21 +257,19 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
           expandedKeys={expandedKeys}
           onExpand={onExpand}
           draggable
-          size='small'
-          treeData={treeData}
+          treeData={transformedTreeData}
           blockNode
-          fieldNames={fileNames}
           onDragEnd={onDragEnd}
           onDragStart={onDragStart}
           onDrop={onDrop}
-          allowDrop={onDragMove}
+          allowDrop={allowDropWrapper}
           onSelect={onSelect}
-          renderTitle={renderTitle}
+          titleRender={titleRender}
         />
       </div>
     ),
     [
-      treeData,
+      transformedTreeData,
       props.onMouseLeave,
       expandedKeys,
       selectedKeys,
@@ -228,9 +277,9 @@ export function BlockTree<T extends TreeNode<T>>(props: BlockTreeProps<T>) {
       onDragEnd,
       onDragStart,
       onDrop,
-      onDragMove,
+      allowDropWrapper,
       onSelect,
-      renderTitle,
+      titleRender,
     ]
   );
 }
@@ -250,14 +299,17 @@ function CacheTree(props: TreeProps) {
     if (lastProps.current.treeData !== props.treeData) {
       lastProps.current = props;
       cacheTreeDebounceCallback(props, setCacheProps);
-      return () => {
-        cacheTreeDebounceCallback.cancel();
-      };
     } else {
       lastProps.current = props;
       setCacheProps(props);
     }
   }, [props]);
+
+  useEffect(() => {
+    return () => {
+      cacheTreeDebounceCallback.cancel();
+    };
+  }, []);
 
   return useMemo(() => <Tree {...cacheProps} />, [cacheProps]);
 }

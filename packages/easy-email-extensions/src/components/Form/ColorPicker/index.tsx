@@ -1,4 +1,4 @@
-import { Input, Popover, PopoverProps } from '@arco-design/web-react';
+import { Input, Popover, PopoverProps } from 'antd';
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 
 import { getImg } from '@extensions/AttributePanel/utils/getImg';
@@ -38,6 +38,13 @@ export function ColorPicker(props: ColorPickerProps) {
     [addCurrentColor, onChange],
   );
 
+  const onInputEventChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onInputChange(event.target.value);
+    },
+    [onInputChange],
+  );
+
   const getPopupContainer = useCallback(() => {
     return getCollapseItemEle(refEle);
   }, [refEle]);
@@ -51,8 +58,8 @@ export function ColorPicker(props: ColorPickerProps) {
   const adapterColor = useMemo(() => {
     try {
       if (value.length === 6 && Color(`#${value}`).hex()) return `#${value}`;
-    } catch (error) {
-      console.log('err', value);
+    } catch {
+      console.error('err adapterColor', value);
     }
     return value;
   }, [value]);
@@ -61,8 +68,8 @@ export function ColorPicker(props: ColorPickerProps) {
     <div style={{ flex: 1, display: 'flex' }}>
       <Popover
         title={props.label}
-        trigger='click'
-        className='color-picker-popup'
+        trigger="click"
+        className="color-picker-popup"
         content={(
           <ColorPickerContent
             value={adapterColor}
@@ -77,8 +84,8 @@ export function ColorPicker(props: ColorPickerProps) {
             ref={setRefEle}
             style={{
               display: 'inline-block',
-              height: 32,
-              width: 32,
+              height: 26,
+              width: 26,
               boxSizing: 'border-box',
               padding: 4,
               border: '1px solid var(--color-neutral-3, rgb(229, 230, 235))',
@@ -105,6 +112,7 @@ export function ColorPicker(props: ColorPickerProps) {
               />
             ) : (
               <img
+                alt="Color picker icon"
                 style={{
                   maxWidth: '100%',
                   maxHeight: '100%',
@@ -127,8 +135,8 @@ export function ColorPicker(props: ColorPickerProps) {
       {showInput && (
         <Input
           value={inputColor}
-          style={{ outline: 'none', flex: 1 }}
-          onChange={onInputChange}
+          style={{ outline: 'none', flex: 1, borderRadius: 0 }}
+          onChange={onInputEventChange}
         />
       )}
     </div>

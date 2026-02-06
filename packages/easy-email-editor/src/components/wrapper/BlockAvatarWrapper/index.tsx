@@ -90,7 +90,7 @@ export const BlockAvatarWrapper: React.FC<BlockAvatarWrapperProps> = props => {
 
   return (
     <div
-      style={{ cursor: 'grab' }}
+      style={{ cursor: 'grab', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
       ref={ref}
       onMouseDown={() => {
         window.getSelection()?.removeAllRanges();

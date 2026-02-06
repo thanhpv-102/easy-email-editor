@@ -11,7 +11,7 @@ export function Toolbar() {
   const { modal, setModalVisible } = useAddToCollection();
   const props = useEditorProps();
 
-  const isPage = focusBlock?.type === BasicType.PAGE;
+  const isPage = focusBlock?.type === BasicType.PAGE.toString();
   const isText = isTextBlock(focusBlock?.type);
 
   const handleMoveUp = () => {

@@ -2,13 +2,13 @@ import React, { useCallback } from 'react';
 import { ToolItem } from '../ToolItem';
 import { getLinkNode, Link, LinkParams } from '../Link';
 import {
+  AvailableTools,
   FIXED_CONTAINER_ID,
   getShadowRoot,
   IconFont,
+  MergeTagBadge,
   useEditorProps,
   useFocusBlockLayout,
-  MergeTagBadge,
-  AvailableTools,
 } from 'easy-email-editor';
 import { FontFamily } from '../FontFamily';
 import { MergeTags } from '../MergeTags';
@@ -25,16 +25,17 @@ import { FontSize } from '../FontSize';
 import { RICH_TEXT_TOOL_BAR } from '@extensions/constants';
 
 export interface ToolsProps {
-  onChange: (content: string) => any;
+  onChange: (content: string) => void;
 }
 
 export function Tools(props: ToolsProps) {
   const { mergeTags, enabledMergeTagsBadge, toolbar } = useEditorProps();
   const { focusBlockNode } = useFocusBlockLayout();
   const { selectionRange, restoreRange, setRangeByElement } = useSelectionRange();
+  const { onChange } = props;
 
   const execCommand = useCallback(
-    (cmd: string, val?: any) => {
+    (cmd: string, val?: string | LinkParams) => {
       if (!selectionRange) {
         console.error(t('No selectionRange'));
         return;
@@ -65,9 +66,9 @@ export function Tools(props: ToolsProps) {
         link.style.textDecoration = linkData.underline ? 'underline' : 'none';
         link.setAttribute('href', linkData.link.trim());
       } else if (cmd === 'insertHTML') {
-        let newContent = val;
+        let newContent = val as string;
         if (enabledMergeTagsBadge) {
-          newContent = MergeTagBadge.transform(val, uuid);
+          newContent = MergeTagBadge.transform(newContent, uuid);
         }
 
         document.execCommand(cmd, false, newContent);
@@ -77,25 +78,25 @@ export function Tools(props: ToolsProps) {
           setRangeByElement(insertMergeTagEle);
         }
       } else if (cmd === 'foreColor') {
-        document.execCommand(cmd, false, val);
+        document.execCommand(cmd, false, val as string);
         let linkNode: HTMLAnchorElement | null = getLinkNode(selectionRange);
         if (linkNode) {
           linkNode.style.color = 'inherit';
         }
       } else {
-        document.execCommand(cmd, false, val);
+        document.execCommand(cmd, false, val as string);
       }
 
       const contenteditableElement = getShadowRoot().activeElement;
       if (contenteditableElement?.getAttribute('contenteditable') === 'true') {
         const html = getShadowRoot().activeElement?.innerHTML || '';
-        props.onChange(html);
+        onChange(html);
       }
     },
     [
       enabledMergeTagsBadge,
       focusBlockNode,
-      props,
+      onChange,
       restoreRange,
       selectionRange,
       setRangeByElement,
@@ -103,15 +104,15 @@ export function Tools(props: ToolsProps) {
   );
 
   const execCommandWithRange = useCallback(
-    (cmd: string, val?: any) => {
+    (cmd: string, val?: string) => {
       document.execCommand(cmd, false, val);
       const contenteditableElement = getShadowRoot().activeElement;
       if (contenteditableElement?.getAttribute('contenteditable') === 'true') {
         const html = getShadowRoot().activeElement?.innerHTML || '';
-        props.onChange(html);
+        onChange(html);
       }
     },
-    [props.onChange],
+    [onChange],
   );
 
   const getPopoverMountNode = () => document.getElementById(FIXED_CONTAINER_ID)!;
@@ -195,6 +196,7 @@ export function Tools(props: ToolsProps) {
       case AvailableTools.IconFontColor:
         return [
           <IconFontColor
+            key={tool}
             selectionRange={selectionRange}
             execCommand={execCommand}
             getPopoverMountNode={getPopoverMountNode}
@@ -203,6 +205,7 @@ export function Tools(props: ToolsProps) {
       case AvailableTools.IconBgColor:
         return [
           <IconBgColor
+            key={tool}
             selectionRange={selectionRange}
             execCommand={execCommand}
             getPopoverMountNode={getPopoverMountNode}
@@ -222,24 +225,24 @@ export function Tools(props: ToolsProps) {
             onChange={() => execCommand('')}
           />,
         ];
-      case 'justify':
+      case AvailableTools.Justify:
         return [
           <ToolItem
             key={`${tool}-justify-left`}
             onClick={() => execCommand('justifyLeft')}
-            icon={<IconFont iconName='icon-align-left' />}
+            icon={<IconFont iconName="icon-align-left" />}
             title={t('Align left')}
           />,
           <ToolItem
             key={`${tool}-justify-center`}
             onClick={() => execCommand('justifyCenter')}
-            icon={<IconFont iconName='icon-align-center' />}
+            icon={<IconFont iconName="icon-align-center" />}
             title={t('Align center')}
           />,
           <ToolItem
             key={`${tool}-justify-right`}
             onClick={() => execCommand('justifyRight')}
-            icon={<IconFont iconName='icon-align-right' />}
+            icon={<IconFont iconName="icon-align-right" />}
             title={t('Align right')}
           />,
         ];
@@ -248,13 +251,13 @@ export function Tools(props: ToolsProps) {
           <ToolItem
             key={`${tool}-ordered-list`}
             onClick={() => execCommand('insertOrderedList')}
-            icon={<IconFont iconName='icon-list-ol' />}
+            icon={<IconFont iconName="icon-list-ol" />}
             title={t('Orderlist')}
           />,
           <ToolItem
             key={`${tool}-unordered-list`}
             onClick={() => execCommand('insertUnorderedList')}
-            icon={<IconFont iconName='icon-list-ul' />}
+            icon={<IconFont iconName="icon-list-ul" />}
             title={t('Unorderlist')}
           />,
         ];
@@ -263,7 +266,7 @@ export function Tools(props: ToolsProps) {
           <ToolItem
             key={tool}
             onClick={() => execCommand('insertHorizontalRule')}
-            icon={<IconFont iconName='icon-line' />}
+            icon={<IconFont iconName="icon-line" />}
             title={t('Line')}
           />,
         ];
@@ -272,7 +275,7 @@ export function Tools(props: ToolsProps) {
           <ToolItem
             key={tool}
             onClick={() => execCommand('removeFormat')}
-            icon={<IconFont iconName='icon-close' />}
+            icon={<IconFont iconName="icon-close" />}
             title={t('Remove format')}
           />,
         ];
@@ -300,7 +303,7 @@ export function Tools(props: ToolsProps) {
               <React.Fragment key={index}>
                 {tool}
                 <div
-                  className='easy-email-extensions-divider'
+                  className="easy-email-extensions-divider"
                 />
               </React.Fragment>
             );

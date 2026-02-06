@@ -1,4 +1,4 @@
-import { Layout, Tabs } from '@arco-design/web-react';
+import { Layout, Tabs } from 'antd';
 import { useEditorProps } from 'easy-email-editor';
 import React from 'react';
 import { Blocks } from './Blocks';
@@ -8,13 +8,11 @@ import styles from './index.module.scss';
 import { ConfigurationDrawer } from './ConfigurationDrawer';
 import { useExtensionProps } from '@extensions/components/Providers/ExtensionProvider';
 
-const TabPane = Tabs.TabPane;
-
 export function EditPanel({
-  showSourceCode,
-  jsonReadOnly,
-  mjmlReadOnly,
-}: {
+                            showSourceCode,
+                            jsonReadOnly,
+                            mjmlReadOnly,
+                          }: {
   showSourceCode: boolean;
   jsonReadOnly: boolean;
   mjmlReadOnly: boolean;
@@ -29,41 +27,41 @@ export function EditPanel({
       // collapsed={collapsed}
       collapsible
       trigger={null}
-      breakpoint='xl'
+      breakpoint="xl"
       collapsedWidth={60}
       width={360}
     >
       <Tabs
-        defaultActiveTab='2'
+        defaultActiveKey='2'
         style={{ width: '100%', padding: 0 }}
-        renderTabHeader={(_, DefaultHeader) => (
+        renderTabBar={(props, DefaultTabBar) => (
           <div className={styles.largeTabsHeader}>
-            <DefaultHeader />
+            <DefaultTabBar {...props} />
           </div>
         )}
-      >
-        <TabPane
-          key='2'
-          title={t('Block')}
-        >
-          <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-            <Blocks />
-          </FullHeightOverlayScrollbars>
-        </TabPane>
-
-        {showBlockLayer && (
-          <TabPane
-            key='1'
-            title={t('Layer')}
-          >
-            <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
-              <div style={{ padding: 20 }}>
-                <BlockLayer />
-              </div>
-            </FullHeightOverlayScrollbars>
-          </TabPane>
-        )}
-      </Tabs>
+        items={[
+          {
+            key: '2',
+            label: 'Block',
+            children: (
+              <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
+                <Blocks />
+              </FullHeightOverlayScrollbars>
+            )
+          },
+          ...(showBlockLayer ? [{
+            key: '1',
+            label: 'Layer',
+            children: (
+              <FullHeightOverlayScrollbars height={`calc(${height} - 60px)`}>
+                <div style={{ padding: 20 }}>
+                  <BlockLayer />
+                </div>
+              </FullHeightOverlayScrollbars>
+            )
+          }] : [])
+        ]}
+      />
       {!compact && (
         <ConfigurationDrawer
           height={height}

@@ -14,7 +14,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg">
   <a aria-label="React version" href="https://react.js">
-    <img alt="" src="https://img.shields.io/badge/React-18.2-yellow.svg">
+    <img alt="" src="https://img.shields.io/badge/React-19-yellow.svg">
   </a>
   <a aria-label="MJML" href="https://mjml.io/">
     <img src="https://img.shields.io/badge/MJML-awesome-rgb(120 33 117).svg">
@@ -47,10 +47,18 @@ Easy email is developed based on the [MJML](https://mjml.io/) and has very good 
 
 Looking for ready-to-use templates? Check out our free collection of [MJML and HTML email templates](https://github.com/Easy-Email-Pro/email-templates).
 
+## 🔄 Changes from Original
+
+This fork includes the following major changes from the original repository:
+
+- **React 19 Support** ✅ - Fully compatible with React 19
+- **Replaced final-form with react-hook-form** - More modern and lightweight form management
+- **Switched from Arco Design to Ant Design** - Better component library and wider community support
+
 ## 🚀 Getting Started
 
 ```sh
-$ npm install --save easy-email-core easy-email-editor easy-email-extensions react-final-form
+$ npm install --save @thanhpv102/easy-email-core @thanhpv102/easy-email-editor @thanhpv102/easy-email-extensions
 ```
 
 ```js
@@ -61,7 +69,7 @@ import { ExtensionProps, StandardLayout } from 'easy-email-extensions';
 
 import 'easy-email-editor/lib/style.css';
 import 'easy-email-extensions/lib/style.css';
-import '@arco-themes/react-easy-email-theme/css/arco.css';
+import 'antd/dist/reset.css';
 
 const initialValues = {
   subject: 'Welcome to Easy-email',

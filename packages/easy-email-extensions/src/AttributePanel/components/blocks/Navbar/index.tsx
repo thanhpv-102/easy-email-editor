@@ -2,10 +2,10 @@ import React from 'react';
 import { ColorPickerField, EditTabField, SelectField, TextField } from '@extensions/components/Form';
 import { Align } from '@extensions/AttributePanel/components/attributes/Align';
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
-import { Collapse, Grid, Space } from '@arco-design/web-react';
-import { IconLink } from '@arco-design/web-react/icon';
+import { Col, Collapse, Row, Space } from 'antd';
+import { LinkOutlined } from '@ant-design/icons';
 import { NavbarLinkPadding } from '@extensions/AttributePanel/components/attributes/NavbarLinkPadding';
-import { useFocusIdx, Stack } from 'easy-email-editor';
+import { Stack, useFocusIdx } from 'easy-email-editor';
 import { INavbar } from 'easy-email-core';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
@@ -25,35 +25,34 @@ export function Navbar() {
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
-        <Collapse.Item
-          name='0'
+        <Collapse.Panel
+          key="0"
           header={t('Layout')}
         >
           <Stack
             vertical
-            spacing='tight'
+            spacing="tight"
           >
             <Align />
           </Stack>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          contentStyle={{ padding: 0 }}
-          name='1'
+        <Collapse.Panel
+          key="1"
           header={t('Navbar links')}
         >
           <Space
-            direction='vertical'
+            orientation="vertical"
             style={{ width: '100%' }}
           >
             <EditTabField
-              tabPosition='top'
+              tabPlacement="top"
               name={`${focusIdx}.data.value.links`}
               label={t('Links')}
               labelHidden
-              renderItem={(item, index) => (
+              renderItem={(item: unknown, index: number) => (
                 <NavbarLink
-                  item={item}
+                  item={item as INavbar['data']['value']['links'][number]}
                   index={index}
                 />
               )}
@@ -67,42 +66,41 @@ export function Navbar() {
             />
             <div />
           </Space>
-        </Collapse.Item>
-        <Collapse.Item
-          name='4'
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="4"
           header={t('Extra')}
         >
-          <Grid.Col span={24}>
+          <Col span={24}>
             <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
+          </Col>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );
 }
 
 function NavbarLink({
-  item,
   index,
 }: {
-  item: INavbar['data']['value']['links'];
+  item: INavbar['data']['value']['links'][number];
   index: number;
 }) {
   const { focusIdx } = useFocusIdx();
   return (
-    <div className='NavbarLink'>
+    <div className="NavbarLink">
       <Space
-        direction='vertical'
+        orientation="vertical"
         style={{ width: '100%' }}
       >
-        <Grid.Row>
-          <Grid.Col span={11}>
+        <Row>
+          <Col span={11}>
             <TextField
               label={t('Content')}
               name={`${focusIdx}.data.value.links.[${index}].content`}
             />
-          </Grid.Col>
-          <Grid.Col
+          </Col>
+          <Col
             offset={1}
             span={11}
           >
@@ -110,14 +108,14 @@ function NavbarLink({
               label={t('Color')}
               name={`${focusIdx}.data.value.links.[${index}].color`}
             />
-          </Grid.Col>
-        </Grid.Row>
+          </Col>
+        </Row>
 
-        <Grid.Row>
-          <Grid.Col span={11}>
+        <Row>
+          <Col span={11}>
             <FontFamily name={`${focusIdx}.data.value.links.[${index}].font-family`} />
-          </Grid.Col>
-          <Grid.Col
+          </Col>
+          <Col
             offset={1}
             span={11}
           >
@@ -125,60 +123,60 @@ function NavbarLink({
               label={t('Font size (px)')}
               name={`${focusIdx}.data.value.links.[${index}].font-size`}
               config={pixelAdapter}
-              autoComplete='off'
+              autoComplete="off"
             />
-          </Grid.Col>
-        </Grid.Row>
+          </Col>
+        </Row>
 
-        <Grid.Row>
-          <Grid.Col span={11}>
+        <Row>
+          <Col span={11}>
             <LineHeight name={`${focusIdx}.data.value.links.[${index}].line-height`} />
-          </Grid.Col>
-          <Grid.Col
+          </Col>
+          <Col
             offset={1}
             span={11}
           >
             <LetterSpacing
               name={`${focusIdx}.data.value.links.[${index}].letter-spacing`}
             />
-          </Grid.Col>
-        </Grid.Row>
+          </Col>
+        </Row>
 
-        <Grid.Row>
-          <Grid.Col span={11}>
+        <Row>
+          <Col span={11}>
             <TextDecoration
               name={`${focusIdx}.data.value.links.[${index}].text-decoration`}
             />
-          </Grid.Col>
-          <Grid.Col
+          </Col>
+          <Col
             offset={1}
             span={11}
           >
             <FontWeight name={`${focusIdx}.data.value.links.[${index}].font-weight`} />
-          </Grid.Col>
-        </Grid.Row>
+          </Col>
+        </Row>
 
-        <Grid.Row>
-          <Grid.Col span={11}>
+        <Row>
+          <Col span={11}>
             <TextTransform
               name={`${focusIdx}.data.value.links.[${index}].text-transform`}
             />
-          </Grid.Col>
-          <Grid.Col
+          </Col>
+          <Col
             offset={1}
             span={11}
           />
-        </Grid.Row>
+        </Row>
         <FontStyle name={`${focusIdx}.data.value.links.[${index}].font-style`} />
-        <Grid.Row>
-          <Grid.Col span={11}>
+        <Row>
+          <Col span={11}>
             <TextField
-              prefix={<IconLink />}
+              prefix={<LinkOutlined />}
               label={<span>{t('Url')}</span>}
               name={`${focusIdx}.data.value.links.[${index}].href`}
             />
-          </Grid.Col>
-          <Grid.Col
+          </Col>
+          <Col
             offset={1}
             span={11}
           >
@@ -197,10 +195,9 @@ function NavbarLink({
                 },
               ]}
             />
-          </Grid.Col>
-        </Grid.Row>
+          </Col>
+        </Row>
         <NavbarLinkPadding
-          key={index}
           name={`${focusIdx}.data.value.links.[${index}].padding`}
         />
         <div />

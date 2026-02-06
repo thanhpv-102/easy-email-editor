@@ -2,7 +2,6 @@ import React from 'react';
 import { IBlock, IBlockData } from '@core/typings';
 import { BasicType } from '@core/constants';
 import { createBlock } from '@core/utils/createBlock';
-import { getImg } from '@core/utils/getImg';
 import { mergeBlock } from '@core/utils/mergeBlock';
 import { t } from '@core/utils';
 import { BasicBlock } from '@core/components/BasicBlock';
@@ -58,7 +57,7 @@ export type ISocial = IBlockData<
 
 export const Social: IBlock<ISocial> = createBlock({
   get name() {
-    return t('Social');
+    return 'Social';
   },
   type: BasicType.SOCIAL,
   create: (payload) => {
@@ -70,19 +69,19 @@ export const Social: IBlock<ISocial> = createBlock({
             {
               href: '#',
               target: '_blank',
-              src: getImg('IMAGE_02'),
+              src: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxODc3RjIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTggMmgtM2E1IDUgMCAwIDAtNSA1djNoLTNWMTNoM3Y4aDR2LThoM2wtMS0zaC0yVjdhMyAzIDAgMCAxIDMtM2gxeiIvPjwvc3ZnPg==',
               content: 'Facebook',
             },
             {
               href: '#',
               target: '_blank',
-              src: getImg('IMAGE_03'),
+              src: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiNFQTQzMzUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCIvPjxjaXJjbGUgY3g9IjEyIiBjeT0iMTIiIHI9IjQiLz48cGF0aCBkPSJNMjEuMTcgOGgtMy4zNCIvPjxwYXRoIGQ9Ik02LjE3IDgtMi44MyA4Ii8+PC9zdmc+',
               content: 'Google',
             },
             {
               href: '',
               target: '_blank',
-              src: getImg('IMAGE_04'),
+              src: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiMxREExRjIiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMjIgNGwtMy0zTTIyIDRsMy0zTTIyIDRWMTdhMiAyIDAgMCAxLTIgMkg0YTIgMiAwIDAgMS0yLTJWOCIvPjxwYXRoIGQ9Im0zIDggOS41IDgiLz48cGF0aCBkPSJtMjEgOC04LjUgOCIvPjwvc3ZnPg==',
               content: 'Twitter',
             },
           ],

@@ -29,8 +29,9 @@ export function Align({ inline }: { inline?: boolean }) {
   return (
     <RadioGroupField
       label={t('Align')}
-      name={`${focusIdx}.attributes.align`}
+      key={`${focusIdx}.attributes.align`}
       options={options}
+      name={`${focusIdx}.attributes.align`}
     />
   );
 }

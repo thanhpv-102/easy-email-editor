@@ -1,17 +1,11 @@
-import { PopoverProps, Tooltip } from '@arco-design/web-react';
+import { Tooltip } from 'antd';
+import type { TooltipProps } from 'antd';
 import React, { useCallback, useMemo } from 'react';
 import { IconFont } from 'easy-email-editor';
 import { ToolItem } from '../ToolItem';
 import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
 
-export interface LinkParams {
-  link: string;
-  blank: boolean;
-  underline: boolean;
-  linkNode: HTMLAnchorElement | null;
-}
-
-export interface LinkProps extends PopoverProps {
+export interface LinkProps extends Omit<TooltipProps, 'title'> {
   currentRange: Range | null | undefined;
   onChange: () => void;
 }
@@ -29,7 +23,7 @@ function getAnchorElement(
 }
 
 function getLinkNode(
-  currentRange: Range | null | undefined
+  currentRange: Range | null | undefined,
 ): HTMLAnchorElement | null {
   let linkNode: HTMLAnchorElement | null = null;
   if (!currentRange) return null;
@@ -52,12 +46,8 @@ export function Unlink(props: LinkProps) {
   }, [linkNode, onChange]);
 
   return (
-    <Tooltip
-      color='#fff'
-      position='tl'
-      content={t('Unlink')}
-    >
-      <ToolItem title={t('Unlink')} icon={<IconFont iconName='icon-unlink' />} onClick={onUnlink} />
+    <Tooltip title={t('Unlink')}>
+      <ToolItem title={t('Unlink')} icon={<IconFont iconName="icon-unlink" />} onClick={onUnlink} />
     </Tooltip>
   );
 }

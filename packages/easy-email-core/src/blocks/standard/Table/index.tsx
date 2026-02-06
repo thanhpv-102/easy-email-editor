@@ -10,7 +10,7 @@ export type ITable = IBlockData<{}, { content: string }>;
 
 export const Table = createBlock<ITable>({
   get name() {
-    return t('Table');
+    return 'Table';
   },
   type: BasicType.TABLE,
   create: payload => {

@@ -5,11 +5,11 @@ import visualizer from 'rollup-plugin-visualizer';
 export default defineConfig({
   plugins: [
     process.env.ANALYZE === 'true' &&
-      visualizer({
-        open: true,
-        gzipSize: true,
-        brotliSize: true,
-      }),
+    visualizer({
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+    }),
   ].filter(Boolean) as any,
   resolve: {
     alias: {
@@ -38,7 +38,7 @@ export default defineConfig({
         'react-dom',
         'react-dom/server',
         'mjml-browser',
-        'react-final-form',
+        'react-hook-form',
         'easy-email-core',
         'easy-email-editor',
         'uuid',

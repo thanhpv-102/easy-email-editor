@@ -1,65 +1,64 @@
 import React, { useMemo } from 'react';
 import { useFocusIdx, IconFont } from 'easy-email-editor';
-import { IconLink } from '@arco-design/web-react/icon';
+import { LinkOutlined } from '@ant-design/icons';
 import { SelectField, TextField } from '../../../components/Form';
-import { Grid, Popover, Space, Button as ArcoButton } from '@arco-design/web-react';
+import { Row, Col, Popover, Space, Button } from 'antd';
 import { MergeTags } from './MergeTags';
-import { useField } from 'react-final-form';
+import { useField } from 'easy-email-editor';
 
 export function Link() {
   const { focusIdx } = useFocusIdx();
   const { input } = useField(`${focusIdx}.attributes.href`, {
-    parse: v => v,
+    parse: (v: string) => v,
   });
 
   return useMemo(() => {
     return (
-      <Grid.Row>
-        <Grid.Col span={11}>
+      <Row>
+        <Col span={11}>
           <TextField
-            prefix={<IconLink />}
+            prefix={<LinkOutlined />}
             label={
-              <Space>
-                <span>{t('Href')}&nbsp;&nbsp;&nbsp;</span>
-                <Popover
-                  trigger='click'
-                  content={
-                    <MergeTags
-                      value={input.value}
-                      onChange={input.onChange}
+              (
+                <Space>
+                  <span>{'Href'}&nbsp;&nbsp;&nbsp;</span>
+                  <Popover
+                    trigger='click'
+                    content={
+                      <MergeTags value={input.value || ''} onChange={input.onChange} />
+                    }
+                  >
+                    <Button
+                      type='text'
+                      icon={<IconFont iconName='icon-merge-tags' />}
                     />
-                  }
-                >
-                  <ArcoButton
-                    type='text'
-                    icon={<IconFont iconName='icon-merge-tags' />}
-                  />
-                </Popover>
-              </Space>
+                  </Popover>
+                </Space>
+              )
             }
             name={`${focusIdx}.attributes.href`}
           />
-        </Grid.Col>
-        <Grid.Col
+        </Col>
+        <Col
           offset={1}
           span={11}
         >
           <SelectField
-            label={t('Target')}
+            label={'Target'}
             name={`${focusIdx}.attributes.target`}
             options={[
               {
                 value: '',
-                label: t('_self'),
+                label: '_self',
               },
               {
                 value: '_blank',
-                label: t('_blank'),
+                label: '_blank',
               },
             ]}
           />
-        </Grid.Col>
-      </Grid.Row>
+        </Col>
+      </Row>
     );
-  }, [focusIdx]);
+  }, [focusIdx, input.value, input.onChange]);
 }

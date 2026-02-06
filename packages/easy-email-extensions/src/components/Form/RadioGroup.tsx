@@ -1,9 +1,10 @@
-import { Radio, RadioGroupProps as ArcoRadioGroupProps } from '@arco-design/web-react';
+import { Radio } from 'antd';
+import type { RadioGroupProps as AntdRadioGroupProps } from 'antd';
 import { merge } from 'lodash';
 import React from 'react';
 import { Stack } from 'easy-email-editor';
 
-export interface RadioGroupProps extends ArcoRadioGroupProps {
+export interface RadioGroupProps extends Omit<AntdRadioGroupProps, 'onChange' | 'value' | 'options'> {
   options: Array<{ value: string; label: React.ReactNode }>;
   onChange?: (value: string) => void;
   value?: string;
@@ -12,16 +13,17 @@ export interface RadioGroupProps extends ArcoRadioGroupProps {
 }
 
 export function RadioGroup(props: RadioGroupProps) {
-  const { type, vertical, ...rest } = props;
+  const { vertical, options, onChange, value, style, ...rest } = props;
+
   return (
     <Radio.Group
       {...rest}
-      style={merge({ width: '100%' }, rest.style)}
-      value={rest.value}
-      onChange={rest.onChange}
+      style={merge({ width: '100%' }, style)}
+      value={value}
+      onChange={(e) => onChange?.(String(e.target.value))}
     >
       <Stack vertical={vertical} spacing='extraTight'>
-        {rest.options.map((item, index) => (
+        {options.map((item, index) => (
           <Radio key={index} value={item.value}>
             {item.label}
           </Radio>

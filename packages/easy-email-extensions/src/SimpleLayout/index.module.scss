@@ -23,8 +23,37 @@
 }
 
 .rightSide {
+  width: 280px !important;
+  min-width: 250px !important;
+  max-width: 280px !important;
   :global {
     .arco-tabs-header {
+    }
+    .arco-btn {
+      padding: 4px 12px !important;
+      font-size: 12px !important;
+      height: 28px !important;
+    }
+    .arco-input {
+      font-size: 12px !important;
+      height: 28px !important;
+      padding: 4px 8px !important;
+    }
+    .arco-select {
+      font-size: 12px !important;
+    }
+    .arco-select-view {
+      height: 28px !important;
+    }
+    .arco-form-item-label {
+      font-size: 12px !important;
+    }
+    .arco-form-item-content {
+      font-size: 12px !important;
+    }
+    textarea {
+      font-size: 12px !important;
+      padding: 4px 8px !important;
     }
   }
 }
@@ -48,6 +77,10 @@
     }
   }
 }
+.layoutTabs {
+  margin: 0;
+}
+
 .customScrollBarV2 {
   overflow: scroll;
   &::-webkit-scrollbar {

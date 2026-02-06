@@ -4,6 +4,16 @@ import { Button } from '../Button';
 import { Stack } from '../Stack';
 import './index.scss';
 
+// Helper function to extract enum value from Babel-compiled string
+function extractKeyValue(key: any): string {
+  const keyStr = String(key || '');
+  // Remove Babel enum prefix like ".$EDIT" -> "EDIT"
+  if (keyStr.startsWith('.$')) {
+    return keyStr.substring(2);
+  }
+  return keyStr;
+}
+
 export interface TabsProps {
   children?: React.ReactNode;
   tabBarExtraContent?: React.ReactNode;
@@ -23,30 +33,40 @@ export interface TabPaneProps {
 }
 
 const Tabs: React.FC<TabsProps> = props => {
-  const [activeTab, setActiveTab] = useState<string>(props.defaultActiveTab || '');
+  // Initialize with prop value if provided, otherwise use defaultActiveTab
+  const [internalActiveTab, setInternalActiveTab] = useState<string>(
+    props.activeTab || props.defaultActiveTab || ''
+  );
+
+  // Always use props.activeTab if provided (controlled mode), otherwise use internal state (uncontrolled mode)
+  const activeTab = props.activeTab !== undefined ? props.activeTab : internalActiveTab;
+
 
   const onClick = useCallback(
     (nextTab: string) => {
+      // Always update internal state so uncontrolled mode works
+      setInternalActiveTab(nextTab);
+
       if (!props.onBeforeChange) {
-        setActiveTab(nextTab);
         props.onChange?.(nextTab);
-      }
-      if (props.onBeforeChange) {
+      } else {
         const next = props.onBeforeChange(activeTab, nextTab);
         if (next) {
-          setActiveTab(nextTab);
           props.onChange?.(nextTab);
         }
       }
     },
-    [activeTab, props],
+    [activeTab, props.onBeforeChange, props.onChange],
   );
 
+  // Sync internal state when props.activeTab explicitly changes
   useEffect(() => {
-    if (props.activeTab) {
-      setActiveTab(props.activeTab);
+    if (props.activeTab !== undefined) {
+      setInternalActiveTab(props.activeTab);
     }
   }, [props.activeTab]);
+
+  const childrenArray = React.Children.toArray(props.children) as React.ReactElement<TabPaneProps>[];
 
   return (
     <div
@@ -59,46 +79,45 @@ const Tabs: React.FC<TabsProps> = props => {
           alignment='center'
         >
           <Stack alignment='center'>
-            {React.Children.map(
-              props.children as any,
-              (item: { props: { tab: TabPaneProps }; key: string }, index) => {
+            {childrenArray.map((item, index) => {
+                const itemKey = extractKeyValue(item.key) || String(index);
+                const isActive = activeTab === itemKey;
                 return (
                   <div
-                    key={item.key}
-                    onClick={() => onClick(item.key)}
+                    key={itemKey}
+                    onClick={() => onClick(itemKey)}
                     className={classnames(
                       'easy-email-editor-tabItem',
-                      !activeTab && index === 0 && 'easy-email-editor-tabActiveItem',
-                      activeTab === item.key && 'easy-email-editor-tabActiveItem',
+                      isActive && 'easy-email-editor-tabActiveItem',
                     )}
                   >
                     <Button noBorder>
-                      <>{item.props.tab}</>
+                      {/* @ts-ignore */}
+                      {item.props.tab}
                     </Button>
                   </div>
                 );
-              },
-            )}
+              })}
           </Stack>
           {props.tabBarExtraContent}
         </Stack>
       </div>
-      {React.Children.map(
-        props.children as any,
-        (item: { props: { tab: TabPaneProps }; key: string }, index) => {
-          const visible = (!activeTab && index === 0) || item.key === activeTab;
+      {childrenArray.map((item, index) => {
+          const itemKey = extractKeyValue(item.key) || String(index);
+          const visible = itemKey === activeTab;
           return (
             <div
+              key={itemKey}
               style={{
                 display: visible ? undefined : 'none',
                 height: 'calc(100% - 50px)',
               }}
             >
-              <>{item}</>
+              {/* @ts-ignore */}
+              {item}
             </div>
           );
-        },
-      )}
+        })}
     </div>
   );
 };

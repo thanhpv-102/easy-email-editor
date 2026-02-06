@@ -229,7 +229,7 @@ export const getCorrectTableIndexBoundary = (
       const _tdIndex = tdIndex - mergedTds.length;
       const td = tr[_tdIndex];
       if (!td) {
-        console.log('error case, should fix this error.');
+        console.error('error case, should fix this error.');
         return;
       }
       const rowSpan = td.rowSpan || 1;

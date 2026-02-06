@@ -1,11 +1,12 @@
-import { PopoverProps, Tooltip } from '@arco-design/web-react';
+import type { TooltipProps } from 'antd';
+import { Tooltip } from 'antd';
 import React, { useCallback, useMemo } from 'react';
 import { IconFont } from 'easy-email-editor';
 import { ToolItem } from '../ToolItem';
 import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
 import { useSelectionRange } from '@extensions/AttributePanel/hooks/useSelectionRange';
 
-export interface LinkProps extends PopoverProps {
+export interface LinkProps extends Omit<TooltipProps, 'title'> {
   currentRange: Range | null | undefined;
   onChange: () => void;
 }
@@ -35,12 +36,13 @@ export function StrikeThrough(props: LinkProps) {
   }, [node, onChange, setRangeByElement]);
 
   return (
-    <Tooltip
-      color='#fff'
-      position='tl'
-      content={t('Strikethrough')}
-    >
-      <ToolItem title={t('Strikethrough')} isActive={Boolean(node)} icon={<IconFont iconName='icon-strikethrough' />} onClick={onClick} />
+    <Tooltip title={t('Strikethrough')}>
+      <ToolItem
+        title={t('Strikethrough')}
+        isActive={Boolean(node)}
+        icon={<IconFont iconName="icon-strikethrough" />}
+        onClick={onClick}
+      />
     </Tooltip>
   );
 }

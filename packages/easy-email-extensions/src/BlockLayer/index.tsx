@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useRef } from 'react';
 import {
   DATA_ATTRIBUTE_DROP_CONTAINER,
   IconFont,
@@ -28,7 +28,7 @@ import { ContextMenu } from './components/ContextMenu';
 import { classnames } from '@extensions/utils/classnames';
 import { getDirectionFormDropPosition, useAvatarWrapperDrop } from './hooks/useAvatarWrapperDrop';
 import { getIconNameByBlockType } from '@extensions/utils/getIconNameByBlockType';
-import { Space } from '@arco-design/web-react';
+import { Space } from 'antd';
 import { getBlockTitle } from '@extensions/utils/getBlockTitle';
 
 export interface IBlockDataWithId extends IBlockData {
@@ -75,7 +75,7 @@ export function BlockLayer(props: BlockLayerProps) {
 
   const renderTitle = useCallback(
     (data: IBlockDataWithId) => {
-      const isPage = data.type === BasicType.PAGE;
+      const isPage = data.type === BasicType.PAGE.toString();
       const title = propsRenderTitle ? propsRenderTitle(data) : getBlockTitle(data);
       return (
         <div
@@ -88,7 +88,7 @@ export function BlockLayer(props: BlockLayerProps) {
         >
           <Space
             align='center'
-            size='mini'
+            size='small'
           >
             <IconFont
               iconName={getIconNameByBlockType(data.type)}
@@ -153,7 +153,7 @@ export function BlockLayer(props: BlockLayerProps) {
     [],
   );
 
-  const onCloseContextMenu = useCallback((ev?: React.MouseEvent) => {
+  const onCloseContextMenu = useCallback(() => {
     setContextMenuData(null);
   }, []);
 
@@ -206,30 +206,32 @@ export function BlockLayer(props: BlockLayerProps) {
     [moveBlock],
   );
 
-  const blockTreeAllowDrop: BlockTreeProps<IBlockDataWithId>['allowDrop'] = useCallback(
-    (() => {
-      let lastDropResult: ReturnType<typeof allowDrop> = false;
-      return (data: Parameters<typeof allowDrop>[0]) => {
-        const dropResult = allowDrop(data);
-        if (isEqual(lastDropResult, dropResult)) {
-          return dropResult;
-        }
-        lastDropResult = dropResult;
-        if (dropResult) {
-          const node = document.querySelector(`[data-tree-idx="${dropResult.key}"]`)
-            ?.parentNode?.parentNode;
-          if (node instanceof HTMLElement) {
-            removeHightLightClassName();
-            node.classList.add('arco-tree-node-title-gap-bottom');
-          }
-          setDirection(getDirectionFormDropPosition(dropResult.position));
-          setHoverIdx(dropResult.key);
-        }
+  const lastDropResultRef = useRef<ReturnType<typeof allowDrop>>(false);
 
+  const blockTreeAllowDrop: BlockTreeProps<IBlockDataWithId>['allowDrop'] = useCallback(
+    (data) => {
+      const dropResult = allowDrop(data);
+      if (isEqual(lastDropResultRef.current, dropResult)) {
         return dropResult;
-      };
-    })(),
-    [allowDrop, removeHightLightClassName, setDirection, setHoverIdx],
+      }
+      lastDropResultRef.current = dropResult;
+      if (dropResult) {
+        setIsDragging(true);  // Auto-set isDragging when drag is valid
+        const node = document.querySelector(`[data-tree-idx="${dropResult.key}"]`)
+          ?.parentNode?.parentNode;
+        if (node instanceof HTMLElement) {
+          removeHightLightClassName();
+          node.classList.add('arco-tree-node-title-gap-bottom');
+        }
+        setDirection(getDirectionFormDropPosition(dropResult.position));
+        setHoverIdx(dropResult.key);
+      } else {
+        setIsDragging(false);  // Clear isDragging when drag is invalid
+      }
+
+      return dropResult;
+    },
+    [allowDrop, removeHightLightClassName, setDirection, setHoverIdx, setIsDragging],
   );
 
   const selectedKeys = useMemo(() => {

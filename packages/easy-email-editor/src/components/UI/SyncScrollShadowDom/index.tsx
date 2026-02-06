@@ -74,19 +74,26 @@ export const SyncScrollShadowDom: React.FC<React.HTMLProps<HTMLElement> & { isAc
   }, [root, viewElementRef, activeTab, isActive]);
 
   useEffect(() => {
-    if (ref) {
-      const root = ref.attachShadow({ mode: 'open' });
-      setRoot(root);
-      if (!ref.shadowRoot) return;
+    if (ref && !ref.shadowRoot) {
+      try {
+        const root = ref.attachShadow({ mode: 'open' });
+        setRoot(root);
 
-      const onScroll = () => {
-        if (!ref.shadowRoot) return;
-        setFirstVisibleEle(ref);
-      };
-      ref.shadowRoot.addEventListener('scroll', onScroll, true);
-      return () => {
-        ref.shadowRoot?.removeEventListener('scroll', onScroll, true);
-      };
+        const onScroll = () => {
+          if (ref.shadowRoot) {
+            setFirstVisibleEle(ref);
+          }
+        };
+
+        // Add scroll listener to the shadow root elements
+        root.addEventListener('scroll', onScroll, true);
+
+        return () => {
+          root.removeEventListener('scroll', onScroll, true);
+        };
+      } catch (error) {
+        console.error('Error attaching shadow root:', error);
+      }
     }
   }, [ref, setFirstVisibleEle]);
 

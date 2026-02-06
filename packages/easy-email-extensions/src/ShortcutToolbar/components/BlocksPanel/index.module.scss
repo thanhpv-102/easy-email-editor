@@ -2,6 +2,16 @@
   img {
     max-width: 100%;
   }
+
+  :global {
+    .ant-tooltip {
+      z-index: 10000 !important;
+    }
+
+    .ant-tooltip-inner {
+      z-index: 10000 !important;
+    }
+  }
 }
 .blockItem {
   text-align: center;

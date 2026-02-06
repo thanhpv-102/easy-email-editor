@@ -1,8 +1,7 @@
 import { AttributesPanelWrapper } from '@extensions/AttributePanel';
-import { Collapse, Tooltip, Button } from '@arco-design/web-react';
-import { IconFont, Stack, useFocusIdx } from 'easy-email-editor';
-import React, { useState } from 'react';
-import { Border } from '../../attributes/Border';
+import { Collapse } from 'antd';
+import { Stack, useFocusIdx } from 'easy-email-editor';
+import React from 'react';
 import { Color } from '../../attributes/Color';
 import { ContainerBackgroundColor } from '../../attributes/ContainerBackgroundColor';
 import { FontFamily } from '../../attributes/FontFamily';
@@ -11,14 +10,8 @@ import { FontStyle } from '../../attributes/FontStyle';
 import { Padding } from '../../attributes/Padding';
 import { TextAlign } from '../../attributes/TextAlign';
 import { Width } from '../../attributes/Width';
-import { HtmlEditor } from '../../UI/HtmlEditor';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
-import {
-  ColorPickerField,
-  InputWithUnitField,
-  NumberField,
-  TextField,
-} from '@extensions';
+import { ColorPickerField, InputWithUnitField, NumberField, TextField } from '@extensions';
 import { pixelAdapter } from '../../adapter';
 
 export function AdvancedTable() {
@@ -26,9 +19,9 @@ export function AdvancedTable() {
   return (
     <AttributesPanelWrapper>
       <CollapseWrapper defaultActiveKey={['-1', '0', '1', '2', '3']}>
-        <Collapse.Item
-          name='1'
-          header={t('Dimension')}
+        <Collapse.Panel
+          key="1"
+          header={'Dimension'}
         >
           <Stack>
             <Width />
@@ -38,45 +31,46 @@ export function AdvancedTable() {
             <Padding />
           </Stack>
           <NumberField
-            label='Cell padding (px)'
+            label="Cell padding (px)"
             name={`${focusIdx}.attributes.cellPadding`}
             config={pixelAdapter}
             max={20}
             min={0}
             step={1}
           />
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='2'
-          header={t('Decoration')}
+        <Collapse.Panel
+          key="2"
+          header={'Decoration'}
         >
           <Color />
           <ContainerBackgroundColor />
           <TextField
-            label='Table border'
+            label="Table border"
             name={`${focusIdx}.attributes.border`}
           />
           <ColorPickerField
-            label='Cell border color'
+            label="Cell border color"
             name={`${focusIdx}.attributes.cellBorderColor`}
+            key={`${focusIdx}.attributes.cellBorderColor`}
           />
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='2'
+        <Collapse.Panel
+          key="2"
           header={t('Typography')}
         >
           <FontFamily />
           <FontSize />
           <InputWithUnitField
             label={t('Line height')}
-            unitOptions='percent'
+            unitOptions="percent"
             name={`${focusIdx}.attributes.line-height`}
           />
           <FontStyle />
           <TextAlign />
-        </Collapse.Item>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );

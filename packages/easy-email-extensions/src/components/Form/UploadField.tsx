@@ -1,7 +1,7 @@
 import { Uploader } from '@extensions/AttributePanel/utils/Uploader';
-import { Input } from '@arco-design/web-react';
+import { Input } from 'antd';
+import { LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import React, { useEffect, useRef, useState } from 'react';
-import { IconUpload, IconLoading } from '@arco-design/web-react/icon';
 
 export interface UploadFieldProps {
   onChange: (val: string) => void;
@@ -18,7 +18,7 @@ export function UploadField(props: UploadFieldProps) {
     new Uploader(uploadHandler, {
       limit: 1,
       accept,
-    })
+    }),
   );
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export function UploadField(props: UploadFieldProps) {
         onChange(
           photos
             .filter((item) => item.status === 'done')
-            .map((item) => item.url)[0] || ''
+            .map((item) => item.url)[0] || '',
         );
       });
     });
@@ -40,11 +40,15 @@ export function UploadField(props: UploadFieldProps) {
     uploader.chooseFile();
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value);
+  };
+
   return (
     <Input
-      prefix={loading ? <IconLoading /> : <IconUpload onClick={onClick} />}
+      prefix={loading ? <LoadingOutlined /> : <UploadOutlined onClick={onClick} style={{ cursor: 'pointer' }} />}
       value={props.value}
-      onChange={inputDisabled ? undefined : (value) => onChange(value)}
+      onChange={inputDisabled ? undefined : handleChange}
     />
   );
 }

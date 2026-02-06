@@ -1,3 +1,4 @@
+
 import React, { useRef } from 'react';
 import { IconFont, TextStyle, scrollBlockEleIntoView, useBlock, useEditorProps } from 'easy-email-editor';
 import { getIndexByIdx, getSiblingIdx } from 'easy-email-core';
@@ -76,16 +77,16 @@ export function ContextMenu({
         {!isFirst && (
           <div className={styles.listItem} onClick={handleMoveUp}>
             <IconFont iconName='icon-top' style={{ marginRight: 10 }} />{' '}
-            <TextStyle>{t('Move up')}</TextStyle>
+            <TextStyle>{'Move up'}</TextStyle>
           </div>
         )}
         <div className={styles.listItem} onClick={handleMoveDown}>
           <IconFont iconName='icon-bottom' style={{ marginRight: 10 }} />{' '}
-          <TextStyle>{t('Move down')}</TextStyle>
+          <TextStyle>{'Move down'}</TextStyle>
         </div>
         <div className={styles.listItem} onClick={handleCopy}>
           <IconFont iconName='icon-copy' style={{ marginRight: 10 }} />{' '}
-          <TextStyle>{t('Copy')}</TextStyle>
+          <TextStyle>{'Copy'}</TextStyle>
         </div>
         {props.onAddCollection && (
             <div className={styles.listItem} onClick={handleAddToCollection}>
@@ -95,7 +96,7 @@ export function ContextMenu({
         )}
         <div className={styles.listItem} onClick={handleDelete}>
           <IconFont iconName='icon-delete' style={{ marginRight: 10 }} />{' '}
-          <TextStyle>{t('Delete')}</TextStyle>
+          <TextStyle>{'Delete'}</TextStyle>
         </div>
       </div>
       <div

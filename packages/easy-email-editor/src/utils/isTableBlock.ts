@@ -1,4 +1,4 @@
-import { BasicType, AdvancedType } from '@thanhpv102/easy-email-core';
+import { BasicType, AdvancedType } from 'easy-email-core';
 
 export function isTableBlock(blockType: any) {
   return blockType === AdvancedType.TABLE;

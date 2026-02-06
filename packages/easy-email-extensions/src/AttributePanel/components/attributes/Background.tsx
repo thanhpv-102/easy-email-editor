@@ -2,31 +2,31 @@ import React, { useMemo } from 'react';
 import { ImageUploaderField, SelectField, TextField } from '../../../components/Form';
 import { useFocusIdx, useEditorProps } from 'easy-email-editor';
 import { BackgroundColor } from './BackgroundColor';
-import { Grid, Space } from '@arco-design/web-react';
+import { Row, Col, Space } from 'antd';
 
 const backgroundRepeatOptions = [
   {
     value: 'no-repeat',
     get label() {
-      return t('No repeat');
+      return 'No repeat';
     },
   },
   {
     value: 'repeat',
     get label() {
-      return t('Repeat');
+      return 'Repeat';
     },
   },
   {
     value: 'repeat-x',
     get label() {
-      return t('Repeat X');
+      return 'Repeat X';
     },
   },
   {
     value: 'repeat-y',
     get label() {
-      return t('Repeat Y');
+      return 'Repeat Y';
     },
   },
 ];
@@ -37,36 +37,39 @@ export function Background() {
   return useMemo(() => {
     return (
       <Space
-        key={focusIdx}
-        direction='vertical'
+        orientation='vertical'
+        size='small'
       >
         <ImageUploaderField
-          label={t('Background image')}
+          label={'Background image'}
           name={`${focusIdx}.attributes.background-url`}
-          helpText={t(
-            'The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.',
-          )}
+          key={`${focusIdx}.attributes.background-url`}
+          helpText={
+            'The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.'
+          }
           uploadHandler={onUploadImage}
         />
 
-        <Grid.Row>
-          <Grid.Col span={11}>
+        <Row>
+          <Col span={11}>
             <BackgroundColor />
-          </Grid.Col>
-          <Grid.Col
+          </Col>
+          <Col
             offset={1}
             span={11}
           >
             <SelectField
-              label={t('Background repeat')}
-              name={`${focusIdx}.attributes.background-repeat`}
+              label={'Background repeat'}
+              key={`${focusIdx}.attributes.background-repeat`}
               options={backgroundRepeatOptions}
+              name={`${focusIdx}.attributes.background-repeat`}
             />
-          </Grid.Col>
-        </Grid.Row>
+          </Col>
+        </Row>
         <TextField
-          label={t('Background size')}
+          label={'Background size'}
           name={`${focusIdx}.attributes.background-size`}
+          key={`${focusIdx}.attributes.background-size`}
         />
       </Space>
     );

@@ -1,3 +1,4 @@
+
 import React, { useMemo } from 'react';
 import { NumberField, TextField } from '../../../components/Form';
 import { useFocusIdx, Stack, TextStyle } from 'easy-email-editor';
@@ -8,13 +9,12 @@ export function Decoration() {
   return useMemo(() => {
     return (
       <Stack
-        key={focusIdx}
         vertical
         spacing='extraTight'
       >
         <TextStyle
           variation='strong'
-          size='large'
+          size='medium'
         >
           Decoration
         </TextStyle>

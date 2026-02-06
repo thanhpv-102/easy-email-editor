@@ -3,7 +3,7 @@ import { Padding } from '@extensions/AttributePanel/components/attributes/Paddin
 import { Background } from '@extensions/AttributePanel/components/attributes/Background';
 import { Border } from '@extensions/AttributePanel/components/attributes/Border';
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
-import { Collapse, Grid, Space, Switch } from '@arco-design/web-react';
+import { Col, Collapse, Row, Space, Switch } from 'antd';
 import { Stack, useBlock, useFocusIdx } from 'easy-email-editor';
 import { BasicType, BlockManager } from 'easy-email-core';
 import { ClassName } from '../../attributes/ClassName';
@@ -24,7 +24,7 @@ export function Section() {
         for (let i = 0; i < children.length; i++) {
           const child = children[i];
           if (!child) continue;
-          if (child.type === BasicType.GROUP) {
+          if (child.type === BasicType.GROUP.toString()) {
             children.splice(i, 1, ...child.children);
           }
         }
@@ -36,7 +36,7 @@ export function Section() {
       } else {
         if (
           focusBlock.children.length === 1 &&
-          focusBlock.children[0].type === BasicType.GROUP
+          focusBlock.children[0].type === BasicType.GROUP.toString()
         ) {
           focusBlock.children = focusBlock.children[0]?.children || [];
         }
@@ -49,63 +49,61 @@ export function Section() {
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
       <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
-        <Collapse.Item
-          name='0'
-          header={t('Dimension')}
+        <Collapse.Panel
+          key="0"
+          header={'Dimension'}
         >
-          <Space direction='vertical'>
-            <Grid.Row>
-              <Grid.Col span={12}>
+          <Space orientation="vertical" size="small">
+            <Row>
+              <Col span={12}>
                 <label style={{ width: '100%', display: 'flex' }}>
-                  <div style={{ flex: 1 }}>{t('Group')}</div>
+                  <div style={{ flex: 1 }}>{'Group'}</div>
                 </label>
                 <Switch
                   checked={noWrap}
-                  checkedText={t('True')}
-                  uncheckedText={t('False')}
                   onChange={onChange}
                 />
-              </Grid.Col>
-              <Grid.Col span={12} />
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={12}>
+              </Col>
+              <Col span={12} />
+            </Row>
+            <Row>
+              <Col span={12}>
                 <label style={{ width: '100%', display: 'flex' }}>
-                  <div style={{ flex: 1 }}>{t('Full Width')}</div>
+                  <div style={{ flex: 1 }}>{'Full Width'}</div>
                 </label>
                 <TextField name={`${focusIdx}.attributes.full-width`} />
-              </Grid.Col>
-              <Grid.Col span={12} />
-            </Grid.Row>
+              </Col>
+              <Col span={12} />
+            </Row>
 
             <Padding />
           </Space>
-        </Collapse.Item>
-        <Collapse.Item
-          name='1'
-          header={t('Background')}
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="1"
+          header={'Background'}
         >
           <Stack
             vertical
-            spacing='tight'
+            spacing="tight"
           >
             <Background />
           </Stack>
-        </Collapse.Item>
-        <Collapse.Item
-          name='2'
-          header={t('Border')}
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="2"
+          header={'Border'}
         >
           <Border />
-        </Collapse.Item>
-        <Collapse.Item
-          name='4'
-          header={t('Extra')}
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="4"
+          header={'Extra'}
         >
-          <Grid.Col span={24}>
+          <Col span={24}>
             <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
+          </Col>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );

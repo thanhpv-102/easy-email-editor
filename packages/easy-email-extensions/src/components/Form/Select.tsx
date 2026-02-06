@@ -1,8 +1,8 @@
-import { Select as ArcoSelect, SelectProps as ArcoSelectProps } from '@arco-design/web-react';
+import { Select as AntSelect, SelectProps as AntSelectProps } from 'antd';
 import { merge } from 'lodash';
 import React from 'react';
 
-export interface SelectProps extends ArcoSelectProps {
+export interface SelectProps extends AntSelectProps {
   options: Array<{ value: string; label: React.ReactNode; }>;
   onChange?: (val: string) => void;
   value: string;
@@ -10,18 +10,22 @@ export interface SelectProps extends ArcoSelectProps {
 
 export function Select(props: SelectProps) {
   return (
-    <ArcoSelect
+    <AntSelect
       {...props}
-      dropdownMenuClassName='easy-email-overlay'
-      style={merge({ width: '100%', }, props.style)}
+      classNames={{
+        popup: {
+          root: 'easy-email-overlay',
+        },
+      }}
+      style={merge({ width: '100%' }, props.style)}
       value={props.value}
       onChange={props.onChange}
     >
       {props.options.map((item, index) => (
-        <ArcoSelect.Option key={index} value={item.value}>
+        <AntSelect.Option key={index} value={item.value}>
           {item.label}
-        </ArcoSelect.Option>
+        </AntSelect.Option>
       ))}
-    </ArcoSelect>
+    </AntSelect>
   );
 }

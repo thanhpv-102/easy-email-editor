@@ -1,5 +1,5 @@
 import { IEmailTemplate } from '@/typings';
-import { useForm, useFormState } from 'react-final-form';
+import { useForm, useFormState } from '@/utils/formBridge';
 import { cloneDeep, isEqual } from 'lodash';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useRefState } from '@/hooks/useRefState';

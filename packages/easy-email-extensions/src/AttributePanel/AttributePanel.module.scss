@@ -1,0 +1,298 @@
+:global {
+  .ant-select {
+    font-size: 12px !important;
+  }
+
+  .ant-select-selector {
+    height: 26px !important;
+    padding: 2px 6px !important;
+    font-size: 12px !important;
+  }
+
+  .ant-select-selection-item {
+    font-size: 12px !important;
+    line-height: 26px !important;
+  }
+
+  .ant-select-dropdown {
+    font-size: 12px !important;
+  }
+
+  .ant-select-dropdown .ant-select-item {
+    font-size: 12px !important;
+  }
+
+  .ant-select-dropdown .ant-select-item-option {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+
+  .ant-radio-group {
+    font-size: 12px !important;
+  }
+
+  .ant-checkbox-group {
+    font-size: 12px !important;
+  }
+
+  .easy-email-overlay {
+    font-size: 12px !important;
+  }
+
+  .easy-email-overlay .ant-select-selector {
+    height: 26px !important;
+    padding: 2px 6px !important;
+  }
+
+  .easy-email-overlay .ant-select-item-option {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+}
+
+.attributePanel {
+  :global {
+    .arco-form-item {
+      margin-bottom: 8px !important;
+    }
+
+    .ant-form-item-label-content {
+      font-size: 12px !important;
+    }
+
+    .ant-form-item-label > label {
+      font-size: 12px !important;
+    }
+
+    .ant-form-item-label {
+      padding: 0 !important;
+    }
+
+    .arco-form-item-label-content {
+      font-size: 12px !important;
+      height: 24px !important;
+      line-height: 24px !important;
+    }
+
+    .ant-form-item-explain {
+      font-size: 12px !important;
+    }
+
+    .arco-form-item-message {
+      font-size: 12px !important;
+    }
+
+    .arco-input {
+      font-size: 12px !important;
+      height: 26px !important;
+      padding: 4px 6px !important;
+      line-height: 26px !important;
+    }
+
+    .ant-input {
+      font-size: 12px !important;
+      height: 26px !important;
+      line-height: 26px !important;
+    }
+
+    input::placeholder {
+      font-size: 12px !important;
+    }
+
+    .ant-input::placeholder {
+      font-size: 12px !important;
+    }
+
+    textarea {
+      font-size: 12px !important;
+      padding: 6px 6px !important;
+      line-height: 1.4 !important;
+    }
+
+    .arco-select {
+      font-size: 12px !important;
+    }
+
+    .arco-select-view {
+      height: 26px !important;
+      padding: 4px 6px !important;
+      font-size: 12px !important;
+    }
+
+    .arco-select-option {
+      font-size: 12px !important;
+      padding: 6px 12px !important;
+    }
+
+    .arco-select-option-content {
+      font-size: 12px !important;
+    }
+
+    .arco-radio {
+      font-size: 12px !important;
+    }
+
+    .arco-radio-label-text {
+      font-size: 12px !important;
+    }
+
+    .arco-checkbox {
+      font-size: 12px !important;
+    }
+
+    .arco-checkbox-label-text {
+      font-size: 12px !important;
+    }
+
+    .ant-select-item {
+      font-size: 12px !important;
+    }
+
+    .ant-select-item-option {
+      font-size: 12px !important;
+      padding: 6px 12px !important;
+    }
+
+    .ant-select-dropdown {
+      font-size: 12px !important;
+    }
+
+    .ant-select-dropdown .ant-select-item-option {
+      font-size: 12px !important;
+      padding: 6px 12px !important;
+    }
+
+    .ant-radio {
+      font-size: 12px !important;
+    }
+
+    .ant-radio-wrapper {
+      font-size: 12px !important;
+    }
+
+    .ant-radio-inner {
+      width: 16px !important;
+      height: 16px !important;
+    }
+
+    .ant-checkbox {
+      font-size: 12px !important;
+    }
+
+    .ant-checkbox-wrapper {
+      font-size: 12px !important;
+    }
+
+    .ant-checkbox-inner {
+      width: 16px !important;
+      height: 16px !important;
+    }
+
+    .arco-btn {
+      padding: 4px 8px !important;
+      font-size: 12px !important;
+      height: 28px !important;
+      min-width: 50px !important;
+      line-height: 28px !important;
+    }
+
+    .ant-btn {
+      padding: 4px 8px !important;
+      font-size: 12px !important;
+      height: 28px !important;
+      line-height: 28px !important;
+    }
+
+    .ant-btn-sm {
+      padding: 4px 8px !important;
+      height: 28px !important;
+      font-size: 12px !important;
+      line-height: 28px !important;
+    }
+
+    .arco-color-picker-trigger {
+      height: 28px !important;
+      width: 28px !important;
+    }
+
+    .ant-collapse-header {
+      padding: 10px 16px !important;
+      font-size: 13px !important;
+      min-height: 32px !important;
+      line-height: 32px !important;
+      height: 32px !important;
+    }
+
+    .ant-collapse-header-text {
+      font-size: 13px !important;
+      line-height: 32px !important;
+    }
+
+    .ant-collapse-content-box {
+      padding: 8px 12px !important;
+    }
+
+    .ant-collapse-item {
+      margin-bottom: 4px !important;
+    }
+
+    .ant-collapse {
+      border: none !important;
+    }
+
+    .ant-collapse-header > .ant-collapse-title {
+      margin-top: -5px;
+    }
+
+    .ant-collapse-item > .ant-collapse-header {
+      padding: 4px 8px !important;
+    }
+
+    .ant-collapse-item-active > .ant-collapse-header {
+    }
+
+    .ant-collapse-content {
+    }
+
+    .arco-checkbox {
+      font-size: 11px !important;
+      margin-right: 6px !important;
+    }
+
+    .arco-radio {
+      font-size: 11px !important;
+      margin-right: 6px !important;
+    }
+
+    .arco-grid-row {
+      margin-bottom: 6px !important;
+    }
+
+    .arco-space {
+      gap: 4px !important;
+    }
+
+    .ant-space {
+      gap: 2px !important;
+    }
+
+    .ant-row {
+      margin-bottom: 4px !important;
+    }
+
+    .ant-col {
+      margin-bottom: 2px !important;
+    }
+
+    .arco-input-number {
+      height: 26px !important;
+      font-size: 11px !important;
+    }
+
+    .arco-input-number-input {
+      font-size: 11px !important;
+      height: 26px !important;
+      padding: 4px 6px !important;
+    }
+  }
+}

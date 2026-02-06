@@ -10,6 +10,7 @@ export function BackgroundColor({ title = t('Background color') }: { title?: str
       <ColorPickerField
         label={title}
         name={`${focusIdx}.attributes.background-color`}
+        key={`${focusIdx}.attributes.background-color`}
       />
     );
   }, [focusIdx, title]);

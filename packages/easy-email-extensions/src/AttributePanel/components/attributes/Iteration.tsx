@@ -1,5 +1,5 @@
 import { useBlock, useFocusIdx } from 'easy-email-editor';
-import { Collapse, Grid, Switch } from '@arco-design/web-react';
+import { Collapse, Row, Col, Switch } from 'antd';
 import { AdvancedBlock, AdvancedType } from 'easy-email-core';
 import { TextField } from '@extensions/components/Form';
 import React, { useCallback } from 'react';
@@ -10,8 +10,6 @@ export function Iteration() {
   const iteration = focusBlock?.data.value?.iteration as
     | undefined
     | AdvancedBlock['data']['value']['iteration'];
-
-  const enabled = Boolean(iteration && iteration.enabled);
 
   const onIterationToggle = useCallback(
     (enabled: boolean) => {
@@ -33,17 +31,16 @@ export function Iteration() {
 
   if (
     !focusBlock?.type ||
-    !Object.values(AdvancedType).includes(focusBlock?.type as any)
+    !Object.values(AdvancedType).includes(focusBlock.type as AdvancedType)
   ) {
     return null;
   }
 
   return (
-    <Collapse.Item
+    <Collapse.Panel
       className='iteration'
-      destroyOnHide
-      name='Iteration'
-      header={t('Iteration')}
+      key='Iteration'
+      header={'Iteration'}
       extra={(
         <div style={{ marginRight: 10 }}>
           <Switch checked={iteration?.enabled} onChange={onIterationToggle} />
@@ -51,46 +48,46 @@ export function Iteration() {
       )}
     >
       {iteration?.enabled && (
-        <Grid.Col span={24}>
+        <Col span={24}>
           <div>
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <TextField
-                  label={t('Data source')}
+                  label={'Data source'}
                   name={`${focusIdx}.data.value.iteration.dataSource`}
                 />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
+              </Col>
+              <Col offset={1} span={11}>
                 <TextField
-                  label={t('Item name')}
+                  label={'Item name'}
                   name={`${focusIdx}.data.value.iteration.itemName`}
                 />
-              </Grid.Col>
-            </Grid.Row>
-            <Grid.Row>
-              <Grid.Col span={11}>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={11}>
                 <TextField
-                  label={t('Limit')}
+                  label={'Limit'}
                   name={`${focusIdx}.data.value.iteration.limit`}
                   quickchange
                   type='number'
                   onChangeAdapter={(v) => Number(v)}
                 />
-              </Grid.Col>
-              <Grid.Col offset={1} span={11}>
+              </Col>
+              <Col offset={1} span={11}>
                 <TextField
-                  label={t('Mock quantity')}
+                  label={'Mock quantity'}
                   max={iteration?.limit}
                   name={`${focusIdx}.data.value.iteration.mockQuantity`}
                   type='number'
                   onChangeAdapter={(v) => Number(v)}
                   quickchange
                 />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
           </div>
-        </Grid.Col>
+        </Col>
       )}
-    </Collapse.Item>
+    </Collapse.Panel>
   );
 }

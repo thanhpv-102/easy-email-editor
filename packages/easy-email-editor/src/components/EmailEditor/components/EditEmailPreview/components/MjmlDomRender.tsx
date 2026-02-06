@@ -10,6 +10,7 @@ import { getEditorRoot, getShadowRoot } from '@/utils';
 import { DATA_RENDER_COUNT, FIXED_CONTAINER_ID } from '@/constants';
 
 let count = 0;
+
 export function MjmlDomRender() {
   const { pageData: content } = useEditorContext();
   const [pageData, setPageData] = useState<IPage | null>(null);
@@ -93,7 +94,7 @@ export function MjmlDomRender() {
           outline: 'none',
           position: 'relative',
         }}
-        role='tabpanel'
+        role="tabpanel"
         tabIndex={0}
       >
         <>

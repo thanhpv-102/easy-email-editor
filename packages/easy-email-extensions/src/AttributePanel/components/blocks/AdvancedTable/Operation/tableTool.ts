@@ -8,23 +8,19 @@ import {
   getBoundaryRectAndElement,
 } from './util';
 import { AdvancedTableBlock } from 'easy-email-core';
+import { IOperationData } from './type';
 
-interface IBorderTool {
-  top: Element;
-  bottom: Element;
-  left: Element;
-  right: Element;
+export interface IBorderTool {
+  top: HTMLElement;
+  bottom: HTMLElement;
+  left: HTMLElement;
+  right: HTMLElement;
 }
 
 class TableColumnTool {
   borderTool = {} as IBorderTool;
   dragging = false;
   showBorderTool = false;
-  startRect = {} as { width: number; height: number }; // start td rect
-  startTdTop = 0; // update when click
-  startTdLeft = 0; //  update when click
-  endTdTop = 0; // will update by mouse move
-  endTdLeft = 0; // will update by mouse move
   width = 0; // selected section width,will update by mouse move
   height = 0; // selected section height, will update by mouse move
 
@@ -33,13 +29,13 @@ class TableColumnTool {
   startDom: Element | undefined = undefined;
   endDom: Element | undefined = undefined;
   hoveringTable: ParentNode | null = null;
-  root: Element | undefined = undefined;
+  root: Element | ShadowRoot | undefined = undefined;
 
   tableMenu?: TableOperationMenu;
   changeTableData?: (e: AdvancedTableBlock['data']['value']['tableSource']) => void;
-  tableData: AdvancedTableBlock['data']['value']['tableSource'] = [];
+  tableData: IOperationData[][] = [];
 
-  constructor(borderTool: IBorderTool, root: Element) {
+  constructor(borderTool: IBorderTool, root: Element | ShadowRoot) {
     if (!borderTool || !root) {
       return;
     }
@@ -67,8 +63,8 @@ class TableColumnTool {
     this.tableMenu?.destroy();
   }
 
-  hideBorder = (e: any) => {
-    if (e.target.id === 'VisualEditorEditMode') {
+  hideBorder = (e: Event) => {
+    if ((e.target as HTMLElement)?.id === 'VisualEditorEditMode') {
       return;
     }
     this.visibleBorder(false);
@@ -78,8 +74,8 @@ class TableColumnTool {
     this.visibleBorder(false);
   };
 
-  hideTableMenu = (e?: any) => {
-    if (e?.target.id === 'VisualEditorEditMode') {
+  hideTableMenu = (e?: Event) => {
+    if ((e?.target as HTMLElement)?.id === 'VisualEditorEditMode') {
       return;
     }
     this.tableMenu?.hide();
@@ -132,7 +128,7 @@ class TableColumnTool {
       'background-color': 'rgb(65, 68, 77)',
       left: `${left}px`,
       top: `${top}px`,
-      width: `2px`,
+      width: '2px',
       height: `${Math.abs(height)}px`,
       position: 'absolute',
       'z-index': 10,
@@ -141,20 +137,21 @@ class TableColumnTool {
       'background-color': 'rgb(65, 68, 77)',
       left: `${left + width}px`,
       top: `${top}px`,
-      width: `2px`,
+      width: '2px',
       height: `${Math.abs(height)}px`,
       position: 'absolute',
       'z-index': 10,
     });
   };
 
-  handleContextmenu = (event: any) => {
+  handleContextmenu = (event: Event) => {
+    const mouseEvent = event as MouseEvent;
     if (this.showBorderTool) {
       const selectedBoundary = getElementsBoundary(
         this.selectedLeftTopCell as Element,
         this.selectedBottomRightCell as Element,
       );
-      if (checkEventInBoundingRect(selectedBoundary, event)) {
+      if (checkEventInBoundingRect(selectedBoundary, { x: mouseEvent.clientX, y: mouseEvent.clientY })) {
         event.preventDefault();
         return;
       }
@@ -162,9 +159,10 @@ class TableColumnTool {
     this.hideTableMenu();
   };
 
-  handleMousedown(event: any) {
-    let target: Element = event.target;
-    if (event.button == 0) {
+  handleMousedown(event: Event) {
+    const mouseEvent = event as MouseEvent;
+    let target: Element = event.target as Element;
+    if (mouseEvent.button == 0) {
       // left button click
       while (target && target.parentNode) {
         if (
@@ -188,19 +186,19 @@ class TableColumnTool {
           return;
         }
       }
-    } else if (event.button == 2) {
+    } else if (mouseEvent.button == 2) {
       if (this.showBorderTool) {
         const selectedBoundary = getElementsBoundary(
           this.selectedLeftTopCell as Element,
           this.selectedBottomRightCell as Element,
         );
         // check event position, then show table operation menu
-        if (checkEventInBoundingRect(selectedBoundary, event)) {
+        if (checkEventInBoundingRect(selectedBoundary, { x: mouseEvent.clientX, y: mouseEvent.clientY })) {
           if (!this.tableMenu) {
             this.tableMenu = new TableOperationMenu();
           }
 
-          this.tableMenu.setTableData(this.tableData as any);
+          this.tableMenu.setTableData(this.tableData);
           this.tableMenu.changeTableData = this.changeTableData;
 
           this.tableMenu.setTableIndexBoundary(
@@ -209,7 +207,7 @@ class TableColumnTool {
               this.selectedBottomRightCell as Element,
             ),
           );
-          this.tableMenu.showMenu(event);
+          this.tableMenu.showMenu({ x: mouseEvent.clientX, y: mouseEvent.clientY });
 
           return;
         }
@@ -218,11 +216,11 @@ class TableColumnTool {
     this.visibleBorder(false);
   }
 
-  handleDrag = (e: any) => {
+  handleDrag = (e: Event) => {
     e.preventDefault();
 
     if (this.dragging) {
-      let target = e.target;
+      let target = e.target as Element;
 
       while (target && target.parentNode) {
         if (
@@ -237,12 +235,12 @@ class TableColumnTool {
           this.renderBorder();
           return;
         }
-        target = target.parentNode;
+        target = target.parentNode as Element;
       }
     }
   };
 
-  handleMouseup = (e: any) => {
+  handleMouseup = (e: Event) => {
     e.preventDefault();
 
     if (this.dragging) {

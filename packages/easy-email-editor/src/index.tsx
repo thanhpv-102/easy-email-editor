@@ -14,6 +14,9 @@ export { ToolsPanel } from './components/EmailEditor/components/ToolsPanel';
 // export utils
 export * from './utils/index';
 
+// export form bridge for React 19 compatibility
+export * from './utils/formBridge';
+
 // export hooks
 export { useActiveTab } from './hooks/useActiveTab';
 export { useEditorProps } from './hooks/useEditorProps';

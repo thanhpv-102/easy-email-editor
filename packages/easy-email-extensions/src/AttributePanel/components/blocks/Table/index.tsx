@@ -1,5 +1,5 @@
 import { AttributesPanelWrapper } from '@extensions/AttributePanel';
-import { Collapse, Tooltip, Button } from '@arco-design/web-react';
+import { Button, Collapse, Tooltip } from 'antd';
 import { IconFont, Stack } from 'easy-email-editor';
 import React, { useState } from 'react';
 import { Border } from '../../attributes/Border';
@@ -20,18 +20,20 @@ export function Table() {
   return (
     <AttributesPanelWrapper
       extra={
-        <Tooltip content={t('Edit')}>
-          <Button
-            onClick={() => setVisible(true)}
-            icon={<IconFont iconName='icon-html' />}
-          />
-        </Tooltip>
+        (
+          <Tooltip title={'Edit'}>
+            <Button
+              onClick={() => setVisible(true)}
+              icon={<IconFont iconName="icon-html" />}
+            />
+          </Tooltip>
+        )
       }
     >
       <CollapseWrapper defaultActiveKey={['-1', '0', '1', '2', '3']}>
-        <Collapse.Item
-          name='1'
-          header={t('Dimension')}
+        <Collapse.Panel
+          key="1"
+          header={'Dimension'}
         >
           <Stack>
             <Width />
@@ -40,20 +42,20 @@ export function Table() {
           <Stack vertical>
             <Padding />
           </Stack>
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='2'
-          header={t('Decoration')}
+        <Collapse.Panel
+          key="2"
+          header={'Decoration'}
         >
           <Color />
           <ContainerBackgroundColor />
           <Border />
-        </Collapse.Item>
+        </Collapse.Panel>
 
-        <Collapse.Item
-          name='2'
-          header={t('Typography')}
+        <Collapse.Panel
+          key="2"
+          header={'Typography'}
         >
           <Stack>
             <FontFamily />
@@ -61,7 +63,7 @@ export function Table() {
           </Stack>
           <FontStyle />
           <TextAlign />
-        </Collapse.Item>
+        </Collapse.Panel>
       </CollapseWrapper>
       <HtmlEditor
         visible={visible}

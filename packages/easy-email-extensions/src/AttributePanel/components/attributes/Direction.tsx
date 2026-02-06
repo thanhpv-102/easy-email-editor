@@ -1,3 +1,4 @@
+
 import React, { useMemo } from 'react';
 import { useFocusIdx, Stack } from 'easy-email-editor';
 import { RadioGroupField } from '../../../components/Form';
@@ -6,13 +7,13 @@ const options = [
   {
     value: 'ltr',
     get label() {
-      return t('ltr');
+      return 'ltr';
     },
   },
   {
     value: 'rtl',
     get label() {
-      return t('rtl');
+      return 'rtl';
     },
   },
 ];

@@ -9,7 +9,7 @@ export function getBlockTitle(
 
   if (
     isFromContent &&
-    (blockData.type === BasicType.TEXT || blockData.type === BasicType.BUTTON)
+    (blockData.type === BasicType.TEXT.toString() || blockData.type === BasicType.BUTTON.toString())
   ) {
     tempEle.innerHTML = blockData.data.value.content;
     return tempEle.innerText;

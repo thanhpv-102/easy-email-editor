@@ -1,5 +1,5 @@
 import { useFocusIdx } from 'easy-email-editor';
-import { Drawer } from '@arco-design/web-react';
+import { Drawer } from 'antd';
 import { ConfigurationPanel } from '@extensions/ConfigurationPanel';
 import React, { useCallback, useMemo, useRef } from 'react';
 
@@ -41,16 +41,14 @@ export function ConfigurationDrawer({
         />
         {refWrapper.current && (
           <Drawer
-            width='100%'
             title={null}
             closable={false}
-            focusLock={false}
             placement='right'
-            bodyStyle={{ padding: 0 }}
-            visible
-            getPopupContainer={() => refWrapper && (refWrapper.current as any)}
+            styles={{ body: { padding: 0 }, wrapper: { width: '100%' } }}
+            open
+            getContainer={() => refWrapper.current || document.body}
             footer={null}
-            onCancel={onClose}
+            onClose={onClose}
           >
             <ConfigurationPanel
               compact={compact}
@@ -64,5 +62,5 @@ export function ConfigurationDrawer({
         )}
       </>
     );
-  }, [visible, onClose, compact, showSourceCode, height]);
+  }, [visible, onClose, compact, showSourceCode, height, jsonReadOnly, mjmlReadOnly]);
 }

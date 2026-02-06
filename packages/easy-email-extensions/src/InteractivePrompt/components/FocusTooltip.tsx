@@ -9,7 +9,7 @@ export function FocusTooltip() {
   const { focusBlock } = useBlock();
   const { focusIdx } = useFocusIdx();
   const { focusBlockNode } = useFocusBlockLayout();
-  const isPage = focusBlock?.type === BasicType.PAGE;
+  const isPage = focusBlock?.type === BasicType.PAGE.toString();
 
   if (!focusBlockNode || !focusBlock) return null;
 

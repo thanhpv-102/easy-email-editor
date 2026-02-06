@@ -7,7 +7,7 @@ export function NavbarLinkPadding({ name }: { name: string; }) {
   return useMemo(() => {
     return (
       <Stack vertical spacing='extraTight'>
-        <Padding name={name} />
+        <Padding key={name} />
       </Stack>
     );
   }, [name]);

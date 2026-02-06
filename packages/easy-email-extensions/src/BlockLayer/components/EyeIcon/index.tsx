@@ -18,7 +18,7 @@ export function EyeIcon({
         <IconFont iconName='icon-eye' />
       </div>
     );
-  if (blockData.type === BasicType.PAGE) return null;
+  if (blockData.type === BasicType.PAGE.toString()) return null;
 
   return blockData.data.hidden ? (
     <IconFont

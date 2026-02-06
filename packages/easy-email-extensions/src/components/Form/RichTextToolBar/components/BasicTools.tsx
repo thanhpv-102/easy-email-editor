@@ -1,3 +1,4 @@
+
 import { IconFont, useBlock, useEditorProps, useFocusIdx } from 'easy-email-editor';
 import { useAddToCollection } from '@extensions/hooks/useAddToCollection';
 import { getParentIdx } from 'easy-email-core';

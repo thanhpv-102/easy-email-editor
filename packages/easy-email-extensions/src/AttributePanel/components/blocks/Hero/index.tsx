@@ -5,7 +5,7 @@ import { Width } from '@extensions/AttributePanel/components/attributes/Width';
 import { Height } from '@extensions/AttributePanel/components/attributes/Height';
 import { VerticalAlign } from '@extensions/AttributePanel/components/attributes/VerticalAlign';
 import { Padding } from '@extensions/AttributePanel/components/attributes/Padding';
-import { Collapse, Grid, Space } from '@arco-design/web-react';
+import { Col, Collapse, Row, Space } from 'antd';
 import { useEditorProps, useFocusIdx } from 'easy-email-editor';
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
 import { ClassName } from '../../attributes/ClassName';
@@ -33,54 +33,56 @@ export function Hero() {
   return (
     <AttributesPanelWrapper>
       <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
-        <Collapse.Item
-          name='0'
+        <Collapse.Panel
+          key="0"
           header={t('Dimension')}
         >
-          <Space direction='vertical'>
+          <Space orientation="vertical" size="small">
             <RadioGroupField
               label={t('Mode')}
               name={`${focusIdx}.attributes.mode`}
+              key={`${focusIdx}.attributes.mode`}
               options={options}
             />
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <Width />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <Height />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
             <Padding />
             <VerticalAlign />
           </Space>
-        </Collapse.Item>
-        <Collapse.Item
-          name='1'
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="1"
           header={t('Background')}
         >
-          <Space direction='vertical'>
+          <Space orientation="vertical" size="small">
             <ImageUploaderField
               label={t('src')}
               name={`${focusIdx}.attributes.background-url`}
+              key={`${focusIdx}.attributes.background-url`}
               helpText={t(
                 'The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.',
               )}
               uploadHandler={onUploadImage}
             />
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <InputWithUnitField
                   label={t('Background width')}
                   name={`${focusIdx}.attributes.background-width`}
                 />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
@@ -88,40 +90,40 @@ export function Hero() {
                   label={t('Background height')}
                   name={`${focusIdx}.attributes.background-height`}
                 />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
 
-            <Grid.Row>
-              <Grid.Col span={11}>
+            <Row>
+              <Col span={11}>
                 <TextField
                   label={t('Background position')}
                   name={`${focusIdx}.attributes.background-position`}
                 />
-              </Grid.Col>
-              <Grid.Col
+              </Col>
+              <Col
                 offset={1}
                 span={11}
               >
                 <InputWithUnitField
                   label={t('Border radius')}
                   name={`${focusIdx}.attributes.border-radius`}
-                  unitOptions='percent'
+                  unitOptions="percent"
                 />
-              </Grid.Col>
-              <Grid.Col span={11}>
+              </Col>
+              <Col span={11}>
                 <BackgroundColor />
-              </Grid.Col>
-            </Grid.Row>
+              </Col>
+            </Row>
           </Space>
-        </Collapse.Item>
-        <Collapse.Item
-          name='4'
+        </Collapse.Panel>
+        <Collapse.Panel
+          key="4"
           header={t('Extra')}
         >
-          <Grid.Col span={24}>
+          <Col span={24}>
             <ClassName />
-          </Grid.Col>
-        </Collapse.Item>
+          </Col>
+        </Collapse.Panel>
       </CollapseWrapper>
     </AttributesPanelWrapper>
   );

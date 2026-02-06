@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { BlocksContext } from '@/components/Provider/BlocksProvider';
 import { IEmailTemplate } from '@/typings';
-import { useFormState, useForm } from 'react-final-form';
+import { useFormState, useForm } from '@/utils/formBridge';
 
 export function useEditorContext() {
   const formState = useFormState<IEmailTemplate>();

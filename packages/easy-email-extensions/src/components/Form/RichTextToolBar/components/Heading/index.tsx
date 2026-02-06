@@ -1,4 +1,5 @@
-import { Menu } from '@arco-design/web-react';
+import type { MenuProps } from 'antd';
+import { Menu } from 'antd';
 import React from 'react';
 
 export function Heading(props: { onChange: (val: string) => void }) {
@@ -32,19 +33,26 @@ export function Heading(props: { onChange: (val: string) => void }) {
       label: t('Paragraph'),
     },
   ];
+
+  const menuItems: MenuProps['items'] = list.map(item => ({
+    key: item.value,
+    label: (
+      <div style={{ lineHeight: '30px', height: 30 }}>
+        {item.label}
+      </div>
+    ),
+  }));
+
+  const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
+    props.onChange(key);
+  };
+
   return (
     <Menu
-      onClickMenuItem={(item) => {
-        props.onChange(item);
-      }}
+      items={menuItems}
+      onClick={handleMenuClick}
       selectedKeys={[]}
       style={{ width: 100, border: 'none' }}
-    >
-      {list.map((item) => (
-        <Menu.Item style={{ lineHeight: '30px', height: 30 }} key={item.value}>
-          {item.label}
-        </Menu.Item>
-      ))}
-    </Menu>
+    />
   );
 }

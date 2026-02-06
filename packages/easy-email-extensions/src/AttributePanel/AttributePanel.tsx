@@ -12,11 +12,10 @@ import ReactDOM from 'react-dom';
 import { BlockAttributeConfigurationManager } from './utils/BlockAttributeConfigurationManager';
 import { SelectionRangeProvider } from './components/provider/SelectionRangeProvider';
 import { TableOperation } from './components/blocks/AdvancedTable/Operation';
-
-export interface AttributePanelProps {}
+import styles from './AttributePanel.module.scss';
 
 export function AttributePanel() {
-  const { values, focusBlock } = useBlock();
+  const { focusBlock } = useBlock();
   const { initialized } = useEditorContext();
 
   const { focusIdx } = useFocusIdx();
@@ -28,36 +27,38 @@ export function AttributePanel() {
   if (!initialized) return null;
 
   return (
-    <SelectionRangeProvider>
-      <PresetColorsProvider>
-        {Com ? (
-          <Com key={focusIdx} />
-        ) : (
-          <div style={{ marginTop: 200, padding: '0 50px' }}>
-            <TextStyle size='extraLarge'>{t('No matching components')}</TextStyle>
-          </div>
-        )}
+    <div className={styles.attributePanel}>
+      <SelectionRangeProvider>
+        <PresetColorsProvider>
+          {Com ? (
+            <Com />
+          ) : (
+            <div style={{ marginTop: 200, padding: '0 50px' }}>
+              <TextStyle size='extraLarge'>No matching components</TextStyle>
+            </div>
+          )}
 
-        <div style={{ position: 'absolute' }}>
-          <RichTextField idx={focusIdx} />
-        </div>
-        <TableOperation />
-        <>
-          {shadowRoot &&
-            ReactDOM.createPortal(
-              <style>
-                {`
-              .email-block [contentEditable="true"],
-              .email-block [contentEditable="true"] * {
-                outline: none;
-                cursor: text;
-              }
-              `}
-              </style>,
-              shadowRoot as any,
-            )}
-        </>
-      </PresetColorsProvider>
-    </SelectionRangeProvider>
+          <div style={{ position: 'absolute' }}>
+            <RichTextField idx={focusIdx} />
+          </div>
+          <TableOperation />
+          <>
+            {shadowRoot &&
+              ReactDOM.createPortal(
+                <style>
+                  {`
+                .email-block [contentEditable="true"],
+                .email-block [contentEditable="true"] * {
+                  outline: none;
+                  cursor: text;
+                }
+                `}
+                </style>,
+                shadowRoot as DocumentFragment,
+              )}
+          </>
+        </PresetColorsProvider>
+      </SelectionRangeProvider>
+    </div>
   );
 }

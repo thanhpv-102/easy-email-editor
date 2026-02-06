@@ -1,7 +1,7 @@
-import { Grid, PopoverProps, Space, Tooltip } from '@arco-design/web-react';
+import { Col, Row, Space, Tooltip } from 'antd';
+import type { TooltipProps } from 'antd';
 import React, { useCallback, useMemo } from 'react';
-import { Form } from 'react-final-form';
-import { IconFont, Stack, TextStyle } from 'easy-email-editor';
+import { Form, IconFont, Stack, TextStyle } from 'easy-email-editor';
 import { SearchField, SwitchField } from '@extensions/components/Form';
 import { ToolItem } from '../ToolItem';
 import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
@@ -13,7 +13,7 @@ export interface LinkParams {
   linkNode: HTMLAnchorElement | null;
 }
 
-export interface LinkProps extends PopoverProps {
+export interface LinkProps extends Omit<TooltipProps, 'title'> {
   currentRange: Range | null | undefined;
   onChange: (val: LinkParams) => void;
 }
@@ -63,7 +63,7 @@ export function Link(props: LinkProps) {
     (values: LinkParams) => {
       props.onChange(values);
     },
-    [props]
+    [props],
   );
 
   return (
@@ -76,56 +76,56 @@ export function Link(props: LinkProps) {
         return (
           <Tooltip
             {...props}
-            trigger='click'
-            color='#fff'
-            position='tl'
-            content={(
+            trigger="click"
+            title={(
               <div style={{ color: '#333' }}>
-                <Stack vertical spacing='none'>
+                <Stack vertical spacing="none">
                   <SearchField
-                    size='small'
-                    name='link'
+                    size="small"
+                    name="link"
+                    key="link"
                     label={t('Link')}
                     labelHidden
-                    searchButton={t('Apply')}
                     placeholder={t('https://www.example.com')}
                     onSearch={() => handleSubmit()}
                   />
                 </Stack>
-                <Grid.Row>
-                  <Grid.Col span={12}>
-                    <Space align='center' size='mini'>
-                      <TextStyle size='smallest'>{t('Target')}</TextStyle>
+                <Row>
+                  <Col span={12}>
+                    <Space align="center" size="small">
+                      <TextStyle size="smallest">{t('Target')}</TextStyle>
                       <SwitchField
-                        size='small'
+                        size="small"
                         label={t('Target')}
                         labelHidden
-                        name='blank'
-                        checkedText={t('blank')}
-                        uncheckedText={t('self')}
+                        name="blank"
+                        key="blank"
                         inline
                       />
                     </Space>
-                  </Grid.Col>
-                  <Grid.Col span={12}>
-                    <Space align='center' size='mini'>
-                      <TextStyle size='smallest'>{t('Underline')}</TextStyle>
+                  </Col>
+                  <Col span={12}>
+                    <Space align="center" size="small">
+                      <TextStyle size="smallest">{t('Underline')}</TextStyle>
                       <SwitchField
-                        size='small'
+                        size="small"
                         label={t('Underline')}
                         labelHidden
-                        name='underline'
-                        checkedText={t('off')}
-                        uncheckedText={t('on')}
+                        name="underline"
+                        key="underline"
                         inline
                       />
                     </Space>
-                  </Grid.Col>
-                </Grid.Row>
+                  </Col>
+                </Row>
               </div>
             )}
           >
-            <ToolItem isActive={Boolean(initialValues.link)} title={t('Link')} icon={<IconFont iconName='icon-link' />} />
+            <ToolItem
+              isActive={Boolean(initialValues.link)}
+              title={t('Link')}
+              icon={<IconFont iconName="icon-link" />}
+            />
           </Tooltip>
         );
       }}

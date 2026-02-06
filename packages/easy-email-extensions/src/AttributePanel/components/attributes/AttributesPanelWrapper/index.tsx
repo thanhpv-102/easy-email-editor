@@ -1,4 +1,4 @@
-import { IconEye, IconEyeInvisible } from '@arco-design/web-react/icon';
+import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import React, { useCallback } from 'react';
 import { Stack, TextStyle, useBlock } from 'easy-email-editor';
 import { BasicType, BlockManager } from 'easy-email-core';
@@ -9,17 +9,8 @@ export interface AttributesPanelWrapper {
   children: React.ReactNode | React.ReactElement;
 }
 export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = props => {
-  const { focusBlock, setFocusBlock } = useBlock();
+  const { focusBlock } = useBlock();
   const block = focusBlock && BlockManager.getBlockByType(focusBlock.type);
-
-  const onChangeHidden = useCallback(
-    (val: string | boolean) => {
-      if (!focusBlock) return;
-      focusBlock.data.hidden = val as any;
-      setFocusBlock({ ...focusBlock });
-    },
-    [focusBlock, setFocusBlock],
-  );
 
   if (!focusBlock || !block) return null;
 
@@ -27,9 +18,7 @@ export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = props =>
     <div>
       <div
         style={{
-          border: '1px solid var(--color-neutral-3, rgb(229, 230, 235))',
-          borderBottom: 'none',
-          padding: '12px 24px',
+          padding: '4px 16px 12px 16px',
         }}
       >
         <Stack vertical>
@@ -46,7 +35,7 @@ export const AttributesPanelWrapper: React.FC<AttributesPanelWrapper> = props =>
                 <EyeIcon />
                 <TextStyle
                   variation='strong'
-                  size='large'
+                  size='medium'
                 >
                   {`${block.name} `} {t('attributes')}
                 </TextStyle>
@@ -82,16 +71,16 @@ function EyeIcon() {
 
   if (!focusBlock) return null;
 
-  if (focusBlock.type === BasicType.PAGE) return null;
+  if (focusBlock.type === BasicType.PAGE.toString()) return null;
 
   return focusBlock.data.hidden ? (
-    <IconEyeInvisible
-      style={{ cursor: 'pointer', fontSize: 18 }}
+    <EyeInvisibleOutlined
+      style={{ cursor: 'pointer', fontSize: 16 }}
       onClick={onToggleVisible}
     />
   ) : (
-    <IconEye
-      style={{ cursor: 'pointer', fontSize: 18 }}
+    <EyeOutlined
+      style={{ cursor: 'pointer', fontSize: 16 }}
       onClick={onToggleVisible}
     />
   );

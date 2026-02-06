@@ -1,19 +1,9 @@
-/* eslint-disable react/jsx-wrap-multilines */
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import template from '@demo/store/template';
 import { useAppSelector } from '@demo/hooks/useAppSelector';
 import { useLoading } from '@demo/hooks/useLoading';
-import {
-  Button,
-  ConfigProvider,
-  Dropdown,
-  Menu,
-  Message,
-  PageHeader,
-  Select,
-} from '@arco-design/web-react';
-import { IconLeft } from '@arco-design/web-react/icon';
+import { ConfigProvider, App } from 'antd';
 import { useQuery } from '@demo/hooks/useQuery';
 import { useHistory } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
@@ -21,14 +11,7 @@ import { Loading } from '@demo/components/loading';
 import mjml from 'mjml-browser';
 import services from '@demo/services';
 import { saveAs } from 'file-saver';
-import {
-  BlockAvatarWrapper,
-  EmailEditor,
-  EmailEditorProvider,
-  IEmailTemplate,
-} from 'easy-email-editor';
-
-import { Stack } from '@demo/components/Stack';
+import { EmailEditor, EmailEditorProvider, IEmailTemplate } from 'easy-email-editor';
 import { pushEvent } from '@demo/utils/pushEvent';
 import { UserStorage } from '@demo/utils/user-storage';
 
@@ -39,7 +22,7 @@ import 'easy-email-editor/lib/style.css';
 import 'easy-email-extensions/lib/style.css';
 import blueTheme from '@arco-themes/react-easy-email-theme/css/arco.css?inline';
 
-import enUS from '@arco-design/web-react/es/locale/en-US';
+import enUS from 'antd/locale/en_US';
 
 import { useShowCommercialEditor } from '@demo/hooks/useShowCommercialEditor';
 import { useWindowSize } from 'react-use';
@@ -186,7 +169,7 @@ export default function Editor() {
 
   const onSubmit = useCallback(
     async (values: IEmailTemplate) => {
-      console.log(values);
+      console.log('onSubmit' ,values);
     },
     [dispatch, history, id, initialValues],
   );
@@ -203,27 +186,29 @@ export default function Editor() {
 
   return (
     <ConfigProvider locale={enUS}>
-      <div>
-        <style>{blueTheme}</style>
-        <EmailEditorProvider
-          height={'calc(100vh - 68px)'}
-          data={initialValues}
-          onUploadImage={onUploadImage}
-          onSubmit={onSubmit}
-          dashed={false}
-          compact={compact}
-        >
-          {({ values }, { submit, restart }) => {
-            return (
-              <>
-                <SimpleLayout>
-                  <EmailEditor />
-                </SimpleLayout>
-              </>
-            );
-          }}
-        </EmailEditorProvider>
-      </div>
+      <App>
+        <div>
+          <style>{blueTheme}</style>
+          <EmailEditorProvider
+            height={'calc(100vh - 68px)'}
+            data={initialValues}
+            onUploadImage={onUploadImage}
+            onSubmit={onSubmit}
+            dashed={false}
+            compact={compact}
+          >
+            {({ values }, { submit, restart }) => {
+              return (
+                <>
+                  <SimpleLayout>
+                    <EmailEditor />
+                  </SimpleLayout>
+                </>
+              );
+            }}
+          </EmailEditorProvider>
+        </div>
+      </App>
     </ConfigProvider>
   );
 }
