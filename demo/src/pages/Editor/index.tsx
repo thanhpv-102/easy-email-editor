@@ -26,6 +26,7 @@ import enUS from 'antd/locale/en_US';
 
 import { useShowCommercialEditor } from '@demo/hooks/useShowCommercialEditor';
 import { useWindowSize } from 'react-use';
+import { AutoSaveAndRestoreEmail } from '@demo/components/AutoSaveAndRestoreEmail';
 
 const defaultCategories: ExtensionProps['categories'] = [
   {
@@ -203,6 +204,7 @@ export default function Editor() {
                 <>
                   <SimpleLayout>
                     <EmailEditor />
+                    <AutoSaveAndRestoreEmail />
                   </SimpleLayout>
                 </>
               );
