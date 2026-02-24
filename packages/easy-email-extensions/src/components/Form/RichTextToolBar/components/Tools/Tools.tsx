@@ -1,9 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { ToolItem } from '../ToolItem';
 import { getLinkNode, Link, LinkParams } from '../Link';
 import {
   AvailableTools,
-  FIXED_CONTAINER_ID,
   getShadowRoot,
   IconFont,
   MergeTagBadge,
@@ -34,37 +33,48 @@ export function Tools(props: ToolsProps) {
   const { selectionRange, restoreRange, setRangeByElement } = useSelectionRange();
   const { onChange } = props;
 
+  // Keep a ref so execCommand always uses the latest range, even from inside popups
+  const selectionRangeRef = useRef<Range | null>(selectionRange);
+  selectionRangeRef.current = selectionRange;
+
+  // Keep a ref to focusBlockNode so execCommand always uses the latest value
+  const focusBlockNodeRef = useRef<Element | null | undefined>(focusBlockNode);
+  focusBlockNodeRef.current = focusBlockNode;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const execCommand = useCallback(
     (cmd: string, val?: string | LinkParams) => {
-      if (!selectionRange) {
+      const range = selectionRangeRef.current;
+      if (!range) {
         console.error(t('No selectionRange'));
         return;
       }
-      if (!focusBlockNode?.contains(selectionRange?.commonAncestorContainer)) {
+      if (!focusBlockNodeRef.current?.contains(range?.commonAncestorContainer)) {
         console.error(t('Not commonAncestorContainer'));
         return;
       }
 
-      restoreRange(selectionRange);
+      restoreRange(range);
       const uuid = (+new Date()).toString();
       if (cmd === 'createLink') {
         const linkData = val as LinkParams;
         const target = linkData.blank ? '_blank' : '';
-        let link: HTMLAnchorElement;
+        let link: HTMLAnchorElement | null;
         if (linkData.linkNode) {
           link = linkData.linkNode;
         } else {
           document.execCommand(cmd, false, uuid);
-
-          link = getShadowRoot().querySelector(`a[href="${uuid}"`)!;
+          link = getShadowRoot().querySelector(`a[href="${uuid}"`);
         }
 
-        if (target) {
-          link.setAttribute('target', target);
+        if (link) {
+          if (target) {
+            link.setAttribute('target', target);
+          }
+          link.style.color = 'inherit';
+          link.style.textDecoration = linkData.underline ? 'underline' : 'none';
+          link.setAttribute('href', linkData.link.trim());
         }
-        link.style.color = 'inherit';
-        link.style.textDecoration = linkData.underline ? 'underline' : 'none';
-        link.setAttribute('href', linkData.link.trim());
       } else if (cmd === 'insertHTML') {
         let newContent = val as string;
         if (enabledMergeTagsBadge) {
@@ -79,7 +89,7 @@ export function Tools(props: ToolsProps) {
         }
       } else if (cmd === 'foreColor') {
         document.execCommand(cmd, false, val as string);
-        let linkNode: HTMLAnchorElement | null = getLinkNode(selectionRange);
+        let linkNode: HTMLAnchorElement | null = getLinkNode(range);
         if (linkNode) {
           linkNode.style.color = 'inherit';
         }
@@ -95,10 +105,8 @@ export function Tools(props: ToolsProps) {
     },
     [
       enabledMergeTagsBadge,
-      focusBlockNode,
       onChange,
       restoreRange,
-      selectionRange,
       setRangeByElement,
     ],
   );
@@ -114,8 +122,6 @@ export function Tools(props: ToolsProps) {
     },
     [onChange],
   );
-
-  const getPopoverMountNode = () => document.getElementById(FIXED_CONTAINER_ID)!;
 
   const enabledTools = toolbar?.tools ?? [
     AvailableTools.MergeTags,
@@ -142,7 +148,6 @@ export function Tools(props: ToolsProps) {
           <MergeTags
             key={tool}
             execCommand={execCommand}
-            getPopupContainer={getPopoverMountNode}
           />,
         ];
       case AvailableTools.FontFamily:
@@ -150,7 +155,6 @@ export function Tools(props: ToolsProps) {
           <FontFamily
             key={tool}
             execCommand={execCommand}
-            getPopupContainer={getPopoverMountNode}
           />,
         ];
       case AvailableTools.FontSize:
@@ -158,7 +162,6 @@ export function Tools(props: ToolsProps) {
           <FontSize
             key={tool}
             execCommand={execCommand}
-            getPopupContainer={getPopoverMountNode}
           />,
         ];
       case AvailableTools.Bold:
@@ -199,7 +202,6 @@ export function Tools(props: ToolsProps) {
             key={tool}
             selectionRange={selectionRange}
             execCommand={execCommand}
-            getPopoverMountNode={getPopoverMountNode}
           />,
         ];
       case AvailableTools.IconBgColor:
@@ -208,7 +210,6 @@ export function Tools(props: ToolsProps) {
             key={tool}
             selectionRange={selectionRange}
             execCommand={execCommand}
-            getPopoverMountNode={getPopoverMountNode}
           />,
         ];
       case AvailableTools.Link:
@@ -217,7 +218,6 @@ export function Tools(props: ToolsProps) {
             key={`${tool}-link`}
             currentRange={selectionRange}
             onChange={values => execCommand('createLink', values)}
-            getPopupContainer={getPopoverMountNode}
           />,
           <Unlink
             key={`${tool}-unlink`}
@@ -231,19 +231,19 @@ export function Tools(props: ToolsProps) {
             key={`${tool}-justify-left`}
             onClick={() => execCommand('justifyLeft')}
             icon={<IconFont iconName="icon-align-left" />}
-            title={t('Align left')}
+            title={'Align left'}
           />,
           <ToolItem
             key={`${tool}-justify-center`}
             onClick={() => execCommand('justifyCenter')}
             icon={<IconFont iconName="icon-align-center" />}
-            title={t('Align center')}
+            title={'Align center'}
           />,
           <ToolItem
             key={`${tool}-justify-right`}
             onClick={() => execCommand('justifyRight')}
             icon={<IconFont iconName="icon-align-right" />}
-            title={t('Align right')}
+            title={'Align right'}
           />,
         ];
       case AvailableTools.Lists:
@@ -252,13 +252,13 @@ export function Tools(props: ToolsProps) {
             key={`${tool}-ordered-list`}
             onClick={() => execCommand('insertOrderedList')}
             icon={<IconFont iconName="icon-list-ol" />}
-            title={t('Orderlist')}
+            title={'Orderlist'}
           />,
           <ToolItem
             key={`${tool}-unordered-list`}
             onClick={() => execCommand('insertUnorderedList')}
             icon={<IconFont iconName="icon-list-ul" />}
-            title={t('Unorderlist')}
+            title={'Unorderlist'}
           />,
         ];
       case AvailableTools.HorizontalRule:
@@ -267,7 +267,7 @@ export function Tools(props: ToolsProps) {
             key={tool}
             onClick={() => execCommand('insertHorizontalRule')}
             icon={<IconFont iconName="icon-line" />}
-            title={t('Line')}
+            title={'Line'}
           />,
         ];
       case AvailableTools.RemoveFormat:
@@ -276,7 +276,7 @@ export function Tools(props: ToolsProps) {
             key={tool}
             onClick={() => execCommand('removeFormat')}
             icon={<IconFont iconName="icon-close" />}
-            title={t('Remove format')}
+            title={'Remove format'}
           />,
         ];
       default:

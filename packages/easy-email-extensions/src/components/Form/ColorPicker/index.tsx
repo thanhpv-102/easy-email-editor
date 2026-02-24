@@ -5,6 +5,8 @@ import { getImg } from '@extensions/AttributePanel/utils/getImg';
 import Color from 'color';
 import { PresetColorsContext } from '@extensions/AttributePanel/components/provider/PresetColorsProvider';
 import { ColorPickerContent } from './ColorPickerContent';
+import { useRichTextPopupOpen } from '../RichTextToolBar/hooks/useRichTextPopupOpen';
+import { RichTextPortalPopup } from '../RichTextToolBar/components/RichTextPortalPopup';
 
 export interface ColorPickerProps extends PopoverProps {
   onChange?: (val: string) => void;
@@ -13,6 +15,8 @@ export interface ColorPickerProps extends PopoverProps {
   children?: React.ReactNode;
   showInput?: boolean;
   fixed?: boolean;
+  /** Pass true when used inside the RichText toolbar so popup open state is managed correctly */
+  inRichTextBar?: boolean;
 }
 
 const getCollapseItemEle = (node: HTMLElement | null): HTMLElement => {
@@ -28,7 +32,9 @@ export function ColorPicker(props: ColorPickerProps) {
   const { addCurrentColor } = useContext(PresetColorsContext);
   const [refEle, setRefEle] = useState<HTMLElement | null>(null);
 
-  const { value = '', onChange, children, showInput = true } = props;
+  const { value = '', onChange, children, showInput = true, inRichTextBar } = props;
+
+  const richTextPopup = useRichTextPopupOpen();
 
   const onInputChange = useCallback(
     (value: string) => {
@@ -64,10 +70,49 @@ export function ColorPicker(props: ColorPickerProps) {
     return value;
   }, [value]);
 
+  // Strip inRichTextBar (our custom prop) before spreading onto antd Popover
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { inRichTextBar: _inRichTextBar, ...popoverProps } = props;
+
+  // When inside the rich text toolbar, render a portal popup instead of antd Popover
+  if (inRichTextBar) {
+    const colorContent = (
+      <ColorPickerContent
+        value={adapterColor}
+        onChange={(c) => {
+          onInputChange(c);
+          // Do NOT close the popup here — clicking a color swatch or using
+          // the native picker should keep the popup open so the user can
+          // pick another color or dismiss by clicking outside.
+        }}
+      />
+    );
+
+    return (
+      <>
+        <span
+          ref={richTextPopup.setTriggerRef}
+          onClick={richTextPopup.handleTriggerClick}
+          style={{ display: 'inline-flex' }}
+        >
+          {children}
+        </span>
+        <RichTextPortalPopup
+          open={richTextPopup.open}
+          rect={richTextPopup.rect}
+          containerRef={richTextPopup.setPopupContainerRef}
+          placement="bottom"
+        >
+          {colorContent}
+        </RichTextPortalPopup>
+      </>
+    );
+  }
+
   return (
     <div style={{ flex: 1, display: 'flex' }}>
       <Popover
-        title={props.label}
+        title={popoverProps.label}
         trigger="click"
         className="color-picker-popup"
         content={(
@@ -77,9 +122,13 @@ export function ColorPicker(props: ColorPickerProps) {
           />
         )}
         getPopupContainer={getPopupContainer}
-        {...props}
+        {...popoverProps}
       >
-        {children || (
+        {children ? (
+          <span style={{ display: 'inline-flex' }}>
+            {children}
+          </span>
+        ) : (
           <div
             ref={setRefEle}
             style={{
@@ -102,7 +151,6 @@ export function ColorPicker(props: ColorPickerProps) {
                   position: 'relative',
                   display: 'block',
                   border: '1px solid var(--color-neutral-3, rgb(229, 230, 235))',
-
                   borderRadius: 2,
                   width: '100%',
                   height: '100%',

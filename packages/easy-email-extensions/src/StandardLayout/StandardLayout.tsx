@@ -9,6 +9,7 @@ import { EditPanel } from '../EditPanel';
 import { ConfigurationPanel } from '@extensions/ConfigurationPanel';
 import { ExtensionProps, ExtensionProvider } from '@extensions/components/Providers/ExtensionProvider';
 import { AdvancedType } from 'easy-email-core';
+import { ConfigurationPopup } from '../ConfigurationPopup';
 
 const defaultCategories: ExtensionProps['categories'] = [
   {
@@ -166,6 +167,7 @@ export const StandardLayout: React.FC<ExtensionProps> = props => {
 
           <InteractivePrompt />
           <MergeTagBadgePrompt />
+          <ConfigurationPopup />
         </App>
       </ConfigProvider>
     </ExtensionProvider>

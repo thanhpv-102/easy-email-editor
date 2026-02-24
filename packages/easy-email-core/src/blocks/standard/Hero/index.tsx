@@ -20,8 +20,7 @@ export type IHero = IBlockData<
     height?: string;
     mode: 'fluid-height' | 'fixed-height';
     padding?: string;
-  },
-  {}
+  }
 >;
 
 export const Hero = createBlock<IHero>({

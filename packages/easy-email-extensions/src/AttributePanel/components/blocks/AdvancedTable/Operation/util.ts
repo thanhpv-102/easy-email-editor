@@ -2,22 +2,15 @@ import { DATA_CONTENT_EDITABLE_IDX } from 'easy-email-editor';
 import { IBoundaryRect, IBoundingPosition, IOperationData } from './type';
 import { AdvancedTableBlock } from 'easy-email-core';
 
-const getEditorElementClientRect = (target: any) => {
-  let left = target.offsetLeft;
-  let top = target.offsetTop;
-  const width = target.clientWidth;
-  const height = target.clientHeight;
-  let parentNode = target.offsetParent;
-  while (parentNode && parentNode.offsetParent) {
-    if (parentNode.classList.contains('shadow-container')) {
-      return { left, top, height, width };
-    }
-    left += parentNode.offsetLeft;
-    top += parentNode.offsetTop;
-
-    parentNode = parentNode.offsetParent;
-  }
-  return { left, top, height, width };
+const getEditorElementClientRect = (target: Element) => {
+  const el = target as HTMLElement;
+  const r = el.getBoundingClientRect();
+  return {
+    left: r.left,
+    top: r.top,
+    width: r.width,
+    height: r.height,
+  };
 };
 
 const getBoundaryFromRects = (startRect: any, endRect: any) => {

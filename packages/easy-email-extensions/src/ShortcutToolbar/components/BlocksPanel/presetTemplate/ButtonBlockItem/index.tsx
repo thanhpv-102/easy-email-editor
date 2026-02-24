@@ -35,7 +35,6 @@ const buttonList = [
   {
     thumbnail: getImg('IMAGE_12'),
     payload: {
-      type: 'button',
       attributes: {
         align: 'center',
         'background-color': 'transparent',
@@ -63,7 +62,6 @@ const buttonList = [
   {
     thumbnail: getImg('IMAGE_13'),
     payload: {
-      type: 'button',
       attributes: {
         align: 'center',
         'background-color': 'transparent',
@@ -83,8 +81,7 @@ const buttonList = [
       },
       data: {
         value: {
-          // eslint-disable-next-line quotes
-          content: "Let's Go",
+          content: 'Let\'s Go',
         },
       },
       children: [],

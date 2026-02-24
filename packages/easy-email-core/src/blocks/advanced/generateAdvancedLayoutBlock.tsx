@@ -23,7 +23,7 @@ export function generateAdvancedLayoutBlock<T extends AdvancedBlock>(option: {
       };
 
       // Column 必须设置宽度
-      if (data.type === AdvancedType.COLUMN && iteration?.enabled) {
+      if (data.type === AdvancedType.COLUMN.toString() && iteration?.enabled) {
         data.attributes.width = data.attributes.width || '100%';
       }
 

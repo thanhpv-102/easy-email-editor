@@ -1,6 +1,6 @@
 import { useBlock, useFocusIdx } from 'easy-email-editor';
-import { AdvancedBlock, OperatorSymbol, AdvancedType, Operator, ICondition, IConditionGroup } from 'easy-email-core';
-import { Collapse, Row, Col, Switch, Button, Space, List, App } from 'antd';
+import { AdvancedBlock, OperatorSymbol, AdvancedType, Operator, IConditionGroup } from 'easy-email-core';
+import { Row, Col, Button, Space, List, App } from 'antd';
 import { SelectField, TextField } from '@extensions/components/Form';
 import React, { useCallback } from 'react';
 import { cloneDeep, get, upperFirst } from 'lodash';
@@ -14,33 +14,6 @@ export function Condition() {
   const condition = focusBlock?.data.value?.condition as
     | undefined
     | AdvancedBlock['data']['value']['condition'];
-
-  const onConditionToggle = useCallback(
-    (enabled: boolean) => {
-      if (enabled) {
-        if (!condition) {
-          change(`${focusIdx}.data.value.condition`, {
-            enabled: true,
-            symbol: OperatorSymbol.AND,
-            groups: [
-              {
-                symbol: OperatorSymbol.AND,
-                groups: [
-                  {
-                    left: '',
-                    operator: Operator.TRUTHY,
-                    right: ''
-                  }
-                ],
-              }
-            ] as unknown[],
-          } as ICondition);
-        }
-      }
-      change(`${focusIdx}.data.value.condition.enabled`, enabled);
-    },
-    [change, condition, focusIdx]
-  );
 
   const onAddCondition = useCallback((path: string) => {
     const groups = get(values, path) as IConditionGroup[];
@@ -100,20 +73,7 @@ export function Condition() {
   }
 
   return (
-    <Collapse.Panel
-      style={{
-        paddingLeft: 10
-      }}
-      className='condition'
-      key='Condition'
-      header={t('Condition')}
-      extra={(
-        <div style={{ marginRight: 10 }}>
-          <Switch checked={condition?.enabled} onChange={onConditionToggle} />
-        </div>
-      )}
-    >
-
+    <>
       {condition?.enabled && (
         <Space orientation='vertical' size='middle'>
 
@@ -190,7 +150,7 @@ export function Condition() {
 
         </Space>
       )}
-    </Collapse.Panel>
+    </>
   );
 }
 

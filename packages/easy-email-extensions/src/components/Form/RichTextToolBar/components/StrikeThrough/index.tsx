@@ -1,5 +1,4 @@
 import type { TooltipProps } from 'antd';
-import { Tooltip } from 'antd';
 import React, { useCallback, useMemo } from 'react';
 import { IconFont } from 'easy-email-editor';
 import { ToolItem } from '../ToolItem';
@@ -9,6 +8,7 @@ import { useSelectionRange } from '@extensions/AttributePanel/hooks/useSelection
 export interface LinkProps extends Omit<TooltipProps, 'title'> {
   currentRange: Range | null | undefined;
   onChange: () => void;
+  getPopupContainer?: () => HTMLElement;
 }
 
 function getStrikeThroughNode(
@@ -36,13 +36,12 @@ export function StrikeThrough(props: LinkProps) {
   }, [node, onChange, setRangeByElement]);
 
   return (
-    <Tooltip title={t('Strikethrough')}>
-      <ToolItem
-        title={t('Strikethrough')}
-        isActive={Boolean(node)}
-        icon={<IconFont iconName="icon-strikethrough" />}
-        onClick={onClick}
-      />
-    </Tooltip>
+    <ToolItem
+      title={t('Strikethrough')}
+      isActive={Boolean(node)}
+      icon={<IconFont iconName="icon-strikethrough" />}
+      onClick={onClick}
+      getPopupContainer={props.getPopupContainer}
+    />
   );
 }

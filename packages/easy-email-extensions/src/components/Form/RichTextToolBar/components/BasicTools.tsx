@@ -5,7 +5,7 @@ import { getParentIdx } from 'easy-email-core';
 import React from 'react';
 import { ToolItem } from './ToolItem';
 
-export function BasicTools() {
+export function BasicTools(props: { getPopupContainer?: () => HTMLElement }) {
   const { copyBlock, removeBlock } = useBlock();
   const { focusIdx, setFocusIdx } = useFocusIdx();
   const { modal, setModalVisible } = useAddToCollection();
@@ -18,7 +18,7 @@ export function BasicTools() {
     setModalVisible(true);
   };
 
-  const handleCopy: React.MouseEventHandler<any> = (ev) => {
+  const handleCopy = () => {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
     }
@@ -44,27 +44,31 @@ export function BasicTools() {
       <span style={{ position: 'relative', marginRight: 10, color: '#fff', fontFamily: '-apple-system, BlinkMacSystemFont, San Francisco, Segoe UI' }}>Text</span>
       <ToolItem
         onClick={handleSelectParent}
-        title={t('Select parent block')}
+        title={'Select parent block'}
         icon={<IconFont iconName='icon-back-parent' />}
+        getPopupContainer={props.getPopupContainer}
       />
       <ToolItem
         onClick={handleCopy}
-        title={t('Copy')}
+        title={'Copy'}
         icon={<IconFont iconName='icon-copy' />}
+        getPopupContainer={props.getPopupContainer}
       />
       {
         onAddCollection && (
           <ToolItem
             onClick={handleAddToCollection}
-            title={t('Add to collection')}
+            title={'Add to collection'}
             icon={<IconFont iconName='icon-collection' />}
+            getPopupContainer={props.getPopupContainer}
           />
         )
       }
       <ToolItem
         onClick={handleDelete}
-        title={t('Delete')}
+        title={'Delete'}
         icon={<IconFont iconName='icon-delete' />}
+        getPopupContainer={props.getPopupContainer}
       />
       {modal}
     </div>

@@ -42,7 +42,7 @@ const heroList = [
   {
     thumbnail: getImg('IMAGE_30'),
     payload: {
-      type: 'hero',
+      type: AdvancedType.HERO,
       data: {
         value: {},
       },
@@ -119,7 +119,7 @@ const heroList = [
   {
     thumbnail: getImg('IMAGE_32'),
     payload: {
-      type: 'hero',
+      type: AdvancedType.HERO,
       data: {
         value: {
           content:
@@ -221,7 +221,7 @@ const heroList = [
   {
     thumbnail: getImg('IMAGE_34'),
     payload: {
-      type: 'hero',
+      type: AdvancedType.HERO,
       data: {
         value: {
           content:
@@ -302,7 +302,7 @@ const heroList = [
   {
     thumbnail: getImg('IMAGE_36'),
     payload: {
-      type: 'hero',
+      type: AdvancedType.HERO,
       attributes: {
         'background-color': '#ffffff',
         'background-position': 'center center',
@@ -358,7 +358,7 @@ const heroList = [
             'padding-top': '30px',
             src: getImg('IMAGE_37'),
             target: '_blank',
-            href: 'https://easy-email-m-ryan.vercel.app/',
+            href: 'https://github.com/thanhpv-102/easy-email-editor/blob/master/demo/public/',
           },
           data: {
             value: {

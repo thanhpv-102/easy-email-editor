@@ -1,5 +1,5 @@
 import { Field, UseFieldConfig } from 'easy-email-editor';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useRefState } from 'easy-email-editor';
 import { debounce } from 'lodash';
 import { Form, FormItemProps } from 'antd';
@@ -58,6 +58,7 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
 
     const [currentValue, setCurrentValue] = useState('');
     const currentValueRef = useRefState(currentValue);
+    const isFocusedRef = useRef(false);
 
     const layoutStyle = useMemo((): FormItemProps => {
       if (equalSpacing) {
@@ -133,9 +134,24 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
 
             const onFieldChange: P['onChange'] = useCallback(
               (e: any) => {
-                const newVal = onChangeAdapter
+                const adapted = onChangeAdapter
                   ? onChangeAdapter(changeAdapter(e))
                   : changeAdapter(e);
+
+                // If the adapter returned a synthetic/native Event, extract its value
+                // so we never show [object Object] in the input.
+                let newVal: string;
+                if (
+                  adapted !== null &&
+                  typeof adapted === 'object' &&
+                  'target' in adapted &&
+                  (adapted as { target: unknown }).target !== null
+                ) {
+                  const rawVal = (adapted as { target: { value: unknown } }).target.value;
+                  newVal = rawVal == null ? '' : String(rawVal);
+                } else {
+                  newVal = adapted == null ? '' : String(adapted);
+                }
 
                 setCurrentValue(newVal);
                 if (!changeOnBlur) {
@@ -146,14 +162,24 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
             );
 
             const onFieldBlur = useCallback(() => {
+              isFocusedRef.current = false;
               if (changeOnBlur) {
                 onChange(currentValueRef.current);
                 onBlur();
               }
             }, [onBlur, onChange]);
 
+            const onFieldFocus = useCallback(() => {
+              isFocusedRef.current = true;
+            }, []);
+
             useEffect(() => {
-              setCurrentValue(value);
+              // Only sync form value → input when the input is not focused.
+              // While focused the user is typing; overwriting currentValue would
+              // cause visible glitches and lost keystrokes.
+              if (!isFocusedRef.current) {
+                setCurrentValue(value == null ? '' : String(value));
+              }
             }, [value]);
 
             return (
@@ -178,6 +204,7 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
                   value={currentValue}
                   onChange={onFieldChange}
                   onBlur={onFieldBlur}
+                  onFocus={onFieldFocus}
                 />
               </Form.Item>
             );

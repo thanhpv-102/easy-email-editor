@@ -3,9 +3,21 @@ import { useEditorProps } from '@/hooks/useEditorProps';
 import { useLazyState } from '@/hooks/useLazyState';
 import { HtmlStringToPreviewReactNodes } from '@/utils/HtmlStringToPreviewReactNodes';
 import { JsonToMjml } from 'easy-email-core';
-import { cloneDeep, isString } from 'lodash';
+import { cloneDeep, get, isString } from 'lodash';
 import mjml from 'mjml-browser';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+
+function replaceMergeTags(html: string, mergeTags: Record<string, unknown>): string {
+  if (!mergeTags || Object.keys(mergeTags).length === 0) return html;
+  return html.replace(/\{\{([\s\S]+?)}}/g, (original, path: string) => {
+    const trimmedPath = path.trim();
+    const value = get(mergeTags, trimmedPath);
+    if (value !== undefined && value !== null && typeof value !== 'object') {
+      return (value as string | number | boolean).toString();
+    }
+    return original;
+  });
+}
 
 export const MOBILE_WIDTH = 320;
 
@@ -68,6 +80,10 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
         keepClassName: true,
       }),
     ).html;
+
+    // Replace merge tag placeholders with actual values from injectData
+    parseHtml = replaceMergeTags(parseHtml, injectData);
+
     if (onBeforePreview) {
       try {
         const result = onBeforePreview(parseHtml, injectData);

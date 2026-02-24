@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { RICH_TEXT_TOOL_BAR } from '@extensions/constants';
+import { RICH_TEXT_TOOL_BAR, RICH_TEXT_POPUP_CONTAINER_ID } from '@extensions/constants';
 import { getShadowRoot } from 'easy-email-editor';
 import React, { useEffect, useMemo, useState } from 'react';
 
@@ -19,12 +19,24 @@ export const SelectionRangeProvider: React.FC<{
   useEffect(() => {
     const onSelectionChange = () => {
       try {
-        const range = (getShadowRoot() as any).getSelection().getRangeAt(0);
-        if (range) {
-          const toolbar = getShadowRoot().getElementById(RICH_TEXT_TOOL_BAR);
-          if (toolbar && toolbar.contains(range.commonAncestorContainer)) return;
-          setSelectionRange(range);
-        }
+        // Chrome supports getSelection() on ShadowRoot for selections inside Shadow DOM.
+        // Firefox does not, so we fall back to document.getSelection().
+        const shadowRoot = getShadowRoot();
+        const selection: Selection | null =
+          'getSelection' in shadowRoot
+            ? (shadowRoot as unknown as Document).getSelection()
+            : document.getSelection();
+
+        if (!selection || selection.rangeCount === 0) return;
+
+        const range = selection.getRangeAt(0);
+        if (!range || range.collapsed) return;
+
+        const toolbar = shadowRoot.getElementById(RICH_TEXT_TOOL_BAR);
+        if (toolbar && toolbar.contains(range.commonAncestorContainer)) return;
+        const popupContainer = shadowRoot.getElementById(RICH_TEXT_POPUP_CONTAINER_ID);
+        if (popupContainer && popupContainer.contains(range.commonAncestorContainer)) return;
+        setSelectionRange(range);
       } catch (error) {}
     };
 

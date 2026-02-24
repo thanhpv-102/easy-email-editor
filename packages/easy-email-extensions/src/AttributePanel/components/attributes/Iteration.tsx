@@ -1,33 +1,15 @@
 import { useBlock, useFocusIdx } from 'easy-email-editor';
-import { Collapse, Row, Col, Switch } from 'antd';
+import { Row, Col } from 'antd';
 import { AdvancedBlock, AdvancedType } from 'easy-email-core';
 import { TextField } from '@extensions/components/Form';
-import React, { useCallback } from 'react';
+import React from 'react';
 
 export function Iteration() {
   const { focusIdx } = useFocusIdx();
-  const { focusBlock, change } = useBlock();
+  const { focusBlock } = useBlock();
   const iteration = focusBlock?.data.value?.iteration as
     | undefined
     | AdvancedBlock['data']['value']['iteration'];
-
-  const onIterationToggle = useCallback(
-    (enabled: boolean) => {
-      if (enabled) {
-        if (!iteration) {
-          change(`${focusIdx}.data.value.iteration`, {
-            enabled: true,
-            dataSource: '',
-            itemName: 'item',
-            limit: 9999,
-            mockQuantity: 1,
-          } as AdvancedBlock['data']['value']['iteration']);
-        }
-      }
-      change(`${focusIdx}.data.value.iteration.enabled`, enabled);
-    },
-    [change, focusIdx, iteration]
-  );
 
   if (
     !focusBlock?.type ||
@@ -37,16 +19,7 @@ export function Iteration() {
   }
 
   return (
-    <Collapse.Panel
-      className='iteration'
-      key='Iteration'
-      header={'Iteration'}
-      extra={(
-        <div style={{ marginRight: 10 }}>
-          <Switch checked={iteration?.enabled} onChange={onIterationToggle} />
-        </div>
-      )}
-    >
+    <>
       {iteration?.enabled && (
         <Col span={24}>
           <div>
@@ -88,6 +61,6 @@ export function Iteration() {
           </div>
         </Col>
       )}
-    </Collapse.Panel>
+    </>
   );
 }

@@ -1,11 +1,8 @@
 import { Button, Space } from 'antd';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
-
 import styles from '../index.module.scss';
-
 import Color from 'color';
-
 import { PresetColorsContext } from '@extensions/AttributePanel/components/provider/PresetColorsProvider';
 
 export interface ColorPickerContentProps {
@@ -35,7 +32,10 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
     if (Color(color).hex()) {
       adapterColor = Color(color).hex();
     }
-  } catch (error) {}
+  } catch (_) {}
+
+  // input[type=color] requires exactly #rrggbb format
+  const inputColorValue = /^#[0-9a-fA-F]{6}$/.test(adapterColor) ? adapterColor : '#000000';
 
   return (
     <div
@@ -99,8 +99,9 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
               opacity: 0,
             }}
             type='color'
-            value={adapterColor}
+            value={inputColorValue}
             onChange={e => onChange(e.target.value)}
+            onMouseDown={e => e.stopPropagation()}
           />
         </Button>
       </div>

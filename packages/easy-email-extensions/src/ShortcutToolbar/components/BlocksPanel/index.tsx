@@ -6,6 +6,7 @@ import { IconFont, Stack, useHoverIdx } from 'easy-email-editor';
 import { BlockMarketCategory, BlockMarketManager } from '../../utils/BlockMarketManager';
 import { defaultCategories } from './presetTemplate';
 import { Help } from '@extensions/AttributePanel/components/UI/Help';
+import { getIconNameByBlockType } from '@extensions/utils/getIconNameByBlockType';
 
 BlockMarketManager.addCategories(defaultCategories);
 
@@ -134,6 +135,10 @@ const BlockPanelItem: React.FC<{
             alignment='center'
             spacing='extraTight'
           >
+            <IconFont
+              iconName={getIconNameByBlockType(block.type)}
+              style={{ fontSize: 16 }}
+            />
             <div className={styles.blockItem}>{block.title}</div>
             {block.description && <Help title={block.description} />}
           </Stack>

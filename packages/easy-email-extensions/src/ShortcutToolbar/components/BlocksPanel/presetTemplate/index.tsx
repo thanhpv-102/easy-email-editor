@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { AdvancedType } from 'easy-email-core';
 import { Stack, TextStyle } from 'easy-email-editor';
@@ -17,6 +16,7 @@ import { WrapperBlockItem } from './WrapperBlockItem';
 import { SectionBlockItem } from './SectionBlockItem';
 import { GroupBlockItem } from './GroupBlockItem';
 import { ColumnBlockItem } from './ColumnBlockItem';
+import { TableBlockItem } from '@extensions/ShortcutToolbar/components/BlocksPanel/presetTemplate/TableBlockItem';
 
 export const defaultCategories = [
   {
@@ -44,7 +44,7 @@ export const defaultCategories = [
           return (
             <Stack
               vertical
-              spacing='none'
+              spacing="none"
             >
               <TextStyle>
                 {'Displays a responsive image in your email. It is similar to the HTML \'&lt;img/&gt;\' tag. Note that if no width is provided, the image will use the parent column width.'}
@@ -53,6 +53,16 @@ export const defaultCategories = [
           );
         },
         component: ImageBlockItem,
+      },
+      {
+        type: AdvancedType.TABLE,
+        get title() {
+          return 'Table';
+        },
+        get description() {
+          return 'Displays a table.';
+        },
+        component: TableBlockItem,
       },
       {
         type: AdvancedType.BUTTON,
@@ -161,7 +171,7 @@ export const defaultCategories = [
           return (
             <Stack
               vertical
-              spacing='none'
+              spacing="none"
             >
               <TextStyle>
                 {'Sections are intended to be used as rows within your email. They will be used to structure the layout.'}
@@ -193,7 +203,7 @@ export const defaultCategories = [
           return (
             <Stack
               vertical
-              spacing='none'
+              spacing="none"
             >
               <TextStyle>
                 {'Columns enable you to horizontally organize the content within your sections. They must be located under "Section" block in order to be considered by the engine. To be responsive, columns are expressed in terms of percentage.'}

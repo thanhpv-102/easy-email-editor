@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd';
 import type { TooltipProps } from 'antd';
 import React, { useCallback, useMemo } from 'react';
 import { IconFont } from 'easy-email-editor';
@@ -9,6 +8,7 @@ import { useSelectionRange } from '@extensions/AttributePanel/hooks/useSelection
 export interface LinkProps extends Omit<TooltipProps, 'title'> {
   currentRange: Range | null | undefined;
   onChange: () => void;
+  getPopupContainer?: () => HTMLElement;
 }
 
 function getBoldNode(
@@ -36,8 +36,12 @@ export function Bold(props: LinkProps) {
   }, [node, onChange, setRangeByElement]);
 
   return (
-    <Tooltip title={t('Bold')}>
-      <ToolItem title={t('Bold')} isActive={Boolean(node)} icon={<IconFont iconName="icon-bold" />} onClick={onClick} />
-    </Tooltip>
+    <ToolItem
+      title={t('Bold')}
+      isActive={Boolean(node)}
+      icon={<IconFont iconName="icon-bold" />}
+      onClick={onClick}
+      getPopupContainer={props.getPopupContainer}
+    />
   );
 }

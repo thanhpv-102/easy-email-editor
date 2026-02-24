@@ -218,15 +218,16 @@ function makeBlockNodeContentEditable(node: ChildNode) {
   } else if (isTableBlock(type)) {
     const trNodes = node.querySelectorAll('tr');
     trNodes.forEach((trNode, trIndex) => {
-      const tdNodes = trNode.querySelectorAll('td');
-      tdNodes.forEach((tdNode, tdIndex) => {
+      // Handle both th (header) and td (body) cells
+      const cellNodes = trNode.querySelectorAll('th, td');
+      cellNodes.forEach((cellNode, cellIndex) => {
         const _idx = idx.replace(
           'data.value.content',
-          `data.value.tableSource.${trIndex}.${tdIndex}.content`,
+          `data.value.tableSource.${trIndex}.${cellIndex}.content`,
         );
-        tdNode.setAttribute('contentEditable', 'true');
-        tdNode.setAttribute(DATA_CONTENT_EDITABLE_TYPE, ContentEditableType.RichText);
-        tdNode.setAttribute(DATA_CONTENT_EDITABLE_IDX, _idx);
+        cellNode.setAttribute('contentEditable', 'true');
+        cellNode.setAttribute(DATA_CONTENT_EDITABLE_TYPE, ContentEditableType.RichText);
+        cellNode.setAttribute(DATA_CONTENT_EDITABLE_IDX, _idx);
       });
     });
   }

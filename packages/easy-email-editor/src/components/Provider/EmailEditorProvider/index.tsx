@@ -10,6 +10,7 @@ import { FocusBlockLayoutProvider } from '../FocusBlockLayoutProvider';
 import { PreviewEmailProvider } from '../PreviewEmailProvider';
 import { LanguageProvider } from '../LanguageProvider';
 import { overrideErrorLog, restoreErrorLog } from '@/utils/logger';
+import { EditorConfigProvider } from '../EditorConfigProvider';
 
 export interface EmailEditorProviderProps<T extends IEmailTemplate = any>
   extends Omit<PropsProviderProps, 'children'> {
@@ -45,34 +46,42 @@ export const EmailEditorProvider = <T extends any>(
   if (!initialValues.content) return null;
 
   return (
-    <Form<IEmailTemplate>
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      validate={validationSchema}
+    <EditorConfigProvider
+      initialConfig={{
+        dashed: props.dashed,
+        mergeTags: props.mergeTags,
+        socialIcons: props.socialIcons,
+      }}
     >
-      {() => (
-        <>
-          <PropsProvider {...props}>
-            <LanguageProvider locale={props.locale}>
-              <PreviewEmailProvider>
-                <RecordProvider>
-                  <BlocksProvider>
-                    <HoverIdxProvider>
-                      <ScrollProvider>
-                        <FocusBlockLayoutProvider>
-                          <FormWrapper children={children} />
-                        </FocusBlockLayoutProvider>
-                      </ScrollProvider>
-                    </HoverIdxProvider>
-                  </BlocksProvider>
-                </RecordProvider>
-              </PreviewEmailProvider>
-            </LanguageProvider>
-          </PropsProvider>
-          <RegisterFields />
-        </>
-      )}
-    </Form>
+      <Form<IEmailTemplate>
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validate={validationSchema}
+      >
+        {() => (
+          <>
+            <PropsProvider {...props}>
+              <LanguageProvider locale={props.locale}>
+                <PreviewEmailProvider>
+                  <RecordProvider>
+                    <BlocksProvider>
+                      <HoverIdxProvider>
+                        <ScrollProvider>
+                          <FocusBlockLayoutProvider>
+                            <FormWrapper children={children} />
+                          </FocusBlockLayoutProvider>
+                        </ScrollProvider>
+                      </HoverIdxProvider>
+                    </BlocksProvider>
+                  </RecordProvider>
+                </PreviewEmailProvider>
+              </LanguageProvider>
+            </PropsProvider>
+            <RegisterFields />
+          </>
+        )}
+      </Form>
+    </EditorConfigProvider>
   );
 };
 

@@ -16,6 +16,8 @@ export function Picture(props: IPictureProps) {
     setUrl(props.src);
   }, [props.src]);
 
+  const { width, height, borderRadius, padding, ...restStyle } = props.style || {};
+
   return (
     <picture
       {...{ ...props }}
@@ -23,21 +25,25 @@ export function Picture(props: IPictureProps) {
         src: undefined,
         style: {
           display: 'inline-block',
-          ...props.style,
+          width: width,
+          height: height,
+          borderRadius: borderRadius,
+          padding: padding,
+          overflow: borderRadius ? 'hidden' : undefined,
+          ...restStyle,
         },
       }}
     >
       <source
-        type='image/webp'
-        srcSet={url + '?imageView2/3/q/70/w/750/format/webp'}
+        srcSet={url}
       />
       <img
-        crossOrigin=''
         style={{
-          width: props.style?.width || '100%',
-          height: props.style?.height || '100%',
+          width: width || '100%',
+          height: height || '100%',
           maxWidth: '100%',
           maxHeight: '100%',
+          display: 'block',
         }}
         src={url}
         alt=''

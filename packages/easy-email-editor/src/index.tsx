@@ -5,6 +5,10 @@ export { BlockAvatarWrapper } from './components/wrapper';
 
 export { EmailEditor } from './components/EmailEditor';
 
+// export EditorConfigProvider
+export { EditorConfigProvider, useEditorConfig } from './components/Provider/EditorConfigProvider';
+export type { EditorRuntimeConfig, EditorConfigContextValue } from './components/Provider/EditorConfigProvider';
+
 // exposing more granular components
 export { EditEmailPreview } from './components/EmailEditor/components/EditEmailPreview';
 export { MobileEmailPreview } from './components/EmailEditor/components/MobileEmailPreview';

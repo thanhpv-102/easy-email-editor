@@ -3,6 +3,9 @@ import { createPortal } from 'react-dom';
 import { getPluginElement, RICH_TEXT_BAR_ID, useEditorContext } from 'easy-email-editor';
 import { Tools } from './components/Tools';
 import styleText from './shadow-dom.scss?inline';
+import { RICH_TEXT_POPUP_CONTAINER_ID } from '@extensions/constants';
+
+export { RICH_TEXT_POPUP_CONTAINER_ID };
 
 export function RichTextToolBar(props: { onChange: (s: string) => void; }) {
   const { initialized } = useEditorContext();
@@ -41,6 +44,18 @@ export function RichTextToolBar(props: { onChange: (s: string) => void; }) {
 
             <Tools onChange={props.onChange} />
           </div>
+          <div
+            id={RICH_TEXT_POPUP_CONTAINER_ID}
+            style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              width: 0,
+              height: 0,
+              zIndex: 10000,
+              overflow: 'visible',
+            }}
+          />
         </>,
         root
       )}

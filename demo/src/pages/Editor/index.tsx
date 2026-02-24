@@ -190,12 +190,13 @@ export default function Editor() {
         <div>
           <style>{blueTheme}</style>
           <EmailEditorProvider
-            height={'calc(100vh - 68px)'}
+            height={'calc(100vh - 1px)'}
             data={initialValues}
             onUploadImage={onUploadImage}
             onSubmit={onSubmit}
             dashed={false}
             compact={compact}
+            mergeTags={{ user: { name: 'Test username', email: 'testmail@example.com' } }}
           >
             {({ values }, { submit, restart }) => {
               return (

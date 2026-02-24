@@ -3,7 +3,8 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import TableColumnTool, { IBorderTool } from './tableTool';
 import { getShadowRoot, useBlock, useFocusIdx } from 'easy-email-editor';
-import { IAdvancedTableData } from 'easy-email-core';
+import { IAdvancedTableData, AdvancedType } from 'easy-email-core';
+
 export function TableOperation() {
   const shadowRoot = getShadowRoot();
   const { focusIdx } = useFocusIdx();
@@ -13,7 +14,13 @@ export function TableOperation() {
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
   const tool = useRef<TableColumnTool | null>(null);
+
+  // Only show for AdvancedTable blocks
+  const isAdvancedTable = focusBlock?.type === AdvancedType.TABLE;
+
   useEffect(() => {
+    if (!isAdvancedTable) return;
+
     // Check if shadowRoot exists before proceeding
     if (!shadowRoot) return;
     // Use the shadow root itself as the container, not looking for a body element
@@ -41,19 +48,24 @@ export function TableOperation() {
     return () => {
       tool.current?.destroy();
     };
-  }, [shadowRoot]);
+  }, [shadowRoot, isAdvancedTable]);
+
   useEffect(() => {
+    if (!isAdvancedTable) return;
+
     if (tool.current) {
       tool.current.changeTableData = (data: IAdvancedTableData[][]) => {
         change(`${focusIdx}.data.value.tableSource`, cloneDeep(data));
       };
       tool.current.tableData = cloneDeep(focusBlock?.data?.value?.tableSource || []);
     }
-  }, [focusIdx, focusBlock, change]);
-  // Don't render if shadowRoot is not available
-  if (!shadowRoot) {
+  }, [focusIdx, focusBlock, change, isAdvancedTable]);
+
+  // Don't render if shadowRoot is not available or not an AdvancedTable
+  if (!shadowRoot || !isAdvancedTable) {
     return null;
   }
+
   return (
     <>
       {createPortal(

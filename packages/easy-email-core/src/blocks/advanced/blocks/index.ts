@@ -68,6 +68,7 @@ export const AdvancedSocial = generateAdvancedContentBlock<ISocial>({
 export const AdvancedTable = generateAdvancedTableBlock({
   type: AdvancedType.TABLE,
   baseType: BasicType.TABLE,
+  validParentType: [BasicType.PAGE, BasicType.COLUMN, BasicType.WRAPPER, AdvancedType.COLUMN, AdvancedType.SECTION],
 });
 
 //

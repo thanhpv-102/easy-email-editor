@@ -11,6 +11,8 @@ export default class TableOperationMenu {
   domNode: Element | undefined = undefined;
   styleDom?: HTMLStyleElement;
   visible = false;
+  splitCellNode: HTMLElement | undefined = undefined;
+  splitCellDivider: HTMLElement | undefined = undefined;
 
   changeTableData?: (e: IOperationData[][]) => void;
   tableData = undefined as unknown as IOperationData[][];
@@ -26,7 +28,7 @@ export default class TableOperationMenu {
     if (this.domNode) {
       document.body.appendChild(this.domNode);
     }
-    document.body.addEventListener('click', this.hide.bind(this));
+    document.body.addEventListener('click', this.handleBodyClick.bind(this));
   }
 
   destroy() {
@@ -34,7 +36,13 @@ export default class TableOperationMenu {
     if (this.styleDom) {
       document.head.removeChild(this.styleDom);
     }
-    document.body.removeEventListener('click', this.hide.bind(this));
+    document.body.removeEventListener('click', this.handleBodyClick.bind(this));
+  }
+
+  handleBodyClick(e: MouseEvent) {
+    // Ignore right-clicks — the menu should stay visible after being shown by a right-click
+    if (e.button !== 0) return;
+    this.hide();
   }
 
   hide() {
@@ -68,6 +76,7 @@ export default class TableOperationMenu {
 
   showMenu({ x, y }: { x: number; y: number }) {
     this.visible = true;
+    this.updateSplitCellVisibility();
     const maxHeight = window.innerHeight;
     const maxWidth = window.innerWidth;
     if (maxWidth - MENU_WIDTH < x) {
@@ -78,13 +87,42 @@ export default class TableOperationMenu {
     }
     setStyle(this.domNode, {
       display: 'block',
-      position: 'absolute',
+      position: 'fixed',
       left: `${x}px`,
       top: `${y}px`,
       'min-height': '150px',
       width: `${MENU_WIDTH}px`,
       Height: `${MENU_HEIGHT}px`,
     });
+  }
+
+  updateSplitCellVisibility() {
+    if (!this.splitCellNode || !this.splitCellDivider) return;
+    const { top, left, bottom, right } = this.tableIndexBoundary || {};
+    // Show splitCell only when exactly one merged cell is selected.
+    // A merged cell expands the boundary (right > left or bottom > top),
+    // so we check that one cell's span exactly covers the whole boundary.
+    let isMerged = false;
+    if (this.tableData) {
+      const tr = this.tableData[top];
+      if (tr) {
+        const cell = tr.find(td => td.left === left);
+        if (cell) {
+          const colSpan = cell.colSpan || 1;
+          const rowSpan = cell.rowSpan || 1;
+          // The cell is the only one selected if its span exactly matches the boundary
+          const cellCoversFullBoundary =
+            cell.left === left &&
+            cell.right === right &&
+            cell.top === top &&
+            cell.bottom === bottom;
+          isMerged = cellCoversFullBoundary && (colSpan > 1 || rowSpan > 1);
+        }
+      }
+    }
+    const display = isMerged ? '' : 'none';
+    this.splitCellNode.style.display = display;
+    this.splitCellDivider.style.display = display;
   }
 
   menuInitial() {
@@ -99,13 +137,19 @@ export default class TableOperationMenu {
     for (let name in this.menuItems) {
       const itemOption = (this.menuItems as any)[name];
       if (itemOption) {
-        this.domNode.appendChild(
-          itemOption.render
-            ? itemOption.render(this)
-            : this.menuItemCreator(Object.assign({}, itemOption)),
-        );
+        const itemNode = itemOption.render
+          ? itemOption.render(this)
+          : this.menuItemCreator(Object.assign({}, itemOption));
+        this.domNode.appendChild(itemNode);
 
-        if (['insertRowDown', 'deleteRow'].indexOf(name) > -1) {
+        if (name === 'splitCell') {
+          this.splitCellNode = itemNode as HTMLElement;
+          const splitDivider = dividingCreator();
+          this.splitCellDivider = splitDivider;
+          this.domNode.appendChild(splitDivider);
+        }
+
+        if (['insertRowDown', 'deleteRow', 'mergeCells'].indexOf(name) > -1) {
           this.domNode.appendChild(dividingCreator());
         }
       }

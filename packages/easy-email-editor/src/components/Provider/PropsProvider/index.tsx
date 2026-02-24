@@ -1,5 +1,6 @@
 import { IBlockData } from 'easy-email-core';
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
+import { EditorConfigContext } from '@/components/Provider/EditorConfigProvider';
 
 export interface CollectedBlock {
   label: string;
@@ -91,14 +92,21 @@ export const EditorPropsContext = React.createContext<
 });
 
 export const PropsProvider: React.FC<PropsProviderProps> = props => {
-  const { dashed = true, mergeTagGenerate = defaultMergeTagGenerate } = props;
+  const { runtimeConfig } = useContext(EditorConfigContext);
+  const {
+    dashed = runtimeConfig.dashed ?? true,
+    mergeTagGenerate = defaultMergeTagGenerate,
+  } = props;
   const formatProps = useMemo(() => {
     return {
       ...props,
       mergeTagGenerate,
-      dashed,
+      dashed: runtimeConfig.dashed !== undefined ? runtimeConfig.dashed : dashed,
+      mergeTags: runtimeConfig.mergeTags !== undefined ? runtimeConfig.mergeTags : props.mergeTags,
+      socialIcons:
+        runtimeConfig.socialIcons !== undefined ? runtimeConfig.socialIcons : props.socialIcons,
     };
-  }, [mergeTagGenerate, props, dashed]);
+  }, [mergeTagGenerate, props, dashed, runtimeConfig]);
 
   return (
     <EditorPropsContext.Provider value={formatProps}>

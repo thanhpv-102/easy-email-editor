@@ -3,9 +3,11 @@ import React from 'react';
 import { useBlock } from '@/hooks/useBlock';
 import { IconFont } from '@/components/IconFont';
 import { Button } from '@/components/UI/Button';
+import { useEditorConfig } from '@/components/Provider/EditorConfigProvider';
 
 export function ToolsPanel() {
   const { redo, undo, redoable, undoable } = useBlock();
+  const { openConfig } = useEditorConfig();
 
   return (
     <Stack>
@@ -28,7 +30,19 @@ export function ToolsPanel() {
           }}
         />
       </Button>
+
+      <Button title={t('Editor configuration')} onClick={openConfig}>
+        <IconFont
+          iconName='icon-more'
+          style={{
+            cursor: 'inherit',
+          }}
+        />
+      </Button>
+
       <Stack.Item />
     </Stack>
   );
 }
+
+

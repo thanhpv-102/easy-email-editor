@@ -3,17 +3,44 @@ import { AdvancedType, IImage, RecursivePartial } from 'easy-email-core';
 import { Stack } from 'easy-email-editor';
 
 import { BlockMaskWrapper } from '@extensions/ShortcutToolbar/components/BlockMaskWrapper';
-import { getImg } from '@extensions/ShortcutToolbar/utils/getImg';
 import { Picture } from '@extensions/ShortcutToolbar/components/Picture';
+import { getImg } from '@extensions/ShortcutToolbar/utils/getImg';
 
 const imageList = [
-  getImg('IMAGE_39'),
-  getImg('IMAGE_40'),
-  getImg('IMAGE_41'),
-  getImg('IMAGE_42'),
-  getImg('IMAGE_43'),
-  getImg('IMAGE_44'),
-  getImg('IMAGE_45'),
+  {
+    attributes: {
+      src: getImg('IMAGE_45'),
+      padding: '10px 25px 10px 25px',
+      'padding-left': '0px',
+      'padding-right': '0px',
+      'padding-top': '0px',
+      'padding-bottom': '0px'
+    }
+  },
+  {
+    attributes: {
+      src: getImg('IMAGE_44'),
+      padding: '10px 25px 10px 25px',
+      'padding-left': '25px',
+      'padding-right': '25px',
+      'padding-top': '0px',
+      'padding-bottom': '0px',
+      'border-radius': '15px'
+    },
+  },
+  {
+    attributes: {
+      src: getImg('IMAGE_43'),
+      padding: '10px 25px 10px 25px',
+      'padding-left': '25px',
+      'padding-right': '25px',
+      'padding-top': '0px',
+      'padding-bottom': '0px',
+      'border-radius': '999px',
+      width: '200px',
+      height: '200px'
+    },
+  }
 ];
 
 export function ImageBlockItem() {
@@ -27,15 +54,25 @@ export function ImageBlockItem() {
               type={AdvancedType.IMAGE}
               payload={
                 {
-                  attributes: {
-                    src: item,
-                    padding: '0px 0px 0px 0px',
-                  },
+                  attributes: item.attributes,
                 } as RecursivePartial<IImage>
               }
             >
-              <div style={{ position: 'relative' }}>
-                <Picture src={item} />
+              <div
+                style={{
+                  position: 'relative',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <Picture
+                  src={item.attributes.src}
+                  style={{
+                    width: item.attributes.width,
+                    height: item.attributes.height,
+                    borderRadius: item.attributes['border-radius']
+                  }}
+                />
                 <div
                   style={{
                     position: 'absolute',

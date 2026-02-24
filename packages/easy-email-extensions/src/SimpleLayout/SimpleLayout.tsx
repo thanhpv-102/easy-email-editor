@@ -10,6 +10,7 @@ import styles from './index.module.scss';
 import enUS from 'antd/locale/en_US';
 import { MergeTagBadgePrompt } from '@extensions/MergeTagBadgePrompt';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { ConfigurationPopup } from '../ConfigurationPopup';
 
 export const SimpleLayout: React.FC<
   {
@@ -135,6 +136,7 @@ export const SimpleLayout: React.FC<
 
           <InteractivePrompt />
           <MergeTagBadgePrompt />
+          <ConfigurationPopup />
         </Layout>
       </App>
     </ConfigProvider>

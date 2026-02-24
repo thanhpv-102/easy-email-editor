@@ -17,43 +17,48 @@ export function AccordionText() {
 
   return (
     <AttributesPanelWrapper>
-      <Collapse defaultActiveKey={['0', '1', '2']}>
-        <Collapse.Panel key="0" header={t('Setting')}>
-          <Space orientation="vertical" size="small">
-            <TextAreaField
-              label={t('Content')}
-              name={`${focusIdx}.data.value.content`}
-              autoSize={{ minRows: 5 }}
-            />
-            <Row>
-              <Col span={11}>
-                <Color />
-              </Col>
-              <Col offset={1} span={11}>
-                <FontSize />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <LineHeight />
-              </Col>
-              <Col offset={1} span={11}>
-                <FontWeight />
-              </Col>
-            </Row>
-            <Row>
-              <Col span={11}>
-                <FontFamily />
-              </Col>
-              <Col offset={1} span={11}>
-                <BackgroundColor />
-              </Col>
-            </Row>
+      <Collapse defaultActiveKey={['0', '1', '2']} items={[
+        {
+          key: '0',
+          label: t('Setting'),
+          children: (
+            <Space orientation="vertical" size="small">
+              <TextAreaField
+                label={t('Content')}
+                name={`${focusIdx}.data.value.content`}
+                autoSize={{ minRows: 5 }}
+              />
+              <Row>
+                <Col span={11}>
+                  <Color />
+                </Col>
+                <Col offset={1} span={11}>
+                  <FontSize />
+                </Col>
+              </Row>
+              <Row>
+                <Col span={11}>
+                  <LineHeight />
+                </Col>
+                <Col offset={1} span={11}>
+                  <FontWeight />
+                </Col>
+              </Row>
+              <Row>
+                <Col span={11}>
+                  <FontFamily />
+                </Col>
+                <Col offset={1} span={11}>
+                  <BackgroundColor />
+                </Col>
+              </Row>
 
-            <Padding title={t('Padding')} attributeName="padding" />
-          </Space>
-        </Collapse.Panel>
-      </Collapse>
+              <Padding title={t('Padding')} attributeName="padding" />
+            </Space>
+          ),
+        },
+      ]}
+      />
     </AttributesPanelWrapper>
   );
 }

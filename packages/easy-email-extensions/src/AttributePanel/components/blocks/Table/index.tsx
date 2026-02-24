@@ -1,7 +1,8 @@
 import { AttributesPanelWrapper } from '@extensions/AttributePanel';
-import { Button, Collapse, Tooltip } from 'antd';
-import { IconFont, Stack } from 'easy-email-editor';
-import React, { useState } from 'react';
+import { Collapse } from 'antd';
+import { Stack, useFocusIdx } from 'easy-email-editor';
+import React from 'react';
+import { t } from 'easy-email-core';
 import { Border } from '../../attributes/Border';
 import { Color } from '../../attributes/Color';
 import { ContainerBackgroundColor } from '../../attributes/ContainerBackgroundColor';
@@ -11,51 +12,46 @@ import { FontStyle } from '../../attributes/FontStyle';
 import { Padding } from '../../attributes/Padding';
 import { TextAlign } from '../../attributes/TextAlign';
 import { Width } from '../../attributes/Width';
-import { HtmlEditor } from '../../UI/HtmlEditor';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
-
+import { TextField } from '@extensions/components/Form';
 export function Table() {
-  const [visible, setVisible] = useState(false);
-
+  const { focusIdx } = useFocusIdx();
   return (
-    <AttributesPanelWrapper
-      extra={
-        (
-          <Tooltip title={'Edit'}>
-            <Button
-              onClick={() => setVisible(true)}
-              icon={<IconFont iconName="icon-html" />}
-            />
-          </Tooltip>
-        )
-      }
-    >
-      <CollapseWrapper defaultActiveKey={['-1', '0', '1', '2', '3']}>
+    <AttributesPanelWrapper>
+      <CollapseWrapper defaultActiveKey={['-1', '0', '1', '2']}>
+        <Collapse.Panel
+          key="0"
+          header={t('Content')}
+        >
+          <TextField
+            label={t('Content')}
+            name={`${focusIdx}.data.value.content`}
+            type='textarea'
+            placeholder="Enter HTML table content"
+          />
+        </Collapse.Panel>
         <Collapse.Panel
           key="1"
-          header={'Dimension'}
+          header={t('Dimension')}
         >
           <Stack>
             <Width />
-            <Stack.Item />
           </Stack>
           <Stack vertical>
             <Padding />
           </Stack>
         </Collapse.Panel>
-
         <Collapse.Panel
           key="2"
-          header={'Decoration'}
+          header={t('Decoration')}
         >
           <Color />
           <ContainerBackgroundColor />
           <Border />
         </Collapse.Panel>
-
         <Collapse.Panel
-          key="2"
-          header={'Typography'}
+          key="3"
+          header={t('Typography')}
         >
           <Stack>
             <FontFamily />
@@ -65,10 +61,7 @@ export function Table() {
           <TextAlign />
         </Collapse.Panel>
       </CollapseWrapper>
-      <HtmlEditor
-        visible={visible}
-        setVisible={setVisible}
-      />
     </AttributesPanelWrapper>
   );
 }
+

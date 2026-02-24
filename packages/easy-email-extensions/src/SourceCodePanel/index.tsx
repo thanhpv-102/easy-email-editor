@@ -24,9 +24,7 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
     (event: React.FocusEvent<HTMLTextAreaElement>) => {
       if (!jsonReadOnly) {
         try {
-          const parseValue = JSON.parse(
-            JSON.stringify(eval('(' + event.target.value + ')')),
-          ) as IBlockData;
+          const parseValue = JSON.parse(event.target.value) as IBlockData;
 
           const block = BlockManager.getBlockByType(parseValue.type);
           if (!block) {
@@ -95,12 +93,11 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
 
   if (!focusBlock) return null;
 
-  return (
-    <Collapse className={styles.collapsePanel}>
-      <Collapse.Panel
-        key="json"
-        header={t('Json source')}
-      >
+  const collapseItems = [
+    {
+      key: 'json',
+      label: t('Json source'),
+      children: (
         <Input.TextArea
           key={code}
           defaultValue={code}
@@ -109,11 +106,12 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
           readOnly={jsonReadOnly}
           className={styles.customTextArea}
         />
-      </Collapse.Panel>
-      <Collapse.Panel
-        key="mjml"
-        header={t('MJML source')}
-      >
+      ),
+    },
+    {
+      key: 'mjml',
+      label: t('MJML source'),
+      children: (
         <Input.TextArea
           key={code}
           value={mjmlText}
@@ -123,7 +121,11 @@ export function SourceCodePanel({ jsonReadOnly, mjmlReadOnly }: { jsonReadOnly: 
           readOnly={mjmlReadOnly}
           className={styles.customTextArea}
         />
-      </Collapse.Panel>
-    </Collapse>
+      ),
+    },
+  ];
+
+  return (
+    <Collapse className={styles.collapsePanel} items={collapseItems} />
   );
 }

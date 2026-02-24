@@ -1,4 +1,4 @@
-import { Collapse, Row, Col, Space, Typography } from 'antd';
+import { Collapse, Row, Space, Typography } from 'antd';
 import { AdvancedType, BlockManager, IBlockData } from 'easy-email-core';
 import { BlockAvatarWrapper, IconFont } from 'easy-email-editor';
 import React, { useMemo, useState } from 'react';
@@ -16,113 +16,99 @@ export function Blocks() {
     ],
     [categories]
   );
+  const collapseItems = categories.map((cat, index) => {
+    let panelChildren: React.ReactNode;
+
+    if (cat.displayType === 'column') {
+      panelChildren = (
+        <>
+          <Space orientation='vertical'>
+            <div />
+          </Space>
+          {cat.blocks.map((item) => (
+            <LayoutItem
+              key={item.title}
+              title={item.title || ''}
+              columns={item.payload}
+            />
+          ))}
+          <Space orientation='vertical'>
+            <div />
+          </Space>
+        </>
+      );
+    } else if (cat.displayType === 'custom') {
+      panelChildren = (
+        <Row>
+          {cat.blocks.map((item, blockIndex) => {
+            if (
+              typeof item === 'object' &&
+              item !== null &&
+              !React.isValidElement(item) &&
+              'type' in item &&
+              'children' in item
+            ) {
+              const customBlock = item as {
+                type: string;
+                payload?: any;
+                title?: string;
+                children: React.ReactNode;
+                canDragAndDrop?: boolean;
+              };
+              const canDragAndDrop = customBlock.canDragAndDrop !== false;
+              const blockContent = (
+                <div className={styles.blockItemContainer}>
+                  {customBlock.children}
+                </div>
+              );
+              return (
+                <div key={blockIndex} className={styles.blockItem}>
+                  {canDragAndDrop ? (
+                    <BlockAvatarWrapper
+                      type={customBlock.type}
+                      payload={customBlock.payload}
+                    >
+                      {blockContent}
+                    </BlockAvatarWrapper>
+                  ) : (
+                    <div style={{ cursor: 'not-allowed', opacity: 0.6 }}>
+                      {blockContent}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            return <React.Fragment key={blockIndex}>{item}</React.Fragment>;
+          })}
+        </Row>
+      );
+    } else {
+      panelChildren = (
+        <Row>
+          {cat.blocks.map((item, index) => {
+            return <BlockItem key={index} {...(item as any)} />;
+          })}
+        </Row>
+      );
+    }
+
+    return {
+      key: index,
+      label: cat.label,
+      extra: cat.label,
+      style: cat.displayType === 'column'
+        ? { padding: '0px 20px' }
+        : { padding: 0, paddingBottom: 0, paddingTop: 20 },
+      children: panelChildren,
+    };
+  });
+
   return (
     <Collapse
       defaultActiveKey={defaultActiveKey}
       style={{ paddingBottom: 30, minHeight: '100%' }}
-    >
-      {categories.map((cat, index) => {
-        if (cat.displayType === 'column') {
-          return (
-            <Collapse.Panel
-              key={index}
-              style={{ padding: '0px 20px' }}
-              extra={cat.label}
-              header={cat.label}
-            >
-              <Space orientation='vertical'>
-                <div />
-              </Space>
-              {cat.blocks.map((item) => (
-                <LayoutItem
-                  key={item.title}
-                  title={item.title || ''}
-                  columns={item.payload}
-                />
-              ))}
-
-              <Space orientation='vertical'>
-                <div />
-              </Space>
-            </Collapse.Panel>
-          );
-        }
-
-        if (cat.displayType === 'custom') {
-          return (
-            <Collapse.Panel
-              key={index}
-              style={{ padding: 0, paddingBottom: 0, paddingTop: 20 }}
-              extra={cat.label}
-              header={cat.label}
-            >
-              <Row>
-                {cat.blocks.map((item, blockIndex) => {
-                  // Check if item is a draggable custom block object
-                  // React elements have $$typeof property, so we check for that
-                  if (
-                    typeof item === 'object' &&
-                    item !== null &&
-                    !React.isValidElement(item) &&
-                    'type' in item &&
-                    'children' in item
-                  ) {
-                    const customBlock = item as {
-                      type: string;
-                      payload?: any;
-                      title?: string;
-                      children: React.ReactNode;
-                      canDragAndDrop?: boolean;
-                    };
-                    // canDragAndDrop defaults to true if not specified
-                    const canDragAndDrop = customBlock.canDragAndDrop !== false;
-
-                    const blockContent = (
-                      <div className={styles.blockItemContainer}>
-                        {customBlock.children}
-                      </div>
-                    );
-
-                    return (
-                      <div key={blockIndex} className={styles.blockItem}>
-                        {canDragAndDrop ? (
-                          <BlockAvatarWrapper
-                            type={customBlock.type}
-                            payload={customBlock.payload}
-                          >
-                            {blockContent}
-                          </BlockAvatarWrapper>
-                        ) : (
-                          <div style={{ cursor: 'not-allowed', opacity: 0.6 }}>
-                            {blockContent}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  }
-                  // Regular React node (component or element)
-                  return <React.Fragment key={blockIndex}>{item}</React.Fragment>;
-                })}
-              </Row>
-            </Collapse.Panel>
-          );
-        }
-        return (
-          <Collapse.Panel
-            key={index}
-            style={{ padding: 0, paddingBottom: 0, paddingTop: 20 }}
-            extra={cat.label}
-            header={cat.label}
-          >
-            <Row>
-              {cat.blocks.map((item, index) => {
-                return <BlockItem key={index} {...(item as any)} />;
-              })}
-            </Row>
-          </Collapse.Panel>
-        );
-      })}
-    </Collapse>
+      items={collapseItems}
+    />
   );
 }
 

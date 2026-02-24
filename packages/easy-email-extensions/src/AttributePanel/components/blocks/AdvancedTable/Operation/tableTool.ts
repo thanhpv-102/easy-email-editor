@@ -48,16 +48,16 @@ class TableColumnTool {
   initTool() {
     this.root?.addEventListener('contextmenu', this.handleContextmenu);
     this.root?.addEventListener('mousedown', this.handleMousedown.bind(this));
-    document.body.addEventListener('click', this.hideBorder, false);
-    document.body.addEventListener('contextmenu', this.hideTableMenu, false);
+    document.body.addEventListener('click', this.handleBodyClick, false);
+    document.addEventListener('contextmenu', this.handleDocumentContextmenu, false);
     document.addEventListener('keydown', this.hideBorderByKeyDown);
   }
 
   destroy() {
     this.root?.removeEventListener('mousedown', this.handleMousedown.bind(this));
     this.root?.removeEventListener('contextmenu', this.handleContextmenu);
-    document.body.removeEventListener('click', this.hideBorder, false);
-    document.body.removeEventListener('contextmenu', this.hideTableMenu, false);
+    document.body.removeEventListener('click', this.handleBodyClick, false);
+    document.removeEventListener('contextmenu', this.handleDocumentContextmenu, false);
     document.removeEventListener('keydown', this.hideBorderByKeyDown);
 
     this.tableMenu?.destroy();
@@ -70,6 +70,13 @@ class TableColumnTool {
     this.visibleBorder(false);
   };
 
+  // Only hide the selection border on left-clicks; right-clicks should not
+  // dismiss the selection (they open the context menu instead).
+  handleBodyClick = (e: MouseEvent) => {
+    if (e.button !== 0) return;
+    this.hideBorder(e);
+  };
+
   hideBorderByKeyDown = () => {
     this.visibleBorder(false);
   };
@@ -79,6 +86,17 @@ class TableColumnTool {
       return;
     }
     this.tableMenu?.hide();
+  };
+
+  handleDocumentContextmenu = (e: Event) => {
+    // Hide the table menu only when right-clicking outside the editor shadow root.
+    // Clicks inside the shadow root are handled by handleContextmenu on this.root,
+    // which calls stopImmediatePropagation so this handler won't fire for those.
+    const path = e.composedPath ? e.composedPath() : [];
+    const insideRoot = path.some(el => el === this.root);
+    if (!insideRoot) {
+      this.tableMenu?.hide();
+    }
   };
 
   visibleBorder = (show = true) => {
@@ -112,7 +130,7 @@ class TableColumnTool {
       top: `${top}px`,
       width: `${Math.abs(width)}px`,
       height: '2px',
-      position: 'absolute',
+      position: 'fixed',
       'z-index': 10,
     });
     setStyle(this.borderTool.bottom, {
@@ -121,7 +139,7 @@ class TableColumnTool {
       top: `${top + height}px`,
       width: `${Math.abs(width)}px`,
       height: '2px',
-      position: 'absolute',
+      position: 'fixed',
       'z-index': 10,
     });
     setStyle(this.borderTool.left, {
@@ -130,7 +148,7 @@ class TableColumnTool {
       top: `${top}px`,
       width: '2px',
       height: `${Math.abs(height)}px`,
-      position: 'absolute',
+      position: 'fixed',
       'z-index': 10,
     });
     setStyle(this.borderTool.right, {
@@ -139,7 +157,7 @@ class TableColumnTool {
       top: `${top}px`,
       width: '2px',
       height: `${Math.abs(height)}px`,
-      position: 'absolute',
+      position: 'fixed',
       'z-index': 10,
     });
   };
@@ -153,6 +171,21 @@ class TableColumnTool {
       );
       if (checkEventInBoundingRect(selectedBoundary, { x: mouseEvent.clientX, y: mouseEvent.clientY })) {
         event.preventDefault();
+        event.stopImmediatePropagation();
+
+        // Show the table operation menu here (contextmenu is the correct event).
+        if (!this.tableMenu) {
+          this.tableMenu = new TableOperationMenu();
+        }
+        this.tableMenu.setTableData(this.tableData);
+        this.tableMenu.changeTableData = this.changeTableData;
+        this.tableMenu.setTableIndexBoundary(
+          getTdBoundaryIndex(
+            this.selectedLeftTopCell as Element,
+            this.selectedBottomRightCell as Element,
+          ),
+        );
+        this.tableMenu.showMenu({ x: mouseEvent.clientX, y: mouseEvent.clientY });
         return;
       }
     }
@@ -166,7 +199,7 @@ class TableColumnTool {
       // left button click
       while (target && target.parentNode) {
         if (
-          target.nodeName === 'TD' &&
+          (target.nodeName === 'TD' || target.nodeName === 'TH') &&
           target.getAttribute('data-content_editable-type') === 'rich_text'
         ) {
           this.root?.addEventListener('mousemove', this.handleDrag);
@@ -192,22 +225,9 @@ class TableColumnTool {
           this.selectedLeftTopCell as Element,
           this.selectedBottomRightCell as Element,
         );
-        // check event position, then show table operation menu
+        // If right-clicking inside the selection, keep the border visible.
+        // The context menu will be shown in handleContextmenu.
         if (checkEventInBoundingRect(selectedBoundary, { x: mouseEvent.clientX, y: mouseEvent.clientY })) {
-          if (!this.tableMenu) {
-            this.tableMenu = new TableOperationMenu();
-          }
-
-          this.tableMenu.setTableData(this.tableData);
-          this.tableMenu.changeTableData = this.changeTableData;
-
-          this.tableMenu.setTableIndexBoundary(
-            getTdBoundaryIndex(
-              this.selectedLeftTopCell as Element,
-              this.selectedBottomRightCell as Element,
-            ),
-          );
-          this.tableMenu.showMenu({ x: mouseEvent.clientX, y: mouseEvent.clientY });
 
           return;
         }
@@ -224,7 +244,7 @@ class TableColumnTool {
 
       while (target && target.parentNode) {
         if (
-          target.nodeName === 'TD' &&
+          (target.nodeName === 'TD' || target.nodeName === 'TH') &&
           target.getAttribute('data-content_editable-type') === 'rich_text'
         ) {
           const hoveringTable = getCurrentTable(target);

@@ -1,4 +1,3 @@
-import { Tooltip } from 'antd';
 import type { TooltipProps } from 'antd';
 import React, { useCallback, useMemo } from 'react';
 import { IconFont } from 'easy-email-editor';
@@ -8,6 +7,7 @@ import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
 export interface LinkProps extends Omit<TooltipProps, 'title'> {
   currentRange: Range | null | undefined;
   onChange: () => void;
+  getPopupContainer?: () => HTMLElement;
 }
 
 function getAnchorElement(
@@ -46,8 +46,6 @@ export function Unlink(props: LinkProps) {
   }, [linkNode, onChange]);
 
   return (
-    <Tooltip title={t('Unlink')}>
-      <ToolItem title={t('Unlink')} icon={<IconFont iconName="icon-unlink" />} onClick={onUnlink} />
-    </Tooltip>
+    <ToolItem title={t('Unlink')} icon={<IconFont iconName="icon-unlink" />} onClick={onUnlink} getPopupContainer={props.getPopupContainer} />
   );
 }
