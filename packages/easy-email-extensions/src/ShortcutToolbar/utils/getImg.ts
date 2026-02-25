@@ -129,12 +129,10 @@ const defaultImagesMap = {
     'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/e5dd7a7e-70d7-483f-80cc-0c5b41107101-75dcedc7-4a34-4d03-97ee-bf32163afa0a.png',
   IMAGE_71:
     'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/53277265-8e54-43d0-b9d0-d34cd1639861-adb7a48a-8382-43a1-ad59-7c84764a3b21.png',
-  IMAGE_BLOCK_01:
-    'https://cdn.shopify.com/s/files/1/0863/8971/9346/files/biqsebynmw5lk3tzfybm1_ymztponegfngeef0cbype.png',
-  IMAGE_BLOCK_02:
-    'https://cdn.shopify.com/s/files/1/0863/8971/9346/files/iqjhaqfya9drnsmid6hpf_vqp_wxhtulwic189okucr.png',
-  IMAGE_BLOCK_03:
-    'https://cdn.shopify.com/s/files/1/0863/8971/9346/files/f88wdngiodai49pg8mpce_npr9exwlj4a_tsg0dvl_g.png',
+  IMAGE_72:
+    'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/table3x3-border_none.png',
+  IMAGE_73:
+    'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/table4x4-header.png',
 };
 
 ImageManager.add(defaultImagesMap);

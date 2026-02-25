@@ -3,7 +3,7 @@ import { Stack } from 'easy-email-editor';
 import { AdvancedType } from 'easy-email-core';
 
 import { BlockMaskWrapper } from '@extensions/ShortcutToolbar/components/BlockMaskWrapper';
-import { getImg } from '@/utils/getImg';
+import { getImg } from '@extensions/ShortcutToolbar/utils/getImg';
 import { Picture } from '@extensions/ShortcutToolbar/components/Picture';
 
 const tableList = [
