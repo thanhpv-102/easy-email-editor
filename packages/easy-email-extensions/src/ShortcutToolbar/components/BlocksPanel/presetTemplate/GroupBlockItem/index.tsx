@@ -18,7 +18,7 @@ export function GroupBlockItem() {
               payload={item.payload}
             >
               <div style={{ position: 'relative' }}>
-                <Picture src={item.thumbnail} />
+                <Picture src={item.thumbnail} style={{ minWidth: 250, minHeight: 70 }} />
                 <div
                   style={{
                     position: 'absolute',

@@ -4,6 +4,14 @@ import axios from 'axios';
 const CLOUDINARY_URL = 'https://api.cloudinary.com/v1_1/dwkp0e1yo/image/upload';
 
 export const common = {
+  async onlyPreview(file: File | Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  },
   async uploadByQiniu(file: File | Blob): Promise<string> {
     const data = new FormData();
     data.append('file', file);

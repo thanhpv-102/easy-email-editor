@@ -106,7 +106,7 @@ export function ButtonBlockItem() {
                   }
                 >
                   <div style={{ position: 'relative', overflow: 'hidden' }}>
-                    <Picture src={item.thumbnail} />
+                    <Picture src={item.thumbnail} style={{ minWidth: 250, minHeight: 50 }} />
                     <div
                       style={{
                         position: 'absolute',

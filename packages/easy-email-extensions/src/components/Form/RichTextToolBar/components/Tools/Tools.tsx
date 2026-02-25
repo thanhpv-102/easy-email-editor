@@ -45,16 +45,18 @@ export function Tools(props: ToolsProps) {
   const execCommand = useCallback(
     (cmd: string, val?: string | LinkParams) => {
       const range = selectionRangeRef.current;
-      if (!range) {
+      if (!range && cmd in needCheckRangeCommand) {
         console.error(t('No selectionRange'));
         return;
       }
-      if (!focusBlockNodeRef.current?.contains(range?.commonAncestorContainer)) {
+      if (range?.commonAncestorContainer && !focusBlockNodeRef.current?.contains(range?.commonAncestorContainer) && cmd in needCheckRangeCommand) {
         console.error(t('Not commonAncestorContainer'));
         return;
       }
 
-      restoreRange(range);
+      if (range) {
+        restoreRange(range);
+      }
       const uuid = (+new Date()).toString();
       if (cmd === 'createLink') {
         const linkData = val as LinkParams;
@@ -122,6 +124,21 @@ export function Tools(props: ToolsProps) {
     },
     [onChange],
   );
+
+  const needCheckRangeCommand = [
+    AvailableTools.MergeTags,
+    AvailableTools.FontFamily,
+    AvailableTools.FontSize,
+    AvailableTools.IconFontColor,
+    AvailableTools.IconBgColor,
+    'createLink',
+    'justifyLeft',
+    'justifyCenter',
+    'justifyRight',
+    'insertOrderedList',
+    'insertUnorderedList',
+    'insertHorizontalRule',
+  ]
 
   const enabledTools = toolbar?.tools ?? [
     AvailableTools.MergeTags,

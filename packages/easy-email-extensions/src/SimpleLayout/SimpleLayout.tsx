@@ -91,7 +91,7 @@ export const SimpleLayout: React.FC<
           <Layout.Sider
             style={{
               height: containerHeight,
-              width: 350,
+              width: 450,
             }}
             className={styles.rightSide}
           >

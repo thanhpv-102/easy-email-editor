@@ -70,6 +70,8 @@ export function ImageBlockItem() {
                   style={{
                     width: item.attributes.width,
                     height: item.attributes.height,
+                    minWidth: item.attributes.width ? item.attributes.width : 250,
+                    minHeight: 100,
                     borderRadius: item.attributes['border-radius']
                   }}
                 />

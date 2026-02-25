@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import template from '@demo/store/template';
 import { useAppSelector } from '@demo/hooks/useAppSelector';
 import { useLoading } from '@demo/hooks/useLoading';
-import { ConfigProvider, App } from 'antd';
+import { App, ConfigProvider } from 'antd';
 import { useQuery } from '@demo/hooks/useQuery';
 import { useHistory } from 'react-router-dom';
 import { cloneDeep } from 'lodash';
@@ -121,8 +121,8 @@ export default function Editor() {
     };
   }, [dispatch, id, userId]);
 
-  const onUploadImage = async (blob: Blob) => {
-    return services.common.uploadByQiniu(blob);
+  const onUploadImage = async (blob: Blob): Promise<string> => {
+    return services.common.onlyPreview(blob);
   };
 
   const onExportMJML = (values: IEmailTemplate) => {
@@ -170,7 +170,7 @@ export default function Editor() {
 
   const onSubmit = useCallback(
     async (values: IEmailTemplate) => {
-      console.log('onSubmit' ,values);
+      console.log('onSubmit', values);
     },
     [dispatch, history, id, initialValues],
   );

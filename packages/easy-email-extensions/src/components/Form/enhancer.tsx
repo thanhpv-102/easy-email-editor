@@ -56,7 +56,7 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
       };
     }, [props.config, validate]);
 
-    const [currentValue, setCurrentValue] = useState('');
+    const [currentValue, setCurrentValue] = useState<any>(undefined);
     const currentValueRef = useRefState(currentValue);
     const isFocusedRef = useRef(false);
 
@@ -140,15 +140,18 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
 
                 // If the adapter returned a synthetic/native Event, extract its value
                 // so we never show [object Object] in the input.
-                let newVal: string;
+                let newVal: any;
                 if (
                   adapted !== null &&
                   typeof adapted === 'object' &&
+                  !Array.isArray(adapted) &&
                   'target' in adapted &&
                   (adapted as { target: unknown }).target !== null
                 ) {
                   const rawVal = (adapted as { target: { value: unknown } }).target.value;
                   newVal = rawVal == null ? '' : String(rawVal);
+                } else if (Array.isArray(adapted) || (adapted !== null && typeof adapted === 'object')) {
+                  newVal = adapted;
                 } else {
                   newVal = adapted == null ? '' : String(adapted);
                 }
@@ -178,7 +181,11 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
               // While focused the user is typing; overwriting currentValue would
               // cause visible glitches and lost keystrokes.
               if (!isFocusedRef.current) {
-                setCurrentValue(value == null ? '' : String(value));
+                if (Array.isArray(value) || (value !== null && typeof value === 'object')) {
+                  setCurrentValue(value);
+                } else {
+                  setCurrentValue(value == null ? '' : String(value));
+                }
               }
             }, [value]);
 

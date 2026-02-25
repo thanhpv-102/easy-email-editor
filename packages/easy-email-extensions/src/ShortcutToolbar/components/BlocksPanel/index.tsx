@@ -103,7 +103,7 @@ export const BlocksPanel: React.FC<{
                           style={{
                             padding: 0,
                             overflow: 'auto',
-                            height: 500,
+                            height: 550,
                           }}
                         >
                           <BlockPanelItem category={category} />
@@ -128,6 +128,7 @@ const BlockPanelItem: React.FC<{
   return (
     <Tabs
       tabPlacement='start'
+      style={{ '--ant-tabs-vertical-item-padding': '2px 20px', paddingTop: 15, fontSize: 10 } as React.CSSProperties}
       items={props.category.blocks.map((block) => ({
         key: block.title,
         label: (

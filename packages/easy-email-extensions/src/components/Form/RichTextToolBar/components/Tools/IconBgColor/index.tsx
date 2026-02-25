@@ -2,6 +2,7 @@ import { ColorPicker } from '@extensions/components/Form/ColorPicker';
 import { IconFont } from 'easy-email-editor';
 import React, { useMemo } from 'react';
 import { ToolItem } from '../../ToolItem';
+import { getElementAtRange } from '../../../utils/getElementAtRange';
 
 export function IconBgColor({ selectionRange, execCommand }: {
   selectionRange: Range | null;
@@ -10,13 +11,9 @@ export function IconBgColor({ selectionRange, execCommand }: {
 
   const color = useMemo(() => {
     if (!selectionRange) return undefined;
-    if (selectionRange.commonAncestorContainer instanceof HTMLElement) {
-      return getComputedStyle(selectionRange.commonAncestorContainer).backgroundColor;
-    } else if (selectionRange.commonAncestorContainer.parentNode instanceof HTMLElement) {
-      return getComputedStyle(selectionRange.commonAncestorContainer.parentNode).backgroundColor;
-    }
-
-    return undefined;
+    const el = getElementAtRange(selectionRange);
+    if (!el) return undefined;
+    return getComputedStyle(el).backgroundColor;
   }, [selectionRange]);
 
   return (
@@ -45,4 +42,3 @@ export function IconBgColor({ selectionRange, execCommand }: {
     </ColorPicker>
   );
 }
-

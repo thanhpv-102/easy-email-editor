@@ -53,7 +53,7 @@ export function CarouselBlockItem() {
               payload={item.payload}
             >
               <div style={{ position: 'relative' }}>
-                <Picture src={item.thumbnail} />
+                <Picture src={item.thumbnail} style={{ minWidth: 250, minHeight: 100 }} />
                 <div
                   style={{
                     position: 'absolute',
