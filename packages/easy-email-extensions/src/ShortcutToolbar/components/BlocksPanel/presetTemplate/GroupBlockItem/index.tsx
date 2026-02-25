@@ -41,14 +41,27 @@ export function GroupBlockItem() {
 const list = [
   {
     thumbnail: getImg('IMAGE_22'),
-    payload: {},
+    payload: {
+      type: 'advanced_section',
+      data: {
+        value: {
+          noWrap: false,
+        },
+      },
+      attributes: {
+        'vertical-align': 'top',
+        direction: 'ltr',
+      },
+    },
   },
   {
     thumbnail: getImg('IMAGE_23'),
     payload: {
-      type: 'advanced_group',
+      type: 'advanced_section',
       data: {
-        value: {},
+        value: {
+          noWrap: true,
+        },
       },
       attributes: {
         'vertical-align': 'top',
@@ -56,56 +69,68 @@ const list = [
       },
       children: [
         {
-          type: 'advanced_column',
+          type: 'group',
           data: {
             value: {},
           },
           attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
             'vertical-align': 'top',
+            direction: 'ltr',
           },
           children: [
             {
-              type: 'image',
+              type: 'advanced_column',
               data: {
                 value: {},
               },
               attributes: {
-                align: 'center',
-                height: 'auto',
-                padding: '0px 5px 0px 10px',
-                src: getImg('IMAGE_24'),
-                width: '',
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
               },
-              children: [],
+              children: [
+                {
+                  type: 'image',
+                  data: {
+                    value: {},
+                  },
+                  attributes: {
+                    align: 'center',
+                    height: 'auto',
+                    padding: '0px 5px 0px 10px',
+                    src: getImg('IMAGE_24'),
+                    width: '',
+                  },
+                  children: [],
+                },
+              ],
             },
-          ],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [
             {
-              type: 'image',
+              type: 'advanced_column',
               data: {
                 value: {},
               },
               attributes: {
-                align: 'center',
-                height: 'auto',
-                padding: '0px 10px 0px 5px',
-                src: getImg('IMAGE_25'),
-                width: '',
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
               },
-              children: [],
+              children: [
+                {
+                  type: 'image',
+                  data: {
+                    value: {},
+                  },
+                  attributes: {
+                    align: 'center',
+                    height: 'auto',
+                    padding: '0px 10px 0px 5px',
+                    src: getImg('IMAGE_25'),
+                    width: '',
+                  },
+                  children: [],
+                },
+              ],
             },
           ],
         },
@@ -115,9 +140,11 @@ const list = [
   {
     thumbnail: getImg('IMAGE_26'),
     payload: {
-      type: 'advanced_group',
+      type: 'advanced_section',
       data: {
-        value: {},
+        value: {
+          noWrap: true,
+        },
       },
       attributes: {
         'vertical-align': 'top',
@@ -126,128 +153,140 @@ const list = [
       },
       children: [
         {
-          type: 'advanced_column',
+          type: 'group',
           data: {
             value: {},
           },
           attributes: {
-            padding: '0px 5px 0px 5px',
-            border: 'none',
             'vertical-align': 'top',
+            direction: 'ltr',
           },
           children: [
             {
-              type: 'image',
+              type: 'advanced_column',
               data: {
                 value: {},
               },
               attributes: {
-                align: 'center',
-                height: 'auto',
-                padding: '0px 0px 0px 0px',
-                src: getImg('IMAGE_29'),
-                width: '',
+                padding: '0px 5px 0px 5px',
+                border: 'none',
+                'vertical-align': 'top',
               },
-              children: [],
-            },
-            {
-              type: 'text',
-              data: {
-                value: {
-                  content: 'Office Room\nPrinting',
+              children: [
+                {
+                  type: 'image',
+                  data: {
+                    value: {},
+                  },
+                  attributes: {
+                    align: 'center',
+                    height: 'auto',
+                    padding: '0px 0px 0px 0px',
+                    src: getImg('IMAGE_29'),
+                    width: '',
+                  },
+                  children: [],
                 },
-              },
-              attributes: {
-                'font-size': '18px',
-                padding: '10px 5px 10px 5px',
-                'line-height': 1,
-                align: 'center',
-              },
-              children: [],
+                {
+                  type: 'text',
+                  data: {
+                    value: {
+                      content: 'Office Room\nPrinting',
+                    },
+                  },
+                  attributes: {
+                    'font-size': '18px',
+                    padding: '10px 5px 10px 5px',
+                    'line-height': 1,
+                    align: 'center',
+                  },
+                  children: [],
+                },
+              ],
             },
-          ],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 5px 0px 5px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [
             {
-              type: 'image',
+              type: 'advanced_column',
               data: {
                 value: {},
               },
               attributes: {
-                align: 'center',
-                height: 'auto',
-                padding: '0px 0px 0px 0px',
-                src: getImg('IMAGE_27'),
-                width: '',
+                padding: '0px 5px 0px 5px',
+                border: 'none',
+                'vertical-align': 'top',
               },
-              children: [],
-            },
-            {
-              type: 'text',
-              data: {
-                value: {
-                  content: 'Workplace\nDesign<div><br></div>',
+              children: [
+                {
+                  type: 'image',
+                  data: {
+                    value: {},
+                  },
+                  attributes: {
+                    align: 'center',
+                    height: 'auto',
+                    padding: '0px 0px 0px 0px',
+                    src: getImg('IMAGE_27'),
+                    width: '',
+                  },
+                  children: [],
                 },
-              },
-              attributes: {
-                'font-size': '18px',
-                padding: '10px 5px 10px 5px',
-                'line-height': 1,
-                align: 'center',
-              },
-              children: [],
+                {
+                  type: 'text',
+                  data: {
+                    value: {
+                      content: 'Workplace\nDesign<div><br></div>',
+                    },
+                  },
+                  attributes: {
+                    'font-size': '18px',
+                    padding: '10px 5px 10px 5px',
+                    'line-height': 1,
+                    align: 'center',
+                  },
+                  children: [],
+                },
+              ],
             },
-          ],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 5px 0px 5px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [
             {
-              type: 'image',
+              type: 'advanced_column',
               data: {
                 value: {},
               },
               attributes: {
-                align: 'center',
-                height: 'auto',
-                padding: '0px 0px 0px 0px',
-                src: getImg('IMAGE_28'),
-                width: '',
+                padding: '0px 5px 0px 5px',
+                border: 'none',
+                'vertical-align': 'top',
               },
-              children: [],
-            },
-            {
-              type: 'text',
-              data: {
-                value: {
-                  content: 'Modern Design\nBranding',
+              children: [
+                {
+                  type: 'image',
+                  data: {
+                    value: {},
+                  },
+                  attributes: {
+                    align: 'center',
+                    height: 'auto',
+                    padding: '0px 0px 0px 0px',
+                    src: getImg('IMAGE_28'),
+                    width: '',
+                  },
+                  children: [],
                 },
-              },
-              attributes: {
-                'font-size': '18px',
-                padding: '10px 5px 10px 5px',
-                'line-height': 1,
-                align: 'center',
-              },
-              children: [],
+                {
+                  type: 'text',
+                  data: {
+                    value: {
+                      content: 'Modern Design\nBranding',
+                    },
+                  },
+                  attributes: {
+                    'font-size': '18px',
+                    padding: '10px 5px 10px 5px',
+                    'line-height': 1,
+                    align: 'center',
+                  },
+                  children: [],
+                },
+              ],
             },
           ],
         },

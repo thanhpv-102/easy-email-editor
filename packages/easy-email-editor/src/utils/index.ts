@@ -8,5 +8,6 @@ export { getPluginElement } from './getPluginElement';
 export { scrollBlockEleIntoView } from './scrollBlockEleIntoView';
 export { isTextBlock } from './isTextBlock';
 export { MergeTagBadge } from './MergeTagBadge';
+export { getValidPortalNode } from './getValidPortalNode';
 export { getContentEditableClassName } from './getContentEditableClassName';
 export { EventManager } from './EventManager';

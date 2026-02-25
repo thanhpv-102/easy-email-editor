@@ -83,7 +83,7 @@ const list = [
       type: 'advanced_section',
       data: {
         value: {
-          noWrap: false,
+          noWrap: true,
         },
       },
       attributes: {
@@ -97,30 +97,43 @@ const list = [
       },
       children: [
         {
-          type: 'advanced_column',
+          type: 'group',
           data: {
             value: {},
           },
           attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
             'vertical-align': 'top',
+            direction: 'ltr',
           },
-          children: [],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [],
+          children: [
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+          ],
         },
       ],
+
     },
   },
   {
@@ -129,7 +142,7 @@ const list = [
       type: 'advanced_section',
       data: {
         value: {
-          noWrap: false,
+          noWrap: true,
         },
       },
       attributes: {
@@ -143,40 +156,52 @@ const list = [
       },
       children: [
         {
-          type: 'advanced_column',
+          type: 'group',
           data: {
             value: {},
           },
           attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
             'vertical-align': 'top',
+            direction: 'ltr',
           },
-          children: [],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [],
+          children: [
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+          ],
         },
       ],
     },
@@ -187,7 +212,7 @@ const list = [
       type: 'advanced_section',
       data: {
         value: {
-          noWrap: false,
+          noWrap: true,
         },
       },
       attributes: {
@@ -201,52 +226,64 @@ const list = [
       },
       children: [
         {
-          type: 'advanced_column',
+          type: 'group',
           data: {
             value: {},
           },
           attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
             'vertical-align': 'top',
+            direction: 'ltr',
           },
-          children: [],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [],
-        },
-        {
-          type: 'advanced_column',
-          data: {
-            value: {},
-          },
-          attributes: {
-            padding: '0px 0px 0px 0px',
-            border: 'none',
-            'vertical-align': 'top',
-          },
-          children: [],
+          children: [
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+            {
+              type: 'advanced_column',
+              data: {
+                value: {},
+              },
+              attributes: {
+                padding: '0px 0px 0px 0px',
+                border: 'none',
+                'vertical-align': 'top',
+              },
+              children: [],
+            },
+          ],
         },
       ],
     },

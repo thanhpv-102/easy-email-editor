@@ -1,5 +1,5 @@
 import React from 'react';
-import { AdvancedType } from 'easy-email-core';
+import { AdvancedType, BasicType } from 'easy-email-core';
 import { Stack } from 'easy-email-editor';
 
 import { BlockMaskWrapper } from '@extensions/ShortcutToolbar/components/BlockMaskWrapper';
@@ -59,7 +59,7 @@ const list = [
       },
       children: [
         {
-          type: 'advanced_section',
+          type: BasicType.GROUP,
           data: {
             value: {
               noWrap: false,

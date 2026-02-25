@@ -1,20 +1,23 @@
 import { useFocusIdx } from '@/hooks/useFocusIdx';
 import React, { useEffect, useMemo, useState } from 'react';
-import { getBlockNodeByIdx, getShadowRoot } from '@/utils';
+import { getBlockNodeByIdx, getShadowRoot, getValidPortalNode } from '@/utils';
 import { DATA_RENDER_COUNT } from '@/constants';
 import { useEditorContext } from '@/hooks/useEditorContext';
 import { useRefState } from '@/hooks/useRefState';
 
 export const FocusBlockLayoutContext = React.createContext<{
   focusBlockNode: HTMLElement | null;
+  focusBlockPortalNode: HTMLElement | null;
 }>({
   focusBlockNode: null,
+  focusBlockPortalNode: null,
 });
 
 export const FocusBlockLayoutProvider: React.FC<{
   children?: React.ReactNode;
 }> = props => {
   const [focusBlockNode, setFocusBlockNode] = useState<HTMLElement | null>(null);
+  const [focusBlockPortalNode, setFocusBlockPortalNode] = useState<HTMLElement | null>(null);
   const { initialized } = useEditorContext();
   const { focusIdx } = useFocusIdx();
   const focusIdxRef = useRefState(focusIdx);
@@ -34,6 +37,7 @@ export const FocusBlockLayoutProvider: React.FC<{
         const ele = getBlockNodeByIdx(focusIdxRef.current);
         if (ele) {
           setFocusBlockNode(ele);
+          setFocusBlockPortalNode(getValidPortalNode(ele) as HTMLElement);
         }
       }
     });
@@ -56,8 +60,9 @@ export const FocusBlockLayoutProvider: React.FC<{
   const value = useMemo(() => {
     return {
       focusBlockNode,
+      focusBlockPortalNode,
     };
-  }, [focusBlockNode]);
+  }, [focusBlockNode, focusBlockPortalNode]);
 
   return (
     <FocusBlockLayoutContext.Provider value={value}>

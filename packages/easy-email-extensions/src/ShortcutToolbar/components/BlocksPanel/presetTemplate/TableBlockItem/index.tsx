@@ -31,7 +31,7 @@ const tableList = [
   },
   {
     txtName: 'Table 4x4',
-    thumbnail: getImg('IMAGE_72'),
+    thumbnail: getImg('IMAGE_73'),
     payload: {
       type: AdvancedType.TABLE,
       data: {

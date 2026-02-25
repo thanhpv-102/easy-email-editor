@@ -2,6 +2,16 @@
   display: block !important;
 }
 
+.mj-accordion-more {
+  display: block !important;
+  height: 24px !important;
+  width: 24px !important;
+}
+
+.mj-accordion-less {
+  display: none !important;
+}
+
 [data-dashed='true'] .email-block {
   outline: 1px dashed rgba(170, 170, 170, 0.7);
   outline-offset: -2px;

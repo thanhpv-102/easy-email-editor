@@ -8,10 +8,10 @@ import { Toolbar } from './Toolbar';
 export function FocusTooltip() {
   const { focusBlock } = useBlock();
   const { focusIdx } = useFocusIdx();
-  const { focusBlockNode } = useFocusBlockLayout();
+  const { focusBlockNode, focusBlockPortalNode } = useFocusBlockLayout();
   const isPage = focusBlock?.type === BasicType.PAGE.toString();
 
-  if (!focusBlockNode || !focusBlock) return null;
+  if (!focusBlockNode || !focusBlockPortalNode || !focusBlock) return null;
 
   return (
     <>
@@ -106,7 +106,7 @@ export function FocusTooltip() {
           </div>
         </div>,
 
-        focusBlockNode
+        focusBlockPortalNode as Element
       )}
     </>
   );

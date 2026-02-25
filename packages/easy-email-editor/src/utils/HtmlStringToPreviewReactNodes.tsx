@@ -20,11 +20,19 @@ export function HtmlStringToPreviewReactNodes(
     return <div>No content</div>;
   }
 
-  const reactNode = (
-    <RenderReactNode selector={'0'} node={bodyElement} index={0} />
-  );
+  // Collect <style> tags from <head> so MJML head styles (e.g. accordion CSS) are applied
+  const headStyles = doc.head
+    ? [...doc.head.querySelectorAll('style')].map((styleEl, i) => (
+        <style key={`head-style-${i}`} dangerouslySetInnerHTML={{ __html: styleEl.textContent || '' }} />
+      ))
+    : [];
 
-  return reactNode;
+  return (
+    <>
+      {headStyles}
+      <RenderReactNode selector={'0'} node={bodyElement} index={0} />
+    </>
+  );
 }
 
 const RenderReactNode = React.memo(function ({

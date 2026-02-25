@@ -42,81 +42,95 @@ const list = [
   {
     thumbnail: getImg('IMAGE_20'),
     payload: {
-      type: 'advanced_column',
+      type: 'advanced_section',
       data: {
-        value: {},
+        value: {
+          noWrap: false,
+        },
       },
       attributes: {
-        padding: '20px 0px 20px 0px',
-        border: 'none',
         'vertical-align': 'top',
-        'background-color': '#ffffff',
+        direction: 'ltr',
       },
       children: [
         {
-          type: 'image',
+          type: 'column',
           data: {
             value: {},
           },
           attributes: {
-            align: 'center',
-            height: 'auto',
-            padding: '0px 0px 0px 0px',
-            src: getImg('IMAGE_21'),
-            width: '150px',
+            padding: '20px 0px 20px 0px',
+            border: 'none',
+            'vertical-align': 'top',
+            'background-color': '#ffffff',
           },
-          children: [],
-        },
-        {
-          type: 'text',
-          data: {
-            value: {
-              content: 'Business Key to Success',
+          children: [
+            {
+              type: 'image',
+              data: {
+                value: {},
+              },
+              attributes: {
+                align: 'center',
+                height: 'auto',
+                padding: '0px 0px 0px 0px',
+                src: getImg('IMAGE_21'),
+                width: '150px',
+              },
+              children: [],
             },
-          },
-          attributes: {
-            'font-size': '20px',
-            padding: '10px 0px 10px 0px',
-            'line-height': '1.7',
-            align: 'center',
-            'font-family': '"Nunito Sans", sans-serif',
-          },
-          children: [],
-        },
-        {
-          type: 'text',
-          data: {
-            value: {
-              content: 'POSTED ON FEB 18, 2019 FOOD',
+            {
+              type: 'text',
+              data: {
+                value: {
+                  content: 'Business Key to Success',
+                },
+              },
+              attributes: {
+                'font-size': '20px',
+                padding: '10px 0px 10px 0px',
+                'line-height': '1.7',
+                align: 'center',
+                'font-family': '"Nunito Sans", sans-serif',
+              },
+              children: [],
             },
-          },
-          attributes: {
-            'font-size': '15px',
-            padding: '0px 0px 10px 0px',
-            'line-height': '1.7',
-            align: 'center',
-            color: '#9b9b9b',
-            'font-family': '"Nunito Sans", sans-serif',
-          },
-          children: [],
-        },
-        {
-          type: 'text',
-          data: {
-            value: {
-              content:
-                'Far far away, behind the word mountains, far from the countries',
+            {
+              type: 'text',
+              data: {
+                value: {
+                  content: 'POSTED ON FEB 18, 2019 FOOD',
+                },
+              },
+              attributes: {
+                'font-size': '15px',
+                padding: '0px 0px 10px 0px',
+                'line-height': '1.7',
+                align: 'center',
+                color: '#9b9b9b',
+                'font-family': '"Nunito Sans", sans-serif',
+              },
+              children: [],
             },
-          },
-          attributes: {
-            'font-size': '15px',
-            padding: '0px 0px 0px 0px',
-            'line-height': '1.7',
-            align: 'center',
-            color: '#9b9b9b',
-            'font-family': '"Nunito Sans", sans-serif',
-          },
-          children: [],
+            {
+              type: 'text',
+              data: {
+                value: {
+                  content:
+                    'Far far away, behind the word mountains, far from the countries',
+                },
+              },
+              attributes: {
+                'font-size': '15px',
+                padding: '0px 0px 0px 0px',
+                'line-height': '1.7',
+                align: 'center',
+                color: '#9b9b9b',
+                'font-family': '"Nunito Sans", sans-serif',
+              },
+              children: [],
+            },
+          ],
         },
       ],
     },

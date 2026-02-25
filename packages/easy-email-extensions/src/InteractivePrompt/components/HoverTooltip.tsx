@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { getNodeTypeFromClassName, BlockManager } from 'easy-email-core';
 import { createPortal } from 'react-dom';
-import { getEditorRoot, useEditorContext, useFocusIdx, useHoverIdx, useLazyState } from 'easy-email-editor';
+import { getEditorRoot, useEditorContext, useFocusIdx, useHoverIdx, useLazyState, getValidPortalNode } from 'easy-email-editor';
 import { awaitForElement } from '@extensions/utils/awaitForElement';
 
 export function HoverTooltip() {
@@ -15,6 +15,7 @@ export function HoverTooltip() {
   const { initialized } = useEditorContext();
 
   const [blockNode, setBlockNode] = useState<HTMLDivElement | null>(null);
+  const [portalNode, setPortalNode] = useState<HTMLDivElement | null>(null);
   const rootRef = useRef<DOMRect | null>(null);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export function HoverTooltip() {
         }
 
         setBlockNode(blockNode);
+        setPortalNode(getValidPortalNode(blockNode) as HTMLDivElement);
       }).catch(() => {
         // Element not found, ignore
       });
@@ -45,6 +47,7 @@ export function HoverTooltip() {
       };
     } else {
       setBlockNode(null);
+      setPortalNode(null);
     }
   }, [effectiveHoverIdx, initialized]);
 
@@ -56,7 +59,7 @@ export function HoverTooltip() {
 
   // When dragging, always show tooltip even if it's the focused block
   if (!isDragging && focusIdx === hoverIdx) return null;
-  if (!block || !blockNode) return null;
+  if (!block || !blockNode || !portalNode) return null;
 
 
   return (
@@ -82,7 +85,7 @@ export function HoverTooltip() {
             isDragging={isDragging}
           />
         </div>,
-        blockNode,
+        portalNode,
       )}
     </>
   );
