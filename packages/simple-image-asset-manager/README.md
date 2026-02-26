@@ -7,7 +7,7 @@ A comprehensive file/image asset manager modal for easy-email-editor. Supports f
 - Upload via drag-and-drop
 - Create/manage folders
 - Preview images
-- Edit images (crop, resize, rotate)
+- ~~Edit images (crop, resize, rotate)~~ (todo)
 - Delete files/folders
 - Select files for use in email templates
 

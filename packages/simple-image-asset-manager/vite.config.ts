@@ -12,13 +12,12 @@ export default defineConfig({
     },
     outDir: 'dist',
     rollupOptions: {
-      external: ['react', 'react-dom', 'antd', 'cropperjs', '@ant-design/icons'],
+      external: ['react', 'react-dom', 'antd', '@ant-design/icons'],
       output: {
         globals: {
           react: 'React',
           'react-dom': 'ReactDOM',
           antd: 'antd',
-          cropperjs: 'Cropper',
           '@ant-design/icons': 'AntDesignIcons',
         },
       },
