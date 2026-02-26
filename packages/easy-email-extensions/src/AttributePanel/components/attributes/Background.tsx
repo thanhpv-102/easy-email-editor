@@ -33,7 +33,7 @@ const backgroundRepeatOptions = [
 
 export function Background() {
   const { focusIdx } = useFocusIdx();
-  const { onUploadImage } = useEditorProps();
+  const { onUploadImage, enableAssetManager } = useEditorProps();
   return useMemo(() => {
     return (
       <Space
@@ -48,6 +48,7 @@ export function Background() {
             'The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.'
           }
           uploadHandler={onUploadImage}
+          enableSelectFromLibrary={enableAssetManager}
         />
 
         <Row>

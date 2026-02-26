@@ -29,7 +29,8 @@
       "easy-email-editor": ["../packages/easy-email-editor/src/index.tsx"],
       "easy-email-core": ["../packages/easy-email-core/src/index.tsx"],
       "easy-email-extensions": ["../packages/easy-email-extensions/src/index.tsx"],
-      "easy-email-config-panel": ["../packages/easy-email-config-panel/src/index.tsx"]
+      "easy-email-config-panel": ["../packages/easy-email-config-panel/src/index.tsx"],
+      "simple-image-asset-manager": ["../packages/simple-image-asset-manager/src/index.tsx"]
     }
   },
   "include": ["./src", "./example", "./typings"],

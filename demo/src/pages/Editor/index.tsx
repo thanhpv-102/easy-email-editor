@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import template from '@demo/store/template';
 import { useAppSelector } from '@demo/hooks/useAppSelector';
@@ -27,6 +27,48 @@ import enUS from 'antd/locale/en_US';
 import { useShowCommercialEditor } from '@demo/hooks/useShowCommercialEditor';
 import { useWindowSize } from 'react-use';
 import { AutoSaveAndRestoreEmail } from '@demo/components/AutoSaveAndRestoreEmail';
+import { AssetManager, FileItem, FolderItem } from 'simple-image-asset-manager';
+
+const LOCAL_STORAGE_KEY = 'asset_manager_demo_assets';
+
+function loadAssets(): Array<FileItem | FolderItem> {
+  const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+  if (!raw) return [
+    { id: 'cat-folder', name: 'Category', type: 'FOLDER', parentFolderId: null },
+    {
+      id: 'file-default-1',
+      name: 'Default Image 1',
+      url: 'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/f69f48af-5b15-40aa-91c4-81d601d1357b-083dc99d-02a6-40d9-ae28-0662bd078b5d.png',
+      type: 'FILE',
+      parentFolderId: null,
+      thumbnail: 'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/f69f48af-5b15-40aa-91c4-81d601d1357b-083dc99d-02a6-40d9-ae28-0662bd078b5d.png',
+    },
+    {
+      id: 'file-default-2',
+      name: 'Default Image 2',
+      url: 'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/9cce6b16-5a98-4ddb-b1a1-6cec2cf56891-c3acb856-8ab8-4cfb-93f9-2a0747678b8b.png',
+      type: 'FILE',
+      parentFolderId: null,
+      thumbnail: 'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/9cce6b16-5a98-4ddb-b1a1-6cec2cf56891-c3acb856-8ab8-4cfb-93f9-2a0747678b8b.png',
+    },
+    {
+      id: 'file-default-3',
+      name: 'Default Image 3',
+      url: 'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/d9795c1d-fa32-4adb-ab25-30b7cfe87936-df21314f-6f05-4550-80b3-9ab1107e8fbe.png',
+      type: 'FILE',
+      parentFolderId: null,
+      thumbnail: 'https://cdn.jsdelivr.net/gh/thanhpv-102/easy-email-editor@master/demo/public/images/d9795c1d-fa32-4adb-ab25-30b7cfe87936-df21314f-6f05-4550-80b3-9ab1107e8fbe.png',
+    },
+  ];
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+function saveAssets(assets: Array<FileItem | FolderItem>) {
+  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(assets));
+}
 
 const defaultCategories: ExtensionProps['categories'] = [
   {
@@ -122,7 +164,9 @@ export default function Editor() {
   }, [dispatch, id, userId]);
 
   const onUploadImage = async (blob: Blob): Promise<string> => {
-    return services.common.onlyPreview(blob);
+    const url = await uploadFile(blob)
+    const file = await createFile({ name: 'uploaded' + Date.now(), url: url, parentFolderId: null })
+    return file.url;
   };
 
   const onExportMJML = (values: IEmailTemplate) => {
@@ -175,6 +219,127 @@ export default function Editor() {
     [dispatch, history, id, initialValues],
   );
 
+  const [assetManagerVisible, setAssetManagerVisible] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+
+  // Promise resolver cho chọn ảnh từ AssetManager
+  const [assetManagerPromise, setAssetManagerPromise] = useState<null | ((url: string) => void)>(null);
+
+  // Hàm callback cho ImageUploader: mở AssetManager và trả về url khi chọn
+  const onSelectAssetManager = useCallback(() => {
+    setAssetManagerVisible(true);
+    return new Promise<string>((resolve) => {
+      setAssetManagerPromise(() => resolve);
+    });
+  }, []);
+
+  // Khi chọn ảnh trong AssetManager
+  const handleSelect = (url: string) => {
+    setSelectedImageUrl(url);
+    setAssetManagerVisible(false);
+    if (assetManagerPromise) {
+      assetManagerPromise(url);
+      setAssetManagerPromise(null);
+    }
+  };
+
+  // Fetch files and folders from your backend
+  const fetchAssets = async (folderId?: string): Promise<Array<FileItem | FolderItem>> => {
+    const assets = loadAssets();
+    return assets.filter(item => item.parentFolderId === (folderId ?? null));
+  };
+
+  // Upload file to your backend
+  const uploadFile = async (blob: Blob): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.readAsDataURL(blob);
+    });
+  };
+
+  // Create file record in your database
+  const createFile = async (params: {
+    name: string;
+    url: string;
+    parentFolderId: string | null;
+  }): Promise<FileItem> => {
+    const assets = loadAssets();
+    const file: FileItem = {
+      id: 'file-' + Date.now() + Math.random(),
+      name: params.name,
+      url: params.url,
+      type: 'FILE',
+      parentFolderId: params.parentFolderId,
+      thumbnail: params.url,
+    };
+    assets.push(file);
+    saveAssets(assets);
+    return file;
+  };
+
+  // Delete file
+  const deleteFile = async (params: { id: string }): Promise<boolean> => {
+    let assets = loadAssets();
+    assets = assets.filter(item => !(item.type === 'FILE' && item.id === params.id));
+    saveAssets(assets);
+    return true;
+  };
+
+  // Delete folder
+  const deleteFolder = async (params: { id: string }): Promise<boolean> => {
+    let assets = loadAssets();
+    // Remove folder and all its children recursively
+    function removeFolderAndChildren(folderId: string) {
+      assets = assets.filter(item => {
+        if (item.type === 'FOLDER' && item.id === folderId) return false;
+        if (item.parentFolderId === folderId) {
+          if (item.type === 'FOLDER') removeFolderAndChildren(item.id);
+          return false;
+        }
+        return true;
+      });
+    }
+    removeFolderAndChildren(params.id);
+    saveAssets(assets);
+    return true;
+  };
+
+  // Update file
+  const updateFile = async (item: FileItem): Promise<FileItem> => {
+    const assets = loadAssets();
+    const idx = assets.findIndex(a => a.type === 'FILE' && a.id === item.id);
+    if (idx !== -1) assets[idx] = item;
+    saveAssets(assets);
+    return item;
+  };
+
+  // Update folder
+  const updateFolder = async (item: FolderItem): Promise<FolderItem> => {
+    const assets = loadAssets();
+    const idx = assets.findIndex(a => a.type === 'FOLDER' && a.id === item.id);
+    if (idx !== -1) assets[idx] = item;
+    saveAssets(assets);
+    return item;
+  };
+
+  // Create folder
+  const createFolder = async (params: {
+    name: string;
+    parentFolderId: string | null;
+  }): Promise<FolderItem> => {
+    const assets = loadAssets();
+    const folder: FolderItem = {
+      id: 'folder-' + Date.now() + Math.random(),
+      name: params.name,
+      type: 'FOLDER',
+      parentFolderId: params.parentFolderId,
+    };
+    assets.push(folder);
+    saveAssets(assets);
+    return folder;
+  };
+
   if (!templateData && loading) {
     return (
       <Loading loading={loading}>
@@ -198,6 +363,10 @@ export default function Editor() {
             dashed={false}
             compact={compact}
             mergeTags={{ user: { name: 'Test username', email: 'testmail@example.com' } }}
+            enableAssetManager={true}
+            toggleAssetManager={() => setAssetManagerVisible(true)}
+            selectedAsset={selectedImageUrl ?? ""}
+            onSelectAssetManager={onSelectAssetManager}
           >
             {({ values }, { submit, restart }) => {
               return (
@@ -210,6 +379,21 @@ export default function Editor() {
               );
             }}
           </EmailEditorProvider>
+
+          <AssetManager
+            accept="image/*"
+            request={fetchAssets}
+            upload={uploadFile}
+            onCreateFile={createFile}
+            onDeleteFile={deleteFile}
+            onDeleteFolder={deleteFolder}
+            onUpdateFile={updateFile}
+            onUpdateFolder={updateFolder}
+            onCreateFolder={createFolder}
+            onSelect={handleSelect}
+            visible={assetManagerVisible}
+            setVisible={setAssetManagerVisible}
+          />
         </div>
       </App>
     </ConfigProvider>

@@ -9,7 +9,7 @@ export const AddToCollection: React.FC<{
   setVisible: (v: boolean) => void;
 }> = ({ visible, setVisible }) => {
   const { focusBlock: focusBlockData } = useBlock();
-  const { onAddCollection, onUploadImage } = useEditorProps();
+  const { onAddCollection, onUploadImage, enableAssetManager } = useEditorProps();
 
   const onSubmit = (values: {
     label: string;
@@ -57,6 +57,7 @@ export const AddToCollection: React.FC<{
               label={'Thumbnail'}
               name={'thumbnail'}
               uploadHandler={onUploadImage}
+              enableSelectFromLibrary={enableAssetManager}
               validate={(val: string) => {
                 if (!val) return 'Thumbnail required!';
                 return undefined;

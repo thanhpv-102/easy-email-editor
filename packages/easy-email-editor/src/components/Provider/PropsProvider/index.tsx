@@ -66,6 +66,11 @@ export interface PropsProviderProps {
   enabledLogic?: boolean;
   locale?: Record<string, string>;
 
+  enableAssetManager?: boolean;
+  toggleAssetManager?: (isOpen: boolean) => void;
+  selectedAsset?: string;
+  onSelectAssetManager?: () => Promise<string>;
+
   toolbar?: {
     tools?: AvailableTools[];
     suffix?: (execCommand: (cmd: string, value?: any) => void) => React.ReactNode;

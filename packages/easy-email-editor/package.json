@@ -64,7 +64,7 @@
   },
   "peerDependencies": {
     "@thanhpv102/easy-email-core": "^4.19.6",
-    "mjml-browser": "^4.10.4",
+    "mjml-browser": "^4.15.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

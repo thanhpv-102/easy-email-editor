@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Button, Dropdown, Input, App, Modal, Popover, Row, Spin } from 'antd';
-import { DeleteOutlined, EyeOutlined, MailOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EyeOutlined, FileImageOutlined, MailOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './index.module.scss';
 import { Uploader, UploaderServer } from '@extensions/AttributePanel/utils/Uploader';
 import { classnames } from '@extensions/AttributePanel/utils/classnames';
@@ -13,11 +13,12 @@ export interface ImageUploaderProps {
   value: string;
   label: string;
   uploadHandler?: UploaderServer;
+  enableSelectFromLibrary?: boolean;
   autoCompleteOptions?: Array<{ value: string; label: React.ReactNode; }>;
 }
 
 export function ImageUploader(props: ImageUploaderProps) {
-  const { mergeTags } = useEditorProps();
+  const { mergeTags, onSelectAssetManager, toggleAssetManager } = useEditorProps();
   const { message } = App.useApp();
   const [isUploading, setIsUploading] = useState(false);
   const [preview, setPreview] = useState(false);
@@ -25,7 +26,22 @@ export function ImageUploader(props: ImageUploaderProps) {
     props.uploadHandler,
   );
 
+  const enableSelectFromLibrary = props.enableSelectFromLibrary ?? false;
+
   const onChange = props.onChange;
+
+  // Khi chọn ảnh từ AssetManager, gọi trực tiếp callback nếu có
+  const handleSelectAssetManager = useCallback(async () => {
+    if (onSelectAssetManager) {
+      const result = await onSelectAssetManager();
+      if (typeof result === 'string' && result) {
+        props.onChange(result);
+        await previewLoadImage(result);
+      }
+    } else {
+      toggleAssetManager?.(true);
+    }
+  }, [onSelectAssetManager, toggleAssetManager, props]);
 
   const onUpload = useCallback(() => {
     if (isUploading) {
@@ -101,12 +117,21 @@ export function ImageUploader(props: ImageUploaderProps) {
     }
 
     if (!props.value) {
-      return (
-        <div className={styles['upload']} onClick={onUpload}>
-          <PlusOutlined />
-          <div>Upload</div>
-        </div>
-      );
+      if (enableSelectFromLibrary) {
+        return (
+          <div className={styles['upload']} onClick={handleSelectAssetManager}>
+            <FileImageOutlined />
+            <div className={styles['uploadText']}>Select from Library</div>
+          </div>
+        );
+      } else {
+        return (
+          <div className={styles['upload']} onClick={onUpload}>
+            <PlusOutlined />
+            <div>Upload</div>
+          </div>
+        );
+      }
     }
 
     return (
@@ -124,7 +149,7 @@ export function ImageUploader(props: ImageUploaderProps) {
         </div>
       </div>
     );
-  }, [isUploading, onRemove, onUpload, props.value]);
+  }, [isUploading, onRemove, onUpload, props.value, enableSelectFromLibrary, handleSelectAssetManager, toggleAssetManager]);
 
   const onInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,8 +157,6 @@ export function ImageUploader(props: ImageUploaderProps) {
     },
     [onChange]
   );
-
-  // ...existing code...
 
   if (!props.uploadHandler) {
     return <Input value={props.value} onChange={onInputChange} />;

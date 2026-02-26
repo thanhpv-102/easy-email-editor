@@ -54,7 +54,7 @@ const alignOptions = [
 
 export function Accordion() {
   const { focusIdx } = useFocusIdx();
-  const { onUploadImage } = useEditorProps();
+  const { onUploadImage, enableAssetManager } = useEditorProps();
 
   return (
     <AttributesPanelWrapper>
@@ -103,6 +103,7 @@ export function Accordion() {
                   name={`${focusIdx}.attributes.icon-unwrapped-url`}
                   //helpText={t('The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.')}
                   uploadHandler={onUploadImage}
+                  enableSelectFromLibrary={enableAssetManager}
                 />
               </Col>
               <Col
@@ -113,6 +114,7 @@ export function Accordion() {
                   label={t('Wrapped icon')}
                   name={`${focusIdx}.attributes.icon-wrapped-url`}
                   uploadHandler={onUploadImage}
+                  enableSelectFromLibrary={enableAssetManager}
                 />
               </Col>
             </Row>

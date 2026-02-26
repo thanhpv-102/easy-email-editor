@@ -179,7 +179,7 @@ function CarouselImage({
   index: number;
 }) {
   const { focusIdx } = useFocusIdx();
-  const { onUploadImage } = useEditorProps();
+  const { onUploadImage, enableAssetManager } = useEditorProps();
   return (
     <Space orientation="vertical" size="small">
       <ImageUploaderField
@@ -190,6 +190,7 @@ function CarouselImage({
           'The image suffix should be .jpg, jpeg, png, gif, etc. Otherwise, the picture may not be displayed normally.',
         )}
         uploadHandler={onUploadImage}
+        enableSelectFromLibrary={enableAssetManager}
       />
       <Row>
         <Col span={11}>
