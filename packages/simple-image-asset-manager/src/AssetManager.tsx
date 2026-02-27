@@ -211,7 +211,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
       width={widthModal}
       styles={{ body: { padding: 0 } }}
       destroyOnHidden
-      maskClosable={false}
+      mask={{ closable: false }}
       centered
     >
       <div className="simple-image-asset-manager-modal" style={{ padding: 24 }}>

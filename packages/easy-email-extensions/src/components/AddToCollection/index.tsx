@@ -35,7 +35,7 @@ export const AddToCollection: React.FC<{
     >
       {({ handleSubmit }) => (
         <Modal
-          maskClosable={false}
+          mask={{ closable: false }}
           style={{ zIndex: 2000 }}
           open={visible}
           title={'Add to collection'}
