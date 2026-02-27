@@ -32,5 +32,6 @@ export interface AssetManagerProps {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   showUnacceptedFile?: boolean;
   addFolderEnabled?: boolean;
+  getContainer?: () => HTMLElement;
 }
 

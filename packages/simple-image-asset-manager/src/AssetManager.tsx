@@ -29,6 +29,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
     setVisible,
     showUnacceptedFile: _showUnacceptedFile = false,
     addFolderEnabled = true,
+    getContainer,
   }) => {
   const [currentFolderId, setCurrentFolderId] = useState<string | null>(null);
   const [items, setItems] = useState<Array<FileItem | FolderItem>>([]);
@@ -213,6 +214,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
       destroyOnHidden
       mask={{ closable: false }}
       centered
+      getContainer={getContainer}
     >
       <div className="simple-image-asset-manager-modal" style={{ padding: 24 }}>
 

@@ -221,6 +221,7 @@ export default function Editor() {
 
   const [assetManagerVisible, setAssetManagerVisible] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState<string | null>(null);
+  const emailEditorContainerRef = React.useRef<HTMLDivElement>(null);
 
   // Promise resolver cho chọn ảnh từ AssetManager
   const [assetManagerPromise, setAssetManagerPromise] = useState<null | ((url: string) => void)>(null);
@@ -353,7 +354,7 @@ export default function Editor() {
   return (
     <ConfigProvider locale={enUS}>
       <App>
-        <div>
+        <div ref={emailEditorContainerRef}>
           <style>{blueTheme}</style>
           <EmailEditorProvider
             height={'calc(100vh - 1px)'}
@@ -393,6 +394,7 @@ export default function Editor() {
             onSelect={handleSelect}
             visible={assetManagerVisible}
             setVisible={setAssetManagerVisible}
+            getContainer={() => emailEditorContainerRef.current!}
           />
         </div>
       </App>
