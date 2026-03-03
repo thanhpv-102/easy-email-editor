@@ -73,13 +73,13 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
       <div
         style={{
           padding: '6px 6px 0px 6px',
+          backgroundColor: 'var(--color-bg-popup)'
         }}
       >
         <Button
           type='text'
           size='small'
           style={{
-            color: '#333',
             fontSize: 12,
             width: '100%',
             textAlign: 'left',
@@ -97,6 +97,7 @@ export function ColorPickerContent(props: ColorPickerContentProps) {
               left: 0,
               top: 0,
               opacity: 0,
+              cursor: 'pointer'
             }}
             type='color'
             value={inputColorValue}

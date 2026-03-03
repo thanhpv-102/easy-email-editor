@@ -61,7 +61,6 @@ export function FocusTooltip() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transform: 'translate(-50%, -50%)',
                     borderRadius: '50%',
                     cursor: 'grab',
                     pointerEvents: 'auto',

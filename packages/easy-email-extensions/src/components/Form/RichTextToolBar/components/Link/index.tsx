@@ -96,7 +96,12 @@ export function Link(props: LinkProps) {
           onSubmit={onSubmit}
         >
           {({ handleSubmit }) => (
-            <div style={{ color: '#333', padding: '8px 12px', minWidth: 260 }}>
+            <div style={{
+              color: 'var(--ant-color-text)',
+              backgroundColor: 'var(--ant-color-bg-container)',
+              padding: '8px 12px',
+              minWidth: 260
+            }}>
               <Stack vertical spacing="none">
                 <SearchField
                   size="small"

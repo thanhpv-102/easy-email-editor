@@ -40,10 +40,9 @@ export function RichTextPortalPopup({
     ...(placement === 'bottom'
       ? { top: rect.triggerTop + rect.triggerHeight + GAP }
       : { bottom: window.innerHeight - rect.triggerTop + GAP }),
-    boxShadow: '0 3px 6px -4px rgba(0,0,0,.12), 0 6px 16px 0 rgba(0,0,0,.08), 0 9px 28px 8px rgba(0,0,0,.05)',
-    backgroundColor: '#fff',
+    backgroundColor: 'var(--color-bg-popup)',
     borderRadius: 8,
-    border: '1px solid rgba(0,0,0,0.06)',
+    border: '1px solid var(--color-border)',
   };
 
   return createPortal(
