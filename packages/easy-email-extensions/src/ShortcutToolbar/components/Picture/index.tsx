@@ -65,7 +65,7 @@ export function Picture(props: IPictureProps) {
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'linear-gradient(90deg, #e8e8e8 25%, #f5f5f5 50%, #e8e8e8 75%)',
+            background: 'linear-gradient(70deg, var(--color-loading-gray-1, #2a2a2a) 25%, var(--color-loading-gray-2, #5a5a5a) 50%, var(--color-loading-gray-1, #2a2a2a) 75%)',
             backgroundSize: '800px 100%',
             animation: 'easy-email-skeleton-shimmer 1.4s infinite linear',
             borderRadius: borderRadius,

@@ -66,7 +66,7 @@ export function FontSize(props: FontSizeProps) {
                 lineHeight: '22px',
               }}
               onMouseEnter={e => {
-                (e.currentTarget as HTMLElement).style.backgroundColor = '#f5f5f5';
+                (e.currentTarget as HTMLElement).style.backgroundColor = 'var(--color-font-item-background, #f5f5f5)';
               }}
               onMouseLeave={e => {
                 (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent';
