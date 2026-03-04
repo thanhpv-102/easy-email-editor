@@ -3,6 +3,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Modal, Tabs, Form, Switch, Button, Typography, Popconfirm, Divider } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useEditorConfig, useEditorProps } from 'easy-email-editor';
+import './styles.css';
 
 const { Text } = Typography;
 
@@ -79,23 +80,23 @@ function MergeTagRow({ row, onCommit, onDelete }: MergeTagRowProps) {
   const valueRef = useRef<HTMLInputElement>(null);
 
   return (
-    <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
+    <div className="config-row">
       <input
+        className="config-input-field ant-input ant-input-outlined css-var-root ant-input-css-var"
         ref={pathRef}
         defaultValue={row.path}
         placeholder='e.g. user.name'
         onBlur={e => onCommit(row.id, 'path', e.target.value)}
-        style={inputStyle}
       />
       <input
+        className="config-input-field ant-input ant-input-outlined css-var-root ant-input-css-var"
         ref={valueRef}
         defaultValue={row.value}
         placeholder='Preview value'
         onBlur={e => onCommit(row.id, 'value', e.target.value)}
-        style={inputStyle}
       />
       <Popconfirm title='Delete this tag?' onConfirm={() => onDelete(row.id)}>
-        <Button type='text' danger size='small' icon={<DeleteOutlined />} />
+        <Button type='text' danger size='small' icon={<DeleteOutlined />} className="config-btn-delete" />
       </Popconfirm>
     </div>
   );
@@ -168,20 +169,20 @@ function MergeTagsTab() {
 
   return (
     <div style={{ padding: '16px 0' }}>
-      <Text type='secondary' style={{ display: 'block', marginBottom: 12 }}>
+      <Text type='secondary' className="config-description">
         Define merge tag preview values. Use dot notation for nested keys (e.g.{' '}
-        <Text code>user.name</Text>).
+        <span className="config-code">user.name</span>).
       </Text>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
-        <Text strong style={{ flex: 1, fontSize: 12 }}>Path (dot notation)</Text>
-        <Text strong style={{ flex: 1, fontSize: 12 }}>Value</Text>
+      <div className="config-row-label">
+        <span className="config-row-label-text">Path (dot notation)</span>
+        <span className="config-row-label-text">Value</span>
         <div style={{ width: 32 }} />
       </div>
-      <Divider style={{ margin: '4px 0 8px' }} />
+      <Divider className="config-divider" />
       {rows.map(row => (
         <MergeTagRow key={row.id} row={row} onCommit={handleCommit} onDelete={handleDelete} />
       ))}
-      <Button icon={<PlusOutlined />} onClick={handleAdd} size='small' style={{ marginTop: 4 }}>
+      <Button icon={<PlusOutlined />} onClick={handleAdd} size='small' className="config-btn-add">
         Add merge tag
       </Button>
     </div>
@@ -206,29 +207,30 @@ function SocialIconRowItem({ row, onCommit, onDelete }: SocialIconRowProps) {
   const [imgSrc, setImgSrc] = useState(row.image);
 
   return (
-    <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 6 }}>
+    <div className="config-row">
       <input
+        className="config-input-field"
         defaultValue={row.content}
         placeholder='e.g. Facebook'
         onBlur={e => onCommit(row.id, 'content', e.target.value)}
-        style={inputStyle}
       />
       <div style={{ flex: 1, display: 'flex', gap: 6, alignItems: 'center' }}>
         <input
+          className="config-input-field"
           defaultValue={row.image}
           placeholder='https://...'
           onBlur={e => {
             onCommit(row.id, 'image', e.target.value);
             setImgSrc(e.target.value);
           }}
-          style={{ ...inputStyle, flex: 1 }}
+          style={{ flex: 1 }}
         />
         {imgSrc && (
-          <img src={imgSrc} alt='' style={{ width: 24, height: 24, objectFit: 'contain', flexShrink: 0 }} />
+          <img src={imgSrc} alt='' className="config-image-preview" />
         )}
       </div>
       <Popconfirm title='Delete this icon?' onConfirm={() => onDelete(row.id)}>
-        <Button type='text' danger size='small' icon={<DeleteOutlined />} />
+        <Button type='text' danger size='small' icon={<DeleteOutlined />} className="config-btn-delete" />
       </Popconfirm>
     </div>
   );
@@ -286,38 +288,24 @@ function SocialIconsTab() {
 
   return (
     <div style={{ padding: '16px 0' }}>
-      <Text type='secondary' style={{ display: 'block', marginBottom: 12 }}>
+      <Text type='secondary' className="config-description">
         Define custom social icons available in the social block.
       </Text>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 4 }}>
-        <Text strong style={{ flex: 1, fontSize: 12 }}>Name / Label</Text>
-        <Text strong style={{ flex: 1, fontSize: 12 }}>Image URL</Text>
+      <div className="config-row-label">
+        <span className="config-row-label-text">Name / Label</span>
+        <span className="config-row-label-text">Image URL</span>
         <div style={{ width: 32 }} />
       </div>
-      <Divider style={{ margin: '4px 0 8px' }} />
+      <Divider className="config-divider" />
       {rows.map(row => (
         <SocialIconRowItem key={row.id} row={row} onCommit={handleCommit} onDelete={handleDelete} />
       ))}
-      <Button icon={<PlusOutlined />} onClick={handleAdd} size='small' style={{ marginTop: 4 }}>
+      <Button icon={<PlusOutlined />} onClick={handleAdd} size='small' className="config-btn-add">
         Add social icon
       </Button>
     </div>
   );
 }
-
-// ─── Shared styles ────────────────────────────────────────────────────────────
-
-const inputStyle: React.CSSProperties = {
-  flex: 1,
-  padding: '3px 7px',
-  fontSize: 14,
-  lineHeight: '22px',
-  border: '1px solid #d9d9d9',
-  borderRadius: 6,
-  outline: 'none',
-  boxSizing: 'border-box',
-  width: '100%',
-};
 
 // ─── Main Popup ───────────────────────────────────────────────────────────────
 
@@ -325,37 +313,39 @@ export function ConfigurationPopup() {
   const { isConfigOpen, closeConfig } = useEditorConfig();
 
   return (
-    <Modal
-      open={isConfigOpen}
-      onCancel={closeConfig}
-      title='Editor Configuration'
-      footer={(
-        <Button type='primary' onClick={closeConfig}>
-          Done
-        </Button>
-      )}
-      width={680}
-    >
-      <Tabs
-        defaultActiveKey='general'
-        items={[
-          {
-            key: 'general',
-            label: 'General',
-            children: <GeneralTab />,
-          },
-          {
-            key: 'merge-tags',
-            label: 'Merge Tags',
-            children: <MergeTagsTab />,
-          },
-          {
-            key: 'social-icons',
-            label: 'Social Icons',
-            children: <SocialIconsTab />,
-          },
-        ]}
-      />
-    </Modal>
+    <div className="config-popup-container">
+      <Modal
+        open={isConfigOpen}
+        onCancel={closeConfig}
+        title='Editor Configuration'
+        footer={(
+          <Button type='primary' onClick={closeConfig}>
+            Done
+          </Button>
+        )}
+        width={680}
+      >
+        <Tabs
+          defaultActiveKey='general'
+          items={[
+            {
+              key: 'general',
+              label: 'General',
+              children: <GeneralTab />,
+            },
+            {
+              key: 'merge-tags',
+              label: 'Merge Tags',
+              children: <MergeTagsTab />,
+            },
+            {
+              key: 'social-icons',
+              label: 'Social Icons',
+              children: <SocialIconsTab />,
+            },
+          ]}
+        />
+      </Modal>
+    </div>
   );
 }

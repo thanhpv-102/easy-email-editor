@@ -17,6 +17,7 @@ export function FontFamily({ name }: { name?: string }) {
   return useMemo(() => {
     return (
       <AutoCompleteField
+        className="ant-input ant-input-outlined"
         style={{ minWidth: 60, flex: 1 }}
         showSearch
         label={'Font family'}

@@ -175,6 +175,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
   // Responsive modal width and preview width
   const widthModal = Math.round(windowWidth * 0.8);
   const widthPreview = Math.round(widthModal * 0.6);
+  const canSelectFile = Boolean(selectedItem && isFile(selectedItem));
 
   if (!visible) return null;
 
@@ -188,18 +189,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
             {/* Close button is handled by antd Modal, so just stack the toggle below */}
             <button
               onClick={() => setViewMode(viewMode === 'thumbnail' ? 'list' : 'thumbnail')}
-              style={{
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: 0,
-                marginTop: 8,
-                fontSize: 22,
-                color: '#222',
-                display: 'flex',
-                alignItems: 'center',
-                transition: 'color 0.2s',
-              }}
+              className="asset-manager-btn asset-manager-btn--icon"
               title={viewMode === 'thumbnail' ? 'List view' : 'Thumbnail view'}
             >
               {viewMode === 'thumbnail' ? <BarsOutlined /> : <AppstoreOutlined />}
@@ -224,9 +214,9 @@ export const AssetManager: React.FC<AssetManagerProps> = (
             <div style={{ marginBottom: 8, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap' }}>
                 <span
-                  className="breadcrumb"
+                  className="breadcrumb breadcrumb--link"
                   onClick={() => handleBreadcrumbClick(-1)}
-                  style={{ cursor: 'pointer', color: '#1890ff', textDecoration: 'underline', fontWeight: 500, maxWidth: 120, display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                  style={{ fontWeight: 500, maxWidth: 120, display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                 >All</span>
                 {breadcrumbs.map((folder: FolderItem, idx: number) => {
                   const isLast = idx === breadcrumbs.length - 1;
@@ -235,14 +225,14 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                       <span style={{ margin: '0 4px', fontWeight: 500 }}>/</span>
                       {isLast ? (
                         <span
-                          className="breadcrumb"
-                          style={{ color: '#222', fontWeight: 500, maxWidth: 120, display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                          className="breadcrumb breadcrumb--current"
+                          style={{ fontWeight: 500, maxWidth: 120, display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                         >{folder.name}</span>
                       ) : (
                         <span
-                          className="breadcrumb"
+                          className="breadcrumb breadcrumb--link"
                           onClick={() => handleBreadcrumbClick(idx)}
-                          style={{ cursor: 'pointer', color: '#1890ff', textDecoration: 'underline', fontWeight: 500, maxWidth: 120, display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                          style={{ fontWeight: 500, maxWidth: 120, display: 'inline-block', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                         >{folder.name}</span>
                       )}
                     </span>
@@ -251,22 +241,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
               </div>
               {addFolderEnabled && !creatingFolder && (
                 <button
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 6,
-                    cursor: 'pointer',
-                    userSelect: 'none',
-                    fontWeight: 500,
-                    fontSize: 15,
-                    padding: '8px 20px',
-                    borderRadius: 4,
-                    background: '#1890ff',
-                    color: '#fff',
-                    border: 'none',
-                    boxShadow: '0 2px 8px rgba(24,144,255,0.12)',
-                    transition: 'background 0.2s, box-shadow 0.2s',
-                  }}
+                  className="asset-manager-btn asset-manager-btn--primary asset-manager-btn--new-folder"
                   onClick={() => setCreatingFolder(true)}
                 >
                   <span>New folder</span>
@@ -281,14 +256,11 @@ export const AssetManager: React.FC<AssetManagerProps> = (
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               style={{
-                border: isDragActive ? '2px solid #1890ff' : '2px dashed #aaa',
                 borderRadius: 8,
                 padding: 32,
                 marginBottom: 24,
                 textAlign: 'center',
-                background: isDragActive ? '#e6f7ff' : '#fafafa',
                 position: 'relative',
-                transition: 'border-color 0.3s, background 0.3s',
               }}
             >
               <div style={{
@@ -296,21 +268,11 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                 fontWeight: 500,
               }}>{isDragActive ? 'Drop file here to upload' : 'Drag & drop files here'}</div>
               <button
+                className="atn-btn atn-btn-primary asset-manager-btn asset-manager-btn--primary asset-manager-btn--upload"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
                 style={{
-                  marginBottom: 8,
                   visibility: isDragActive ? 'hidden' : 'visible',
-                  padding: '8px 24px',
-                  borderRadius: 4,
-                  background: uploading ? '#ccc' : '#1890ff',
-                  color: '#fff',
-                  border: 'none',
-                  cursor: uploading ? 'not-allowed' : 'pointer',
-                  fontWeight: 500,
-                  fontSize: 15,
-                  boxShadow: uploading ? 'none' : '0 2px 8px rgba(24,144,255,0.12)',
-                  transition: 'background 0.2s, box-shadow 0.2s',
                 }}
               >
                 Upload
@@ -348,32 +310,11 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                     />
                     <button
                       onClick={handleCreateFolder}
-                      style={{
-                        padding: '8px 16px',
-                        borderRadius: 4,
-                        background: '#1890ff',
-                        color: '#fff',
-                        border: 'none',
-                        fontWeight: 500,
-                        fontSize: 15,
-                        cursor: 'pointer',
-                        boxShadow: '0 2px 8px rgba(24,144,255,0.12)',
-                        transition: 'background 0.2s',
-                      }}
+                      className="asset-manager-btn asset-manager-btn--primary asset-manager-btn--compact"
                     >Create</button>
                     <button
                       onClick={() => setCreatingFolder(false)}
-                      style={{
-                        padding: '8px 16px',
-                        borderRadius: 4,
-                        background: '#f5f5f5',
-                        color: '#222',
-                        border: '1px solid #d9d9d9',
-                        fontWeight: 500,
-                        fontSize: 15,
-                        cursor: 'pointer',
-                        transition: 'background 0.2s',
-                      }}
+                      className="asset-manager-btn asset-manager-btn--secondary asset-manager-btn--compact"
                     >Cancel</button>
                   </div>
                 )}
@@ -383,7 +324,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                     {items.filter(isFolder).map((folder: FolderItem) => (
                       <div
                         key={folder.id}
-                        className="folder-item"
+                        className={`folder-item folder-item--thumbnail ${selectedItem && isFolder(selectedItem) && selectedItem.id === folder.id ? 'folder-item--selected' : ''}`}
                         style={{
                           cursor: 'pointer',
                           width: 120,
@@ -394,7 +335,6 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                           alignItems: 'center',
                           padding: 8,
                           borderRadius: 8,
-                          background: '#fafafa',
                           boxSizing: 'border-box',
                         }}
                         onClick={() => handleFolderClick(folder)}
@@ -403,10 +343,11 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                           <img
                             src={folder.thumbnail}
                             alt={folder.name}
-                            style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 4, marginBottom: 8, background: '#fff' }}
+                            className="asset-icon-placeholder"
+                            style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 4, marginBottom: 8 }}
                           />
                         ) : (
-                          <div style={{ fontSize: 40, width: 64, height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8, background: '#fff', borderRadius: 4 }}>📁</div>
+                          <div className="asset-icon-placeholder asset-icon-folder" style={{ fontSize: 40, width: 64, height: 64, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8, borderRadius: 4 }}>📁</div>
                         )}
                         <div style={{
                           fontSize: 13,
@@ -425,7 +366,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                     {items.filter(isFolder).map((folder: FolderItem) => (
                       <div
                         key={folder.id}
-                        className="folder-item"
+                        className={`folder-item folder-item--list ${selectedItem && isFolder(selectedItem) && selectedItem.id === folder.id ? 'folder-item--selected' : ''}`}
                         style={{
                           display: 'flex',
                           alignItems: 'center',
@@ -440,10 +381,11 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                           <img
                             src={folder.thumbnail}
                             alt={folder.name}
-                            style={{ width: 32, height: 32, objectFit: 'cover', borderRadius: 4, background: '#fff' }}
+                            className="asset-icon-placeholder"
+                            style={{ width: 32, height: 32, objectFit: 'cover', borderRadius: 4 }}
                           />
                         ) : (
-                          <div style={{ fontSize: 24, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: 4 }}>📁</div>
+                          <div className="asset-icon-placeholder asset-icon-folder" style={{ fontSize: 24, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 4 }}>📁</div>
                         )}
                         <div style={{
                           fontSize: 14,
@@ -465,17 +407,14 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                       return (
                         <div
                           key={file.id}
-                          className="file-item"
+                          className={`file-item file-item--thumbnail ${isSelected ? 'file-item--selected' : ''}`}
                           style={{
                             cursor: 'pointer',
                             width: 120,
                             minWidth: 120,
                             maxWidth: 120,
-                            border: '2px solid ' + (isSelected ? '#1890ff' : 'transparent'),
-                            background: isSelected ? '#e6f7ff' : '#fafafa',
                             borderRadius: 8,
                             boxSizing: 'border-box',
-                            transition: 'border-color 0.2s, background 0.2s',
                             padding: 8,
                             display: 'flex',
                             flexDirection: 'column',
@@ -486,7 +425,8 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                           <img
                             src={file.thumbnail || file.url}
                             alt={file.name}
-                            style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 4, background: '#fff', marginBottom: 8 }}
+                            className="asset-icon-placeholder"
+                            style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 4, marginBottom: 8 }}
                           />
                           <div style={{
                             fontSize: 12,
@@ -509,7 +449,7 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                       return (
                         <div
                           key={file.id}
-                          className="file-item"
+                          className={`file-item file-item--list ${isSelected ? 'file-item--selected' : ''}`}
                           style={{
                             display: 'flex',
                             alignItems: 'center',
@@ -517,14 +457,14 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                             padding: '8px 0',
                             borderBottom: '1px solid #f0f0f0',
                             cursor: 'pointer',
-                            background: isSelected ? '#e6f7ff' : '#fff',
                           }}
                           onClick={() => handleFileClick(file)}
                         >
                           <img
                             src={file.thumbnail || file.url}
                             alt={file.name}
-                            style={{ width: 32, height: 32, objectFit: 'cover', borderRadius: 4, background: '#fff' }}
+                            className="asset-icon-placeholder"
+                            style={{ width: 32, height: 32, objectFit: 'cover', borderRadius: 4 }}
                           />
                           <div style={{
                             fontSize: 14,
@@ -545,39 +485,16 @@ export const AssetManager: React.FC<AssetManagerProps> = (
           {/* Preview tab */}
           {selectedItem && (
             <div style={{ width: widthPreview, minWidth: 320, transition: 'width 2s', overflow: 'hidden' }}>
-              <div style={{
-                border: '1px solid #eee',
-                borderRadius: 8,
-                padding: 16,
-                background: '#fff',
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                position: 'relative',
-              }}>
+              <div className="asset-preview-panel">
                 <button
                   onClick={() => setSelectedItem(null)}
-                  style={{
-                    position: 'absolute',
-                    top: 12,
-                    right: 12,
-                    background: '#f5f5f5',
-                    border: 'none',
-                    borderRadius: 4,
-                    padding: '4px 12px',
-                    cursor: 'pointer',
-                    fontWeight: 500,
-                    fontSize: 14,
-                    color: '#222',
-                    boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                  }}
+                  className="asset-manager-btn asset-manager-btn--secondary asset-manager-btn--hide"
                 >Hide</button>
                 {isFile(selectedItem) ? (
                   <>
                     <img src={selectedItem.thumbnail || selectedItem.url} alt={selectedItem.name} style={{ width: '100%', maxHeight: 240, objectFit: 'contain', borderRadius: 4, marginBottom: 16 }} />
-                    <div style={{ fontWeight: 500, marginBottom: 8 }}>{selectedItem.name}</div>
-                    <div style={{ fontSize: 12, color: '#888', marginBottom: 8 }}>
+                    <div className="asset-preview-title">{selectedItem.name}</div>
+                    <div className="asset-preview-meta">
                       {selectedItem.url.startsWith('data:')
                         ? 'URL: data-uri'
                         : (
@@ -588,27 +505,21 @@ export const AssetManager: React.FC<AssetManagerProps> = (
                     </div>
                     <button
                       onClick={handleDeleteSelected}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 6,
-                        color: '#ff4d4f', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: 15, marginTop: 24
-                      }}
+                      className="asset-manager-btn asset-manager-btn--danger asset-manager-btn--delete"
                     >
                       <DeleteOutlined /> Delete
                     </button>
                   </>
                 ) : (
                   <>
-                    <div style={{ fontSize: 64, marginBottom: 16 }}>📁</div>
-                    <div style={{ fontWeight: 500, marginBottom: 8 }}>{selectedItem.name}</div>
-                    <div style={{ fontSize: 12, color: '#888', marginBottom: 8 }}>
+                    <div className="asset-preview-folder-icon">📁</div>
+                    <div className="asset-preview-title">{selectedItem.name}</div>
+                    <div className="asset-preview-meta">
                       {`Files: ${items.filter(i => isFile(i) && (i.parentFolderId === selectedItem.id)).length}`}
                     </div>
                     <button
                       onClick={handleDeleteSelected}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 6,
-                        color: '#ff4d4f', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: 15, marginTop: 24
-                      }}
+                      className="asset-manager-btn asset-manager-btn--danger asset-manager-btn--delete"
                     >
                       <DeleteOutlined /> Delete
                     </button>
@@ -622,16 +533,8 @@ export const AssetManager: React.FC<AssetManagerProps> = (
              style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: 24 }}>
           <button
             onClick={handleSelect}
-            disabled={!(selectedItem && isFile(selectedItem))}
-            style={{
-              padding: '8px 24px',
-              borderRadius: 4,
-              background: selectedItem && isFile(selectedItem) ? '#1890ff' : '#ccc',
-              color: '#fff',
-              border: 'none',
-              cursor: selectedItem && isFile(selectedItem) ? 'pointer' : 'not-allowed',
-              fontWeight: 500,
-            }}
+            disabled={!canSelectFile}
+            className={`asset-manager-btn asset-manager-btn--select ${canSelectFile ? 'asset-manager-btn--primary' : 'asset-manager-btn--disabled'}`}
           >
             Select
           </button>

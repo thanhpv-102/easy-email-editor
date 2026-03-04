@@ -20,7 +20,7 @@ import { ExtensionProps, SimpleLayout } from 'easy-email-extensions';
 
 import 'easy-email-editor/lib/style.css';
 import 'easy-email-extensions/lib/style.css';
-import blueTheme from '@arco-themes/react-easy-email-theme/css/arco.css?inline';
+import '@demo/arco-email-theme.css'
 
 import enUS from 'antd/locale/en_US';
 
@@ -351,11 +351,12 @@ export default function Editor() {
 
   if (!initialValues) return null;
 
+  // document.body.setAttribute("arco-theme", "dark")
+
   return (
     <ConfigProvider locale={enUS}>
       <App>
         <div ref={emailEditorContainerRef}>
-          <style>{blueTheme}</style>
           <EmailEditorProvider
             height={'calc(100vh - 1px)'}
             data={initialValues}

@@ -1,6 +1,6 @@
 {
   "name": "@thanhpv102/simple-image-asset-manager",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "files": [

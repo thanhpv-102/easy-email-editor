@@ -81,6 +81,7 @@ export function Page({ hideSubTitle, hideSubject }: PageProps) {
                       span={11}
                     >
                       <NumberField
+                        className="ant-input ant-input-outlined"
                         label="Font size (px)"
                         name={`${focusIdx}.data.value.font-size`}
                         config={pixelAdapter}

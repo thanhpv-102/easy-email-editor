@@ -1,0 +1,104 @@
+/* Configuration Popup - Theme-aware styles */
+
+.config-popup-container {
+  --config-input-border: #d9d9d9;
+  --config-input-bg: #fff;
+  --config-input-text: #222;
+  --config-input-placeholder: #a0a0a0;
+  --config-btn-danger-text: #ff4d4f;
+  --config-text-secondary: #666;
+  --config-text-code-bg: #f5f5f5;
+  --config-divider: #f0f0f0;
+}
+
+/* Dark theme overrides */
+body[arco-theme='dark'] .config-popup-container {
+  --config-input-border: hsl(215 20.2% 65.1%);
+  --config-input-bg: hsl(217.2 32.6% 17.5%);
+  --config-input-text: hsl(210 40% 98%);
+  --config-input-placeholder: hsl(215 20.2% 65.1%);
+  --config-btn-danger-text: hsl(0 62.8% 70%);
+  --config-text-secondary: hsl(215 20.2% 65.1%);
+  --config-text-code-bg: hsl(217.2 32.6% 22%);
+  --config-divider: hsl(217.2 32.6% 22%);
+}
+
+.config-input-field {
+  flex: 1;
+  padding: 3px 7px;
+  font-size: 14px;
+  line-height: 22px;
+  border: 1px solid var(--config-input-border);
+  border-radius: 6px;
+  background: var(--config-input-bg);
+  color: var(--config-input-text);
+  outline: none;
+  box-sizing: border-box;
+  width: 100%;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.config-input-field::placeholder {
+  color: var(--config-input-placeholder);
+}
+
+.config-input-field:focus {
+  border-color: hsl(217.2 91.2% 59.8%);
+}
+
+.config-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.config-row-label {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.config-row-label-text {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--config-text-secondary);
+}
+
+.config-btn-delete {
+  flex-shrink: 0;
+}
+
+.config-btn-add {
+  margin-top: 4px;
+}
+
+.config-code {
+  background: var(--config-text-code-bg);
+  border-radius: 3px;
+  padding: 2px 4px;
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--config-input-text);
+}
+
+.config-divider {
+  border-color: var(--config-divider);
+  margin: 4px 0 8px 0;
+}
+
+.config-image-preview {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.config-description {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--config-text-secondary);
+  font-size: 14px;
+}
+
