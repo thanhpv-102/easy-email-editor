@@ -152,6 +152,9 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
                   newVal = rawVal == null ? '' : String(rawVal);
                 } else if (Array.isArray(adapted) || (adapted !== null && typeof adapted === 'object')) {
                   newVal = adapted;
+                } else if (typeof adapted === 'boolean') {
+                  // Keep boolean values as-is (for Switch, Checkbox, etc.)
+                  newVal = adapted;
                 } else {
                   newVal = adapted == null ? '' : String(adapted);
                 }
@@ -182,6 +185,9 @@ export default function enhancer<P extends { onChange?: (...rest: any) => any }>
               // cause visible glitches and lost keystrokes.
               if (!isFocusedRef.current) {
                 if (Array.isArray(value) || (value !== null && typeof value === 'object')) {
+                  setCurrentValue(value);
+                } else if (typeof value === 'boolean') {
+                  // Keep boolean values as-is (for Switch, Checkbox, etc.)
                   setCurrentValue(value);
                 } else {
                   setCurrentValue(value == null ? '' : String(value));

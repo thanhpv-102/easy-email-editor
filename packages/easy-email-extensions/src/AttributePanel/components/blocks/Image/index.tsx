@@ -17,7 +17,7 @@ const fullWidthOnMobileAdapter = {
   format(obj: boolean | string) {
     return Boolean(obj);
   },
-  parse(val: string) {
+  parse(val: boolean) {
     if (!val) return undefined;
 
     return 'true';
