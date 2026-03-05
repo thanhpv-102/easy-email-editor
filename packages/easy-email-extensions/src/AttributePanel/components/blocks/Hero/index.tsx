@@ -32,7 +32,7 @@ export function Hero() {
 
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel
           key="0"
           header={t('Dimension')}
@@ -118,7 +118,7 @@ export function Hero() {
           </Space>
         </Collapse.Panel>
         <Collapse.Panel
-          key="4"
+          key="2"
           header={t('Extra')}
         >
           <Col span={24}>

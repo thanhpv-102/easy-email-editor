@@ -48,7 +48,7 @@ export function Section() {
 
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel
           key="0"
           header={'Dimension'}
@@ -97,7 +97,7 @@ export function Section() {
           <Border />
         </Collapse.Panel>
         <Collapse.Panel
-          key="4"
+          key="3"
           header={'Extra'}
         >
           <Col span={24}>

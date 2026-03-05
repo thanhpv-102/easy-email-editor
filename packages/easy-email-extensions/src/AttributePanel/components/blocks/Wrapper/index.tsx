@@ -12,7 +12,7 @@ export function Wrapper() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel key="0" header={t('Dimension')}>
           <Stack vertical spacing="tight">
             <Padding />

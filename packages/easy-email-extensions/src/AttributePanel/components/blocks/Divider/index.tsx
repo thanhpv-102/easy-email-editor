@@ -16,8 +16,8 @@ import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 export function Divider() {
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={['-1', '0', '1', '2', '3']}>
-        <Collapse.Panel key="1" header={t('Dimension')}>
+      <CollapseWrapper defaultActiveKey={['.$0', '1', '2', '3']}>
+        <Collapse.Panel key="0" header={t('Dimension')}>
           <Space orientation="vertical" size="small">
             <Row>
               <Col span={11}>
@@ -31,7 +31,7 @@ export function Divider() {
           </Space>
         </Collapse.Panel>
 
-        <Collapse.Panel key="2" header={t('Border')}>
+        <Collapse.Panel key="1" header={t('Border')}>
           <Stack wrap={false} spacing="tight">
             <div style={{ width: 50 }}>
               <BorderWidth />
@@ -45,7 +45,7 @@ export function Divider() {
           </Stack>
         </Collapse.Panel>
 
-        <Collapse.Panel key="3" header={t('Background')}>
+        <Collapse.Panel key="2" header={t('Background')}>
           <Row>
             <Col span={11}>
               <ContainerBackgroundColor title={t('Background')} />
@@ -53,7 +53,7 @@ export function Divider() {
             <Col offset={1} span={11} />
           </Row>
         </Collapse.Panel>
-        <Collapse.Panel key="4" header={t('Extra')}>
+        <Collapse.Panel key="3" header={t('Extra')}>
           <Col span={24}>
             <ClassName />
           </Col>

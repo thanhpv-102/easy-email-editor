@@ -48,9 +48,9 @@ export function Social() {
 
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2', '3']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel
-          key="1"
+          key="0"
           header={'Setting'}
         >
           <Space orientation="vertical" size="small">
@@ -65,7 +65,7 @@ export function Social() {
         </Collapse.Panel>
 
         <Collapse.Panel
-          key="3"
+          key="1"
           header={'Typography'}
         >
           <Space orientation="vertical" size="small">
@@ -135,7 +135,7 @@ export function Social() {
         </Collapse.Panel>
 
         <Collapse.Panel
-          key="0"
+          key="3"
           header={t('Dimension')}
         >
           <Space

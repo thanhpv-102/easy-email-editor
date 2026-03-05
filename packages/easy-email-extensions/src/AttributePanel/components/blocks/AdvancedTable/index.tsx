@@ -17,7 +17,7 @@ export function AdvancedTable() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2', '3']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel
           key="0"
           header={t('Table Settings')}

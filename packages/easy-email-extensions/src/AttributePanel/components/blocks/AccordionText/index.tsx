@@ -17,7 +17,7 @@ export function AccordionText() {
 
   return (
     <AttributesPanelWrapper>
-      <Collapse defaultActiveKey={['0', '1', '2']} items={[
+      <Collapse defaultActiveKey={['.$0']} items={[
         {
           key: '0',
           label: t('Setting'),

@@ -30,9 +30,9 @@ export function Image() {
 
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2', '3', '4']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel
-          key="1"
+          key="0"
           header={t('Setting')}
         >
           <Stack
@@ -63,7 +63,7 @@ export function Image() {
         </Collapse.Panel>
 
         <Collapse.Panel
-          key="0"
+          key="1"
           header={t('Dimension')}
         >
           <Space orientation="vertical" size="small">

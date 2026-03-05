@@ -58,7 +58,7 @@ export function Accordion() {
 
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel
           key='0'
           header={t('Setting')}

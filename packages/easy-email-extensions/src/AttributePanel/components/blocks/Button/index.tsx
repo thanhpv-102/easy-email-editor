@@ -32,9 +32,9 @@ export function Button() {
 
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={['-1', '0', '1', '2', '3']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel
-          key="-1"
+          key="0"
           header={'Setting'}
         >
           <Space orientation="vertical" size="small">
@@ -67,7 +67,7 @@ export function Button() {
         </Collapse.Panel>
 
         <Collapse.Panel
-          key="0"
+          key="1"
           header={'Dimension'}
         >
           <Space orientation="vertical" size="small">
@@ -96,7 +96,7 @@ export function Button() {
         </Collapse.Panel>
 
         <Collapse.Panel
-          key="1"
+          key="2"
           header={'Color'}
         >
           <Space orientation="vertical" size="small">
@@ -118,7 +118,7 @@ export function Button() {
         </Collapse.Panel>
 
         <Collapse.Panel
-          key="2"
+          key="3"
           header={'Typography'}
         >
           <Space orientation="vertical" size="small">
@@ -164,13 +164,13 @@ export function Button() {
         </Collapse.Panel>
 
         <Collapse.Panel
-          key="3"
+          key="4"
           header={'Border'}
         >
           <Border />
         </Collapse.Panel>
         <Collapse.Panel
-          key="4"
+          key="5"
           header={'Extra'}
         >
           <Col span={24}>

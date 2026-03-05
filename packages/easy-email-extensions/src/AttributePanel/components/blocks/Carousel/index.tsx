@@ -36,7 +36,7 @@ export function Carousel() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={['0', '1', '2', '3', '4', '5']}>
+      <CollapseWrapper defaultActiveKey={['.$0']}>
         <Collapse.Panel
           key="0"
           header={t('Dimension')}
@@ -59,7 +59,7 @@ export function Carousel() {
           </Space>
         </Collapse.Panel>
         <Collapse.Panel
-          key="4"
+          key="1"
           header={t('Images')}
         >
           <Stack
@@ -85,7 +85,7 @@ export function Carousel() {
           </Stack>
         </Collapse.Panel>
         <Collapse.Panel
-          key="3"
+          key="2"
           header={t('Icon')}
         >
           <Row>
@@ -121,7 +121,7 @@ export function Carousel() {
         </Collapse.Panel>
 
         <Collapse.Panel
-          key="1"
+          key="3"
           header={t('Border')}
         >
           <Row>
@@ -160,7 +160,7 @@ export function Carousel() {
           </Row>
         </Collapse.Panel>
         <Collapse.Panel
-          key="5"
+          key="4"
           header={t('Extra')}
         >
           <Col span={24}>
