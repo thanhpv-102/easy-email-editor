@@ -1,6 +1,6 @@
 {
   "name": "@thanhpv102/simple-image-asset-manager",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "files": [
@@ -47,7 +47,8 @@
     ".": {
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
-    }
+    },
+    "./style.css": "./dist/simple-image-asset-manager.css"
   },
   "publishConfig": {
     "access": "public"
