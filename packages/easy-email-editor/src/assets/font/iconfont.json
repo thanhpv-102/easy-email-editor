@@ -300,6 +300,20 @@
       "unicode_decimal": 58945
     },
     {
+      "icon_id": "ant-design-sun-outlined",
+      "name": "SunOutlined",
+      "font_class": "sun",
+      "unicode": "e900",
+      "unicode_decimal": 59648
+    },
+    {
+      "icon_id": "ant-design-moon-outlined",
+      "name": "MoonOutlined",
+      "font_class": "moon",
+      "unicode": "e901",
+      "unicode_decimal": 59649
+    },
+    {
       "icon_id": "12154480",
       "name": "scanning_bottomleft",
       "font_class": "bottom-left",

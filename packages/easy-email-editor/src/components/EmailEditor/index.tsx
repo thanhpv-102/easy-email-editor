@@ -40,12 +40,15 @@ export const EmailEditor = () => {
 
   const darkModeToggle = useMemo(
     () => (
-      <IconFont
-        iconName={isDarkMode ? 'icon-eye' : 'icon-eye-invisible'}
-        title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-        onClick={toggleDarkMode}
-        style={{ cursor: 'pointer' }}
-      />
+      <Stack spacing="loose">
+        <IconFont
+          iconName={isDarkMode ? 'icon-sun' : 'icon-moon'}
+          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          onClick={toggleDarkMode}
+          hoverColor='rgb(var(--primary-6, #1890ff))'
+          style={{ cursor: 'pointer', marginLeft: 5 }}
+        />
+      </Stack>
     ),
     [isDarkMode, toggleDarkMode],
   );
