@@ -4,6 +4,7 @@ import styles from '@/styles/block-shadowDom-interactive.css?inline';
 import { useEditorProps } from '@/hooks/useEditorProps';
 import {
   useDarkMode,
+  DARK_PAGE_BG,
   DARK_EDITOR_CSS_RAW,
 } from '@/components/Provider/DarkModeProvider';
 
@@ -45,6 +46,17 @@ export function ShadowStyle() {
               box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
               -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
             }
+
+            ${isDarkMode ? `
+              .shadow-container {
+                background-color: ${DARK_PAGE_BG} !important;
+              }
+              .shadow-container::-webkit-scrollbar-thumb {
+                background-color: rgba(255, 255, 255, 0.35);
+                box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+                -webkit-box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+              }
+            ` : ''}
 
             ${styles}
 
