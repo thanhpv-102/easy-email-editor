@@ -9,7 +9,7 @@ import { Align } from '@extensions/AttributePanel/components/attributes/Align';
 
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
 import { Col, Collapse, Row, Space } from 'antd';
-import { Stack } from 'easy-email-editor';
+import { Stack } from '@thanhpv102/easy-email-editor';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 

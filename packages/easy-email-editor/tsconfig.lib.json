@@ -5,6 +5,7 @@
       "@": ["./src"],
       "@/*": ["./src/*"],
       "easy-email-core": ["../easy-email-core"],
+      "@thanhpv102/easy-email-core": ["../easy-email-core"],
       "react": ["./node_modules/@types/react"]
     }
   }

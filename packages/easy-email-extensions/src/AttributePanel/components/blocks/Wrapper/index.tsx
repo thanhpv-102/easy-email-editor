@@ -4,7 +4,7 @@ import { Background } from '@extensions/AttributePanel/components/attributes//Ba
 import { TextField } from '@extensions/components/Form';
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
 import { Col, Collapse } from 'antd';
-import { Stack, useFocusIdx } from 'easy-email-editor';
+import { Stack, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 

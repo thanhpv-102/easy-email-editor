@@ -2,7 +2,7 @@ import { Radio } from 'antd';
 import type { RadioGroupProps as AntdRadioGroupProps } from 'antd';
 import { merge } from 'lodash';
 import React from 'react';
-import { Stack } from 'easy-email-editor';
+import { Stack } from '@thanhpv102/easy-email-editor';
 
 export interface RadioGroupProps extends Omit<AntdRadioGroupProps, 'onChange' | 'value' | 'options'> {
   options: Array<{ value: string; label: React.ReactNode }>;

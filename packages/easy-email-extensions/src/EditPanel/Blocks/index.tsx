@@ -1,6 +1,6 @@
 import { Collapse, Row, Space, Typography } from 'antd';
-import { AdvancedType, BlockManager, IBlockData } from 'easy-email-core';
-import { BlockAvatarWrapper, IconFont } from 'easy-email-editor';
+import { AdvancedType, BlockManager, IBlockData } from '@thanhpv102/easy-email-core';
+import { BlockAvatarWrapper, IconFont } from '@thanhpv102/easy-email-editor';
 import React, { useMemo, useState } from 'react';
 import { CaretRightOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { getIconNameByBlockType } from '@extensions/utils/getIconNameByBlockType';

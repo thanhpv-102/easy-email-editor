@@ -1,8 +1,8 @@
 import { AttributesPanelWrapper } from '@extensions/AttributePanel';
 import { Collapse } from 'antd';
-import { Stack, useFocusIdx } from 'easy-email-editor';
+import { Stack, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import React from 'react';
-import { t } from 'easy-email-core';
+import { t } from '@thanhpv102/easy-email-core';
 import { Border } from '../../attributes/Border';
 import { Color } from '../../attributes/Color';
 import { ContainerBackgroundColor } from '../../attributes/ContainerBackgroundColor';

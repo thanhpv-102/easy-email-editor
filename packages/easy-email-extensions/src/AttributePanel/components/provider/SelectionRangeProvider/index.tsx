@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { RICH_TEXT_TOOL_BAR, RICH_TEXT_POPUP_CONTAINER_ID } from '@extensions/constants';
-import { getShadowRoot } from 'easy-email-editor';
+import { getShadowRoot } from '@thanhpv102/easy-email-editor';
 import React, { useEffect, useMemo, useState } from 'react';
 
 export const SelectionRangeContext = React.createContext<{

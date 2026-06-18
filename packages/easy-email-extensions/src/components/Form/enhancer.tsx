@@ -1,6 +1,6 @@
-import { Field, UseFieldConfig } from 'easy-email-editor';
+import { Field, UseFieldConfig } from '@thanhpv102/easy-email-editor';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useRefState } from 'easy-email-editor';
+import { useRefState } from '@thanhpv102/easy-email-editor';
 import { debounce } from 'lodash';
 import { Form, FormItemProps } from 'antd';
 

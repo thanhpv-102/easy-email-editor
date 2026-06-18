@@ -1,4 +1,4 @@
-import { IBlockData } from 'easy-email-core';
+import { IBlockData } from '@thanhpv102/easy-email-core';
 import React, { useContext, useMemo } from 'react';
 import { EditorConfigContext } from '@/components/Provider/EditorConfigProvider';
 

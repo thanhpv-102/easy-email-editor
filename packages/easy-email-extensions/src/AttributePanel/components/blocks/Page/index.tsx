@@ -8,7 +8,7 @@ import {
 } from '@extensions/components/Form';
 import { AddFont } from '@extensions/components/Form/AddFont';
 import { Col, Collapse, Row, Space } from 'antd';
-import { Stack, useFocusIdx } from 'easy-email-editor';
+import { Stack, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
 import { FontFamily } from '../../attributes/FontFamily';
 import { pixelAdapter } from '../../adapter';

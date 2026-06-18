@@ -1,5 +1,5 @@
 import { EventManager, EventType } from '@/utils/EventManager';
-import { getPageIdx } from 'easy-email-core';
+import { getPageIdx } from '@thanhpv102/easy-email-core';
 import { isFunction } from 'lodash';
 import React, { useCallback, useState } from 'react';
 

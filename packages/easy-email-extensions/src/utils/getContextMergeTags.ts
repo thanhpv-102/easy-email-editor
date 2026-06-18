@@ -1,4 +1,4 @@
-import { IBlockData, BlockManager, getParentIdx } from 'easy-email-core';
+import { IBlockData, BlockManager, getParentIdx } from '@thanhpv102/easy-email-core';
 import { get, cloneDeep } from 'lodash';
 
 export function getContextMergeTags(

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { InputWithUnitField, TextField } from '../../../components/Form';
-import { useFocusIdx } from 'easy-email-editor';
+import { useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { Col, Row } from 'antd';
 
 export function Border() {

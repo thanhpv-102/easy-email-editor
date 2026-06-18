@@ -1,7 +1,7 @@
 
 import React, { useMemo } from 'react';
 import { ColorPickerField } from '../../../components/Form';
-import { useFocusIdx } from 'easy-email-editor';
+import { useFocusIdx } from '@thanhpv102/easy-email-editor';
 
 export function ContainerBackgroundColor({
   title = t('Container background color'),

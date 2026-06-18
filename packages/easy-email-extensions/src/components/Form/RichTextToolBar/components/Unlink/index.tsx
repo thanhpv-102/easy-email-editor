@@ -1,8 +1,8 @@
 import type { TooltipProps } from 'antd';
 import React, { useCallback, useMemo } from 'react';
-import { IconFont } from 'easy-email-editor';
+import { IconFont } from '@thanhpv102/easy-email-editor';
 import { ToolItem } from '../ToolItem';
-import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
+import { EMAIL_BLOCK_CLASS_NAME } from '@thanhpv102/easy-email-core';
 
 export interface LinkProps extends Omit<TooltipProps, 'title'> {
   currentRange: Range | null | undefined;

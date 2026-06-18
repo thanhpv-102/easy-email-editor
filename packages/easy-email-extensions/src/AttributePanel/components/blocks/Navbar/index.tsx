@@ -5,8 +5,8 @@ import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/at
 import { Col, Collapse, Row, Space } from 'antd';
 import { LinkOutlined } from '@ant-design/icons';
 import { NavbarLinkPadding } from '@extensions/AttributePanel/components/attributes/NavbarLinkPadding';
-import { Stack, useFocusIdx } from 'easy-email-editor';
-import { INavbar } from 'easy-email-core';
+import { Stack, useFocusIdx } from '@thanhpv102/easy-email-editor';
+import { INavbar } from '@thanhpv102/easy-email-core';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 import {

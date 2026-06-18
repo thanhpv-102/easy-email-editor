@@ -1,7 +1,7 @@
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import React, { useCallback } from 'react';
-import { Stack, TextStyle, useBlock } from 'easy-email-editor';
-import { BasicType, BlockManager } from 'easy-email-core';
+import { Stack, TextStyle, useBlock } from '@thanhpv102/easy-email-editor';
+import { BasicType, BlockManager } from '@thanhpv102/easy-email-core';
 
 export interface AttributesPanelWrapper {
   style?: React.CSSProperties;

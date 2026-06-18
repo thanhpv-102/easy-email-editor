@@ -1,6 +1,6 @@
 import { Collapse, Input, App } from 'antd';
-import { BasicType, BlockManager, getPageIdx, getParentByIdx, IBlockData, JsonToMjml } from 'easy-email-core';
-import { useBlock, useEditorContext, useEditorProps, useFocusIdx } from 'easy-email-editor';
+import { BasicType, BlockManager, getPageIdx, getParentByIdx, IBlockData, JsonToMjml } from '@thanhpv102/easy-email-core';
+import { useBlock, useEditorContext, useEditorProps, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { cloneDeep } from 'lodash';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { MjmlToJson } from '@extensions/utils/MjmlToJson';

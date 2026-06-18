@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 
 import { ToolItem } from '../ToolItem';
-import { IconFont } from 'easy-email-editor';
+import { IconFont } from '@thanhpv102/easy-email-editor';
 import { useFontFamily } from '@extensions/hooks/useFontFamily';
 import { useRichTextPopupOpen } from '../../hooks/useRichTextPopupOpen';
 import { RichTextPortalPopup } from '../RichTextPortalPopup';

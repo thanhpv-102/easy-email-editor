@@ -14,7 +14,7 @@ import { LetterSpacing } from '@extensions/AttributePanel/components/attributes/
 
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
 import { Button, Col, Collapse, Row, Space, Tooltip } from 'antd';
-import { IconFont } from 'easy-email-editor';
+import { IconFont } from '@thanhpv102/easy-email-editor';
 import { HtmlEditor } from '../../UI/HtmlEditor';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';

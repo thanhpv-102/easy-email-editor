@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFocusIdx } from 'easy-email-editor';
+import { useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { RadioGroupField } from '../../../components/Form';
 
 const options = [

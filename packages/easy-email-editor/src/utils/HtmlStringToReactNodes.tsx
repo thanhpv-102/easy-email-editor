@@ -1,4 +1,4 @@
-import { BasicType, getNodeIdxFromClassName, getNodeTypeFromClassName, MERGE_TAG_CLASS_NAME } from 'easy-email-core';
+import { BasicType, getNodeIdxFromClassName, getNodeTypeFromClassName, MERGE_TAG_CLASS_NAME } from '@thanhpv102/easy-email-core';
 import { camelCase } from 'lodash';
 import React, { JSX } from 'react';
 import { getContentEditableClassName, isTextBlock, MergeTagBadge } from '@';

@@ -6,7 +6,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      'easy-email-core': path.resolve('../easy-email-core'),
+      '@thanhpv102/easy-email-core': path.resolve('../easy-email-core'),
     },
   },
   define: {},
@@ -27,17 +27,23 @@ export default defineConfig({
       external: [
         'react',
         'react-dom',
+        'react-dom/client',
         'react-dom/server',
+        'react/jsx-runtime',
+        'react/jsx-dev-runtime',
         'mjml-browser',
         'react-hook-form',
-        'easy-email-core',
+        'is-hotkey',
+        'lodash',
+        'react-use',
+        '@thanhpv102/easy-email-core',
       ],
       output: {},
     },
     outDir: 'lib',
   },
   optimizeDeps: {
-    include: ['easy-email-core'],
+    include: ['@thanhpv102/easy-email-core'],
   },
   css: {
     modules: {

@@ -9,7 +9,7 @@ export {
   useForm,
   useFormState,
   useField
-} from 'easy-email-editor';
+} from '@thanhpv102/easy-email-editor';
 
 export type {
   FormApi,
@@ -20,4 +20,4 @@ export type {
   FieldArrayProps,
   FieldArrayRenderProps,
   UseFieldConfig
-} from 'easy-email-editor';
+} from '@thanhpv102/easy-email-editor';

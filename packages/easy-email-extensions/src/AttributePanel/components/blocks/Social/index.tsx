@@ -19,8 +19,8 @@ import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/at
 import { Col, Collapse, Row, Space } from 'antd';
 import { TextDecoration } from '@extensions/AttributePanel/components/attributes/TextDecoration';
 import { LineHeight } from '@extensions/AttributePanel/components/attributes/LineHeight';
-import { useBlock, useEditorProps, useFocusIdx } from 'easy-email-editor';
-import { ISocial } from 'easy-email-core';
+import { useBlock, useEditorProps, useFocusIdx } from '@thanhpv102/easy-email-editor';
+import { ISocial } from '@thanhpv102/easy-email-core';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 import { LinkOutlined } from '@ant-design/icons';

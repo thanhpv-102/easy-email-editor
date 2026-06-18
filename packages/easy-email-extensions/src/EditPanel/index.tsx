@@ -1,5 +1,5 @@
 import { Layout, Tabs } from 'antd';
-import { useEditorProps } from 'easy-email-editor';
+import { useEditorProps } from '@thanhpv102/easy-email-editor';
 import React from 'react';
 import { Blocks } from './Blocks';
 import { BlockLayer } from '@extensions/BlockLayer';

@@ -16,7 +16,7 @@ import { LineHeight } from '../../attributes/LineHeight';
 import { LetterSpacing } from '../../attributes/LetterSpacing';
 import { Col, Collapse, Popover, Row, Space, Button as AntButton } from 'antd';
 import { TextField } from '../../../../components/Form';
-import { IconFont, useEditorProps, useField, useFocusIdx } from 'easy-email-editor';
+import { IconFont, useEditorProps, useField, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { AttributesPanelWrapper } from '../../attributes/AttributesPanelWrapper';
 import { MergeTags } from '../../attributes';
 import { ClassName } from '../../attributes/ClassName';

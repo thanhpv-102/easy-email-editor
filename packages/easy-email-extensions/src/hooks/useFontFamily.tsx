@@ -1,4 +1,4 @@
-import { useEditorContext, useEditorProps } from 'easy-email-editor';
+import { useEditorContext, useEditorProps } from '@thanhpv102/easy-email-editor';
 import React, { useMemo } from 'react';
 
 const DEFAULT_FONT_LIST: Array<{ value: string; label: string }> = [

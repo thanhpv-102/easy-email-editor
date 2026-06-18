@@ -28,7 +28,9 @@
       "@extensions": ["./src"],
       "@extensions/*": ["./src/*"],
       "easy-email-core": ["../easy-email-core/src/index.tsx"],
-      "easy-email-editor": ["../easy-email-editor/src/index.tsx"]
+      "easy-email-editor": ["../easy-email-editor/src/index.tsx"],
+      "@thanhpv102/easy-email-core": ["../easy-email-core/src/index.tsx"],
+      "@thanhpv102/easy-email-editor": ["../easy-email-editor/src/index.tsx"]
     }
   },
   "include": ["./src", "./typings"],

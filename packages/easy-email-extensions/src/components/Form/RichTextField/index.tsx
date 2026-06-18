@@ -9,11 +9,11 @@ import {
   CONTENT_EDITABLE_CLASS_NAME,
   DATA_CONTENT_EDITABLE_TYPE,
   ContentEditableType,
-} from 'easy-email-editor';
+} from '@thanhpv102/easy-email-editor';
 import React, { useCallback, useEffect, useState } from 'react';
 import { InlineText, InlineTextProps } from '../InlineTextField';
 import { RichTextToolBar } from '../RichTextToolBar';
-import { Field, FieldRenderProps } from 'easy-email-editor';
+import { Field, FieldRenderProps } from '@thanhpv102/easy-email-editor';
 import { debounce } from 'lodash';
 
 export type FieldInputProps = FieldRenderProps['input'];

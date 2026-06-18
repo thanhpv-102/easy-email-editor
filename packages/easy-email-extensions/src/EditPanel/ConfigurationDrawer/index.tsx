@@ -1,4 +1,4 @@
-import { useFocusIdx } from 'easy-email-editor';
+import { useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { Drawer } from 'antd';
 import { ConfigurationPanel } from '@extensions/ConfigurationPanel';
 import React, { useCallback, useMemo, useRef } from 'react';

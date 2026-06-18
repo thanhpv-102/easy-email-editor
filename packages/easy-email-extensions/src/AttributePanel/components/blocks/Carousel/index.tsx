@@ -9,10 +9,10 @@ import {
   TextField,
 } from '@extensions/components/Form';
 import { Col, Collapse, Row, Space } from 'antd';
-import { Stack, useEditorProps, useFocusIdx } from 'easy-email-editor';
+import { Stack, useEditorProps, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
 import { Align } from '@extensions/AttributePanel/components/attributes/Align';
-import { ICarousel } from 'easy-email-core';
+import { ICarousel } from '@thanhpv102/easy-email-core';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 import { LinkOutlined } from '@ant-design/icons';

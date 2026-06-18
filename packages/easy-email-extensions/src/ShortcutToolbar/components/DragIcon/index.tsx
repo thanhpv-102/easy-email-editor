@@ -1,8 +1,8 @@
-import { IconFont, BlockAvatarWrapper } from 'easy-email-editor';
+import { IconFont, BlockAvatarWrapper } from '@thanhpv102/easy-email-editor';
 import { Button } from 'antd';
 import { getIconNameByBlockType } from '@extensions';
 import React from 'react';
-import { BlockManager, IBlockData, RecursivePartial } from 'easy-email-core';
+import { BlockManager, IBlockData, RecursivePartial } from '@thanhpv102/easy-email-core';
 
 export interface DragIconProps<T extends IBlockData> {
   type: string;

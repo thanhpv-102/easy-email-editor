@@ -2,7 +2,7 @@ import { Card, Tabs } from 'antd';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './index.module.scss';
 import { createPortal } from 'react-dom';
-import { IconFont, Stack, useHoverIdx } from 'easy-email-editor';
+import { IconFont, Stack, useHoverIdx } from '@thanhpv102/easy-email-editor';
 import { BlockMarketCategory, BlockMarketManager } from '../../utils/BlockMarketManager';
 import { defaultCategories } from './presetTemplate';
 import { Help } from '@extensions/AttributePanel/components/UI/Help';

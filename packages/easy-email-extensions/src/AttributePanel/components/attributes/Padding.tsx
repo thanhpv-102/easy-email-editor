@@ -1,7 +1,7 @@
 
 import React, { useCallback, useMemo } from 'react';
 import { InputWithUnit } from '../../../components/Form/InputWithUnit';
-import { useFocusIdx, Stack, useBlock, TextStyle, IconFont, Field } from 'easy-email-editor';
+import { useFocusIdx, Stack, useBlock, TextStyle, IconFont, Field } from '@thanhpv102/easy-email-editor';
 import { Button, Row, Col, Space, Tooltip, Form } from 'antd';
 
 export interface PaddingProps {

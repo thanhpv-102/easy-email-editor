@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconFont, useFocusIdx } from 'easy-email-editor';
+import { IconFont, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { TextAreaField } from '@extensions/components/Form';
 import { AttributesPanelWrapper } from '../../attributes';
 import { Button, Tooltip } from 'antd';

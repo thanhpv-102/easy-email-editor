@@ -1,6 +1,6 @@
 import React from 'react';
-import { BasicType, getParentIdx, getSiblingIdx } from 'easy-email-core';
-import { useBlock, useFocusIdx, useEditorProps, isTextBlock } from 'easy-email-editor';
+import { BasicType, getParentIdx, getSiblingIdx } from '@thanhpv102/easy-email-core';
+import { useBlock, useFocusIdx, useEditorProps, isTextBlock } from '@thanhpv102/easy-email-editor';
 import { classnames } from '@extensions/utils/classnames';
 import { useAddToCollection } from '@extensions/hooks/useAddToCollection';
 import { getBlockTitle } from '@extensions/utils/getBlockTitle';

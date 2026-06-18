@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { MergeTags as MergeTagsOptions } from '@extensions/AttributePanel';
 import { ToolItem } from '../ToolItem';
-import { IconFont } from 'easy-email-editor';
+import { IconFont } from '@thanhpv102/easy-email-editor';
 import { useRichTextPopupOpen } from '../../hooks/useRichTextPopupOpen';
 import { RichTextPortalPopup } from '../RichTextPortalPopup';
 

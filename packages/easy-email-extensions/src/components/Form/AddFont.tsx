@@ -1,10 +1,10 @@
-import { FieldArray, Stack, TextStyle, useBlock, useFocusIdx } from 'easy-email-editor';
+import { FieldArray, Stack, TextStyle, useBlock, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import React from 'react';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
 import { TextField } from '.';
 import { Button } from 'antd';
 import { Help } from '@extensions/AttributePanel/components/UI/Help';
-import { IPage } from 'easy-email-core';
+import { IPage } from '@thanhpv102/easy-email-core';
 
 export function AddFont() {
   const { focusBlock } = useBlock();

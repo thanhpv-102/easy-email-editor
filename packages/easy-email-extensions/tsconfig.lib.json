@@ -14,6 +14,12 @@
       ],
       "easy-email-editor": [
         "../easy-email-editor"
+      ],
+      "@thanhpv102/easy-email-core": [
+        "../easy-email-core"
+      ],
+      "@thanhpv102/easy-email-editor": [
+        "../easy-email-editor"
       ]
     }
   }

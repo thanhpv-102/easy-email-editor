@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Collapse, Space, Switch } from 'antd';
-import { useBlock, useEditorProps, useFocusIdx } from 'easy-email-editor';
-import { AdvancedBlock, isAdvancedBlock, OperatorSymbol, Operator, ICondition } from 'easy-email-core';
+import { useBlock, useEditorProps, useFocusIdx } from '@thanhpv102/easy-email-editor';
+import { AdvancedBlock, isAdvancedBlock, OperatorSymbol, Operator, ICondition } from '@thanhpv102/easy-email-core';
 import { Iteration } from '../Iteration';
 import { Condition } from '../Condition';
 

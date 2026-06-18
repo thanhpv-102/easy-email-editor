@@ -1,7 +1,7 @@
 
-import { IconFont, useBlock, useEditorProps, useFocusIdx } from 'easy-email-editor';
+import { IconFont, useBlock, useEditorProps, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { useAddToCollection } from '@extensions/hooks/useAddToCollection';
-import { getParentIdx } from 'easy-email-core';
+import { getParentIdx } from '@thanhpv102/easy-email-core';
 import React from 'react';
 import { ToolItem } from './ToolItem';
 

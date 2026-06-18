@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 import React from 'react';
-import { Stack } from 'easy-email-editor';
+import { Stack } from '@thanhpv102/easy-email-editor';
 import { Checkbox } from 'antd';
 import type { CheckboxGroupProps as AntdCheckboxGroupProps } from 'antd/es/checkbox';
 

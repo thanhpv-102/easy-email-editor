@@ -1,6 +1,6 @@
 import { ShortcutToolbar } from '../ShortcutToolbar';
 import { Button, Card, ConfigProvider, Layout, Tabs, App } from 'antd';
-import { useEditorProps } from 'easy-email-editor';
+import { useEditorProps } from '@thanhpv102/easy-email-editor';
 import React, { useState } from 'react';
 import { SourceCodePanel } from '../SourceCodePanel';
 import { AttributePanel } from '../AttributePanel';

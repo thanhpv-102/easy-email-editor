@@ -1,6 +1,6 @@
-import { useBlock, useFocusIdx } from 'easy-email-editor';
+import { useBlock, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { Row, Col } from 'antd';
-import { AdvancedBlock, AdvancedType } from 'easy-email-core';
+import { AdvancedBlock, AdvancedType } from '@thanhpv102/easy-email-core';
 import { TextField } from '@extensions/components/Form';
 import React from 'react';
 

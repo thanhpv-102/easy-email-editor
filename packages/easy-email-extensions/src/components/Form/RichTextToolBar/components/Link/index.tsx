@@ -1,10 +1,10 @@
 import { Col, Row, Space } from 'antd';
 import type { TooltipProps } from 'antd';
 import React, { useCallback, useMemo, useRef } from 'react';
-import { Form, IconFont, Stack, TextStyle } from 'easy-email-editor';
+import { Form, IconFont, Stack, TextStyle } from '@thanhpv102/easy-email-editor';
 import { SearchField, SwitchField } from '@extensions/components/Form';
 import { ToolItem } from '../ToolItem';
-import { EMAIL_BLOCK_CLASS_NAME } from 'easy-email-core';
+import { EMAIL_BLOCK_CLASS_NAME } from '@thanhpv102/easy-email-core';
 import { useRichTextPopupOpen } from '../../hooks/useRichTextPopupOpen';
 import { RichTextPortalPopup } from '../RichTextPortalPopup';
 

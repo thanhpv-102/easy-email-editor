@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
-import { useFocusIdx, IconFont } from 'easy-email-editor';
+import { useFocusIdx, IconFont } from '@thanhpv102/easy-email-editor';
 import { LinkOutlined } from '@ant-design/icons';
 import { SelectField, TextField } from '../../../components/Form';
 import { Row, Col, Popover, Space, Button } from 'antd';
 import { MergeTags } from './MergeTags';
-import { useField } from 'easy-email-editor';
+import { useField } from '@thanhpv102/easy-email-editor';
 
 export function Link() {
   const { focusIdx } = useFocusIdx();

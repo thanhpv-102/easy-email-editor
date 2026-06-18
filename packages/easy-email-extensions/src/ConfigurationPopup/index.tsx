@@ -2,7 +2,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Modal, Tabs, Form, Switch, Button, Typography, Popconfirm, Divider } from 'antd';
 import { PlusOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useEditorConfig, useEditorProps } from 'easy-email-editor';
+import { useEditorConfig, useEditorProps } from '@thanhpv102/easy-email-editor';
 import './styles.css';
 
 const { Text } = Typography;

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import { useCallback, useContext } from 'react';
 import { SelectionRangeContext } from '@extensions/AttributePanel/components/provider/SelectionRangeProvider';
-import { getShadowRoot } from 'easy-email-editor';
+import { getShadowRoot } from '@thanhpv102/easy-email-editor';
 
 /** Get the active Selection, preferring the ShadowRoot's own getSelection (Chrome)
  *  and falling back to document.getSelection() (Firefox). */

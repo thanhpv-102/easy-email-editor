@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 
-import { AdvancedType, IButton, IImage } from 'easy-email-core';
-import { IconFont, Stack } from 'easy-email-editor';
+import { AdvancedType, IButton, IImage } from '@thanhpv102/easy-email-core';
+import { IconFont, Stack } from '@thanhpv102/easy-email-editor';
 import React, { useRef } from 'react';
 import { BlocksPanel } from './components/BlocksPanel';
 import { DragIcon } from './components/DragIcon';

@@ -1,5 +1,5 @@
 import { Modal } from 'antd';
-import { Form, Stack, useBlock, useEditorProps } from 'easy-email-editor';
+import { Form, Stack, useBlock, useEditorProps } from '@thanhpv102/easy-email-editor';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { ImageUploaderField, TextAreaField, TextField } from '../Form';

@@ -7,7 +7,7 @@ import {
   getTdBoundaryIndex,
   getBoundaryRectAndElement,
 } from './util';
-import { AdvancedTableBlock } from 'easy-email-core';
+import { AdvancedTableBlock } from '@thanhpv102/easy-email-core';
 import { IOperationData } from './type';
 
 export interface IBorderTool {

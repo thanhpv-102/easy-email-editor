@@ -1,5 +1,5 @@
 import { App, Card, ConfigProvider, Layout } from 'antd';
-import { useEditorProps, useFocusIdx } from 'easy-email-editor';
+import { useEditorProps, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import React, { useEffect } from 'react';
 import { InteractivePrompt } from '../InteractivePrompt';
 import styles from './index.module.scss';
@@ -8,7 +8,7 @@ import { MergeTagBadgePrompt } from '@extensions/MergeTagBadgePrompt';
 import { EditPanel } from '../EditPanel';
 import { ConfigurationPanel } from '@extensions/ConfigurationPanel';
 import { ExtensionProps, ExtensionProvider } from '@extensions/components/Providers/ExtensionProvider';
-import { AdvancedType } from 'easy-email-core';
+import { AdvancedType } from '@thanhpv102/easy-email-core';
 import { ConfigurationPopup } from '../ConfigurationPopup';
 
 const defaultCategories: ExtensionProps['categories'] = [

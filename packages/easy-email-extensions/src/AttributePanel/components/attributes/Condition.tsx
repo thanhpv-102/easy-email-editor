@@ -1,11 +1,11 @@
-import { useBlock, useFocusIdx } from 'easy-email-editor';
-import { AdvancedBlock, OperatorSymbol, AdvancedType, Operator, IConditionGroup } from 'easy-email-core';
+import { useBlock, useFocusIdx } from '@thanhpv102/easy-email-editor';
+import { AdvancedBlock, OperatorSymbol, AdvancedType, Operator, IConditionGroup } from '@thanhpv102/easy-email-core';
 import { Row, Col, Button, Space, List, App } from 'antd';
 import { SelectField, TextField } from '@extensions/components/Form';
 import React, { useCallback } from 'react';
 import { cloneDeep, get, upperFirst } from 'lodash';
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { useField } from 'easy-email-editor';
+import { useField } from '@thanhpv102/easy-email-editor';
 
 export function Condition() {
   const { focusIdx } = useFocusIdx();

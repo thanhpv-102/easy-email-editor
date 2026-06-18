@@ -8,7 +8,7 @@ import { FontSize } from '../../attributes/FontSize';
 import { FontWeight } from '../../attributes/FontWeight';
 import { FontFamily } from '../../attributes/FontFamily';
 import { AttributesPanelWrapper } from '../../attributes/AttributesPanelWrapper';
-import { useFocusIdx } from 'easy-email-editor';
+import { useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { Col, Collapse, Row, Space } from 'antd';
 
 export function AccordionTitle() {
