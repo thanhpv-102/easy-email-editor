@@ -19,6 +19,11 @@ export default defineConfig({
       '@core': path.resolve('../packages/easy-email-core/src'),
       '@arco-themes': path.resolve('./node_modules/@arco-themes'),
       '@': path.resolve('../packages/easy-email-editor/src'),
+      '@thanhpv102/easy-email-core': path.resolve('../packages/easy-email-core/src/index.tsx'),
+      '@thanhpv102/easy-email-editor': path.resolve('../packages/easy-email-editor/src/index.tsx'),
+      '@thanhpv102/easy-email-extensions': path.resolve(
+        '../packages/easy-email-extensions/src/index.tsx',
+      ),
       'easy-email-core': path.resolve('../packages/easy-email-core/src/index.tsx'),
       'easy-email-editor/lib/locales.json': path.resolve(
         '../packages/easy-email-editor/public/locales.json',

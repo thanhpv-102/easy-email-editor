@@ -7,10 +7,19 @@ export default defineConfig({
     alias: {
       '@demo': path.resolve(__dirname, './src'),
       react: path.resolve('./node_modules/react'),
+      'easy-email-editor/lib/style.css': path.resolve(__dirname, 'package.json'),
+      'easy-email-extensions/lib/style.css': path.resolve(__dirname, 'package.json'),
       'easy-email-localization': path.resolve('../packages/easy-email-localization'),
-      'easy-email-core': path.resolve('../packages/easy-email-core'),
-      'easy-email-editor': path.resolve('../packages/easy-email-editor'),
-      'easy-email-extensions': path.resolve('../packages/easy-email-extensions'),
+      '@thanhpv102/easy-email-core': path.resolve('../packages/easy-email-core/src/index.tsx'),
+      '@thanhpv102/easy-email-editor': path.resolve('../packages/easy-email-editor/src/index.tsx'),
+      '@thanhpv102/easy-email-extensions': path.resolve(
+        '../packages/easy-email-extensions/src/index.tsx',
+      ),
+      'easy-email-core': path.resolve('../packages/easy-email-core/src/index.tsx'),
+      'easy-email-editor': path.resolve('../packages/easy-email-editor/src/index.tsx'),
+      'easy-email-extensions': path.resolve(
+        '../packages/easy-email-extensions/src/index.tsx',
+      ),
     },
   },
   optimizeDeps: {},
