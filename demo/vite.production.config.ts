@@ -32,6 +32,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
+          if (/\/node_modules\/(react|react-dom|scheduler|codemirror|react-codemirror2)\//.test(id)) {
+            return 'react-vendor';
+          }
           if (/\/node_modules\/html2canvas\/.*/.test(id)) {
             return 'html2canvas';
           }
