@@ -17,6 +17,7 @@ function extractKeyValue(key: any): string {
 export interface TabsProps {
   children?: React.ReactNode;
   tabBarExtraContent?: React.ReactNode;
+  tabBarAfterContent?: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
   onChange?: (id: string) => void;
@@ -80,24 +81,25 @@ const Tabs: React.FC<TabsProps> = props => {
         >
           <Stack alignment='center'>
             {childrenArray.map((item, index) => {
-                const itemKey = extractKeyValue(item.key) || String(index);
-                const isActive = activeTab === itemKey;
-                return (
-                  <div
-                    key={itemKey}
-                    onClick={() => onClick(itemKey)}
-                    className={classnames(
-                      'easy-email-editor-tabItem',
-                      isActive && 'easy-email-editor-tabActiveItem',
-                    )}
-                  >
-                    <Button noBorder>
-                      {/* @ts-ignore */}
-                      {item.props.tab}
-                    </Button>
-                  </div>
-                );
-              })}
+              const itemKey = extractKeyValue(item.key) || String(index);
+              const isActive = activeTab === itemKey;
+              return (
+                <div
+                  key={itemKey}
+                  onClick={() => onClick(itemKey)}
+                  className={classnames(
+                    'easy-email-editor-tabItem',
+                    isActive && 'easy-email-editor-tabActiveItem',
+                  )}
+                >
+                  <Button noBorder>
+                    {/* @ts-ignore */}
+                    {item.props.tab}
+                  </Button>
+                </div>
+              );
+            })}
+            {props.tabBarAfterContent}
           </Stack>
           {props.tabBarExtraContent}
         </Stack>

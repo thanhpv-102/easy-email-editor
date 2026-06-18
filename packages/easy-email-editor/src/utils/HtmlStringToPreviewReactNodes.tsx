@@ -8,9 +8,7 @@ export function getChildSelector(selector: string, index: number) {
   return `${selector}-${index}`;
 }
 
-export function HtmlStringToPreviewReactNodes(
-  content: string,
-) {
+export function HtmlStringToPreviewReactNodes(content: string) {
   let doc = domParser.parseFromString(content, 'text/html'); // The average time is about 1.4 ms
 
   // In React 19, we can't render the entire documentElement (html, head, body)
@@ -47,7 +45,7 @@ const RenderReactNode = React.memo(function ({
   const attributes: { [key: string]: string; } = {
     'data-selector': selector,
   };
-  node.getAttributeNames?.().forEach((att) => {
+  node.getAttributeNames?.().forEach(att => {
     if (att) {
       attributes[att] = node.getAttribute(att) || '';
     }

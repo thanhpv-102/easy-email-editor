@@ -6,6 +6,13 @@ import { JsonToMjml } from 'easy-email-core';
 import { cloneDeep, get, isString } from 'lodash';
 import mjml from 'mjml-browser';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useDarkMode,
+  PREVIEW_BASE_CSS,
+  DARK_EMAIL_CSS,
+  LIGHT_TEXT_COLOR,
+  DARK_TEXT_COLOR,
+} from '../DarkModeProvider';
 
 function replaceMergeTags(html: string, mergeTags: Record<string, unknown>): string {
   if (!mergeTags || Object.keys(mergeTags).length === 0) return html;
@@ -33,7 +40,7 @@ export const PreviewEmailContext = React.createContext<{
   mobileWidth: 320,
 });
 
-export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = props => {
+export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode; }> = props => {
   const { current: iframe } = useRef(document.createElement('iframe'));
   const contentWindowRef = useRef<Window | null>(null);
 
@@ -44,6 +51,7 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
   const [errMsg, setErrMsg] = useState<React.ReactNode>('');
   const [html, setHtml] = useState('');
   const lazyPageData = useLazyState(pageData, 0);
+  const { isDarkMode } = useDarkMode();
 
   const injectData = useMemo(() => {
     if (previewInjectData) {
@@ -68,6 +76,10 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
         value: {
           ...lazyPageData.data.value,
           breakpoint: adjustBreakPoint + 'px',
+          'text-color':
+            isDarkMode && lazyPageData.data.value['text-color'] === LIGHT_TEXT_COLOR
+              ? DARK_TEXT_COLOR
+              : lazyPageData.data.value['text-color'],
         },
       },
     } as typeof lazyPageData;
@@ -83,6 +95,10 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
 
     // Replace merge tag placeholders with actual values from injectData
     parseHtml = replaceMergeTags(parseHtml, injectData);
+    parseHtml = parseHtml.replace(
+      '</head>',
+      PREVIEW_BASE_CSS + (isDarkMode ? DARK_EMAIL_CSS : '') + '</head>',
+    );
 
     if (onBeforePreview) {
       try {
@@ -108,7 +124,7 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode }> = pr
     return () => {
       setHtml('');
     };
-  }, [injectData, onBeforePreview, lazyPageData, mobileWidth]);
+  }, [injectData, onBeforePreview, lazyPageData, mobileWidth, isDarkMode]);
 
   const htmlNode = useMemo(() => HtmlStringToPreviewReactNodes(html), [html]);
 

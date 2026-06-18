@@ -8,6 +8,11 @@ import { createPortal } from 'react-dom';
 import { useEditorProps } from '@/hooks/useEditorProps';
 import { getEditorRoot, getShadowRoot } from '@/utils';
 import { DATA_RENDER_COUNT, FIXED_CONTAINER_ID } from '@/constants';
+import {
+  useDarkMode,
+  LIGHT_TEXT_COLOR,
+  DARK_TEXT_COLOR,
+} from '@/components/Provider/DarkModeProvider';
 
 let count = 0;
 
@@ -17,6 +22,7 @@ export function MjmlDomRender() {
   const [ref, setRef] = useState<HTMLDivElement | null>(null);
   const { dashed, mergeTags, enabledMergeTagsBadge } = useEditorProps();
   const [isTextFocus, setIsTextFocus] = useState(false);
+  const { isDarkMode } = useDarkMode();
 
   const isTextFocusing =
     document.activeElement === getEditorRoot() &&
@@ -70,17 +76,31 @@ export function MjmlDomRender() {
   const html = useMemo(() => {
     if (!pageData) return '';
 
+    const renderPageData =
+      isDarkMode && pageData.data.value['text-color'] === LIGHT_TEXT_COLOR
+        ? {
+            ...pageData,
+            data: {
+              ...pageData.data,
+              value: {
+                ...pageData.data.value,
+                'text-color': DARK_TEXT_COLOR,
+              },
+            },
+          }
+        : pageData;
+
     const renderHtml = mjml(
       JsonToMjml({
-        data: pageData,
+        data: renderPageData,
         idx: getPageIdx(),
-        context: pageData,
+        context: renderPageData,
         mode: 'testing',
         dataSource: cloneDeep(mergeTags),
       }),
     ).html;
     return renderHtml;
-  }, [mergeTags, pageData]);
+  }, [isDarkMode, mergeTags, pageData]);
 
   return useMemo(() => {
     return (
