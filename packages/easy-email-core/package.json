@@ -2,7 +2,7 @@
   "name": "@thanhpv102/easy-email-core",
   "license": "MIT",
   "description": "Email editor",
-  "version": "4.19.13",
+  "version": "4.19.14",
   "author": "m-Ryan",
   "repository": {
     "type": "git",
@@ -74,8 +74,8 @@
   "dependencies": {
     "he": "^1.2.0",
     "js-beautify": "^1.15.4",
-    "lodash": "^4.17.23",
-    "uuid": "^10.0.0"
+    "lodash": "^4.18.1",
+    "uuid": "^14.0.0"
   },
   "peerDependencies": {
     "react": "^19.0.0",

@@ -2,7 +2,7 @@
   "name": "@thanhpv102/easy-email-editor",
   "license": "MIT",
   "description": "Email editor",
-  "version": "4.19.13",
+  "version": "4.19.14",
   "author": "m-Ryan",
   "repository": {
     "type": "git",
@@ -34,9 +34,9 @@
   },
   "dependencies": {
     "is-hotkey": "^0.2.0",
-    "lodash": "^4.17.23",
+    "lodash": "^4.18.1",
     "react-hook-form": "^7.54.2",
-    "react-use": "^17.3.1"
+    "react-use": "^17.6.0"
   },
   "devDependencies": {
     "@types/is-hotkey": "^0.1.7",
@@ -63,8 +63,8 @@
     "vite": "^7.1.11"
   },
   "peerDependencies": {
-    "@thanhpv102/easy-email-core": "^4.19.8",
-    "mjml-browser": "^4.15.3",
+    "@thanhpv102/easy-email-core": "^4.19.13",
+    "mjml-browser": "^4.18.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
