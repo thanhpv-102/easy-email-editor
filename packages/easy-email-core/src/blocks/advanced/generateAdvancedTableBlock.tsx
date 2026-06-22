@@ -1,6 +1,8 @@
 import { BasicType, AdvancedType } from '@core/constants';
 import { IBlockData } from '@core/typings';
-import { createCustomBlock, BlockManager, getParentByIdx } from '@core/utils';
+import { createCustomBlock } from '@core/utils/createCustomBlock';
+import { BlockManager } from '@core/utils/BlockManager';
+import { getParentByIdx } from '@core/utils/block';
 import { merge } from 'lodash';
 import React from 'react';
 import { Column, Section } from '@core/components';

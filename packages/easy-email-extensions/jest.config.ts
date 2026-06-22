@@ -13,12 +13,14 @@ export default {
     '@core/(.+)': path.join(__dirname, '../easy-email-core/src/$1'),
     '^easy-email-core$': path.join(__dirname, '../easy-email-core/src/index.tsx'),
     '\\.(css|less|scss|sass)$': '<rootDir>/__mocks__/styleMock.js',
+    '^uuid$': 'uuid',
   },
-  testMatch: ['<rootDir>/src/**/__tests__/**/*.[jt]s?(x)'],
-  testPathIgnorePatterns: ['/node_modules/'],
-  transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
-  },
+  transformIgnorePatterns: [
+    'node_modules/.pnpm/(?!(uuid@))',
+    '\\.pnp\\.[^\\/]+$',
+  ],
   testEnvironment: 'jsdom',
-  transformIgnorePatterns: ['/node_modules/', '\\.pnp\\.[^\\/]+$'],
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 };
