@@ -10,8 +10,17 @@ import { FontSize } from '../../attributes/FontSize';
 import { Padding } from '../../attributes/Padding';
 import { Width } from '../../attributes/Width';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
-import { ColorPickerField, NumberField, SelectField, TextField } from '@extensions';
+import { ColorPickerField, NumberField, SelectField, SwitchField, TextField } from '@extensions';
 import { pixelAdapter } from '../../adapter';
+
+const isHeaderRowAdapter = {
+  format(obj: boolean | string) {
+    return obj !== 'false';
+  },
+  parse(val: boolean) {
+    return val ? 'true' : 'false';
+  },
+};
 
 export function AdvancedTable() {
   const { focusIdx } = useFocusIdx();
@@ -37,6 +46,11 @@ export function AdvancedTable() {
             label={t('Cell border color')}
             name={`${focusIdx}.attributes.cellBorderColor`}
             key={`${focusIdx}.attributes.cellBorderColor`}
+          />
+          <SwitchField
+            label={t('Render header row')}
+            name={`${focusIdx}.attributes.headerRow`}
+            config={isHeaderRowAdapter}
           />
         </Collapse.Panel>
 

@@ -113,7 +113,8 @@ function generateTableHTML(
   tableSource: IAdvancedTableData[][],
   attributes: AdvancedTableBlock['attributes']
 ): string {
-  const { cellPadding, cellBorderColor } = attributes;
+  const { cellPadding, cellBorderColor, headerRow } = attributes;
+  const isHeaderRow = headerRow != 'false';
   const textAlign = attributes['text-align'] || 'left';
   const fontStyle = attributes['font-style'] || 'normal';
 
@@ -132,7 +133,7 @@ function generateTableHTML(
             styles.push(`background-color: ${cell.backgroundColor}`);
           }
 
-          const tag = rowIndex === 0 ? 'th' : 'td';
+          const tag = isHeaderRow && rowIndex === 0 ? 'th' : 'td';
           const styleAttr = styles.length > 0 ? ` style="${styles.join('; ')}"` : '';
           const rowSpan = cell.rowSpan && cell.rowSpan > 1 ? ` rowspan="${cell.rowSpan}"` : '';
           const colSpan = cell.colSpan && cell.colSpan > 1 ? ` colspan="${cell.colSpan}"` : '';
@@ -157,6 +158,7 @@ export type AdvancedTableBlock = IBlockData<
   {
     cellPadding?: string;
     cellBorderColor?: string;
+    headerRow?: string;
     'font-style'?: string;
     'text-align'?: string;
     width?: string;
