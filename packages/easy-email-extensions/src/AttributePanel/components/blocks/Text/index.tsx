@@ -33,7 +33,7 @@ export function Text() {
         </Tooltip>
       )}
     >
-      <CollapseWrapper defaultActiveKey={['.$0']}>
+      <CollapseWrapper defaultActiveKey={['.$0', '.$1', '.$2']}>
         <Collapse.Panel
           key="0"
           header={t('Dimension')}
@@ -114,7 +114,7 @@ export function Text() {
           </Space>
         </Collapse.Panel>
         <Collapse.Panel
-          key="4"
+          key="3"
           header={t('Extra')}
         >
           <Col span={24}>

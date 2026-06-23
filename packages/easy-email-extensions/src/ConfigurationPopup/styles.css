@@ -1,6 +1,6 @@
 /* Configuration Popup - Theme-aware styles */
 
-.config-popup-container {
+.config-popup-container, .config-input-field  {
   --config-input-border: #d9d9d9;
   --config-input-bg: #fff;
   --config-input-text: #222;

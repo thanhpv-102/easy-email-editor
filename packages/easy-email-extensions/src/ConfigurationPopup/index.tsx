@@ -338,11 +338,11 @@ export function ConfigurationPopup() {
               label: 'Merge Tags',
               children: <MergeTagsTab />,
             },
-            {
-              key: 'social-icons',
-              label: 'Social Icons',
-              children: <SocialIconsTab />,
-            },
+            // {
+            //   key: 'social-icons',
+            //   label: 'Social Icons',
+            //   children: <SocialIconsTab />,
+            // },
           ]}
         />
       </Modal>

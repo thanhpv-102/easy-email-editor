@@ -12,7 +12,7 @@ import { BackgroundColor } from '../../attributes';
 export function Column() {
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={['.$0']}>
+      <CollapseWrapper defaultActiveKey={['.$0', '.$1', '.$2']}>
         <Collapse.Panel
           key="0"
           header={t('Dimension')}
@@ -46,7 +46,7 @@ export function Column() {
           <Border />
         </Collapse.Panel>
         <Collapse.Panel
-          key="4"
+          key="3"
           header={t('Extra')}
         >
           <Col span={24}>

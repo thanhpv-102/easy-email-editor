@@ -569,12 +569,16 @@ body[arco-theme='dark'] {
   --ee-layout-top-border: hsl(217.2 32.6% 22%);
 }
 
-* {
-  --ant-line-width: 0px;
-}
-
 .ant-app > .ant-layout {
   border-top: solid 1px var(--ee-layout-top-border);
+}
+
+.ant-collapse-panel {
+  border-top: none !important;
+}
+
+.ant-collapse-item {
+  border-bottom: none !important;
 }
 
 /* Antd Button Override */

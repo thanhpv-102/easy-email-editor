@@ -72,7 +72,7 @@ export const EmailEditor = () => {
           onChange={onChangeTab}
           style={{ height: '100%', width: '100%' }}
           tabBarExtraContent={<ToolsPanel />}
-          tabBarAfterContent={darkModeToggle}
+          // tabBarAfterContent={darkModeToggle}
         >
           <TabPane
             style={{ height: 'calc(100% - 50px)' }}

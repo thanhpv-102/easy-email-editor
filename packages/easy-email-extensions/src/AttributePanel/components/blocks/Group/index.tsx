@@ -10,7 +10,7 @@ import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 export function Group() {
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={['.$0']}>
+      <CollapseWrapper defaultActiveKey={['.$0', '.$1']}>
         <Collapse.Panel key="0" header={t('Dimension')}>
           <Row>
             <Col span={11}>

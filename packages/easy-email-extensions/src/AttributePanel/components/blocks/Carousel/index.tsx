@@ -36,7 +36,7 @@ export function Carousel() {
   const { focusIdx } = useFocusIdx();
   return (
     <AttributesPanelWrapper style={{ padding: 0 }}>
-      <CollapseWrapper defaultActiveKey={['.$0']}>
+      <CollapseWrapper defaultActiveKey={['.$0', '.$1', '.$2', '.$3']}>
         <Collapse.Panel
           key="0"
           header={t('Dimension')}

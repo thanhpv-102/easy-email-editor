@@ -32,7 +32,7 @@ export function Button() {
 
   return (
     <AttributesPanelWrapper>
-      <CollapseWrapper defaultActiveKey={['.$0']}>
+      <CollapseWrapper defaultActiveKey={['.$0', '.$1', '.$2', '.$3', '.$4']}>
         <Collapse.Panel
           key="0"
           header={'Setting'}
