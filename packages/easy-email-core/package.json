@@ -2,7 +2,7 @@
   "name": "@thanhpv102/easy-email-core",
   "license": "MIT",
   "description": "Email editor",
-  "version": "4.19.15",
+  "version": "4.20.1",
   "author": "m-Ryan",
   "repository": {
     "type": "git",
@@ -70,7 +70,7 @@
     "tsc-alias": "^1.8.10",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.7.2",
-    "vite": "^7.1.11"
+    "vite": "^8.0.16"
   },
   "dependencies": {
     "he": "^1.2.0",
