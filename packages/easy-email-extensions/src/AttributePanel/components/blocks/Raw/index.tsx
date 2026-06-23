@@ -3,7 +3,7 @@ import { IconFont, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { TextAreaField } from '@extensions/components/Form';
 import { AttributesPanelWrapper } from '../../attributes';
 import { Button, Tooltip } from 'antd';
-import { HtmlEditor } from '../../UI/HtmlEditor';
+//import { HtmlEditor } from '../../UI/HtmlEditor';
 
 export function Raw() {
   const { focusIdx } = useFocusIdx();
@@ -11,24 +11,24 @@ export function Raw() {
   return (
     <AttributesPanelWrapper
       style={{ padding: 20 }}
-      extra={(
-        <Tooltip title={t('Html mode')}>
-          <Button
-            onClick={() => setVisible(true)}
-            icon={<IconFont iconName="icon-html" />}
-          />
-        </Tooltip>
-      )}
+      // extra={(
+      //   <Tooltip title={t('Html mode')}>
+      //     <Button
+      //       onClick={() => setVisible(true)}
+      //       icon={<IconFont iconName="icon-html" />}
+      //     />
+      //   </Tooltip>
+      // )}
     >
       <TextAreaField
         label=""
         name={`${focusIdx}.data.value.content`}
         rows={5}
       />
-      <HtmlEditor
-        visible={visible}
-        setVisible={setVisible}
-      />
+      {/*<HtmlEditor*/}
+      {/*  visible={visible}*/}
+      {/*  setVisible={setVisible}*/}
+      {/*/>*/}
     </AttributesPanelWrapper>
   );
 }

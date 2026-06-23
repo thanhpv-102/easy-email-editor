@@ -3,7 +3,7 @@ import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
 import 'codemirror/theme/neat.css';
 import 'codemirror/mode/xml/xml.js';
-import { Controlled as CodeMirror } from 'react-codemirror2';
+import { UnControlled as CodeMirror } from 'react-codemirror2';
 
 import styles from './index.module.scss';
 
@@ -16,7 +16,14 @@ export default function CodemirrorEditor(props: {
     <CodeMirror
       className={styles.container}
       value={value}
-      onBeforeChange={(editor, data, value) => onChange(value)}
+      onBeforeChange={(editor, data, value) => {
+        onChange(value);
+        console.log('controlled onBeforeChange', {value});
+      }}
+      onChange={(editor, value) => {
+        onChange(value);
+        console.log('controlled onChange', {value});
+      }}
       options={{
         mode: 'xml',
         theme: 'material',
@@ -26,6 +33,7 @@ export default function CodemirrorEditor(props: {
         smartIndent: true,
         lineWrapping: true,
         foldGutter: true,
+
       }}
     />
   );

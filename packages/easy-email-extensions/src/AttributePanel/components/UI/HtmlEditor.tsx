@@ -70,6 +70,7 @@ export const HtmlEditor: React.FC<{
       )}
       open={visible}
       footer={null}
+      onClose={onClose}
       styles={{
         header: { display: 'block', lineHeight: '48px' },
         body: { padding: 0, overflow: 'hidden' },

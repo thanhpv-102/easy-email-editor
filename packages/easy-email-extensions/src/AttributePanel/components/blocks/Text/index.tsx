@@ -15,7 +15,7 @@ import { LetterSpacing } from '@extensions/AttributePanel/components/attributes/
 import { AttributesPanelWrapper } from '@extensions/AttributePanel/components/attributes/AttributesPanelWrapper';
 import { Button, Col, Collapse, Row, Space, Tooltip } from 'antd';
 import { IconFont } from '@thanhpv102/easy-email-editor';
-import { HtmlEditor } from '../../UI/HtmlEditor';
+// import { HtmlEditor } from '../../UI/HtmlEditor';
 import { ClassName } from '../../attributes/ClassName';
 import { CollapseWrapper } from '../../attributes/CollapseWrapper';
 
@@ -24,14 +24,14 @@ export function Text() {
 
   return (
     <AttributesPanelWrapper
-      extra={(
-        <Tooltip title={t('Html mode')}>
-          <Button
-            onClick={() => setVisible(true)}
-            icon={<IconFont iconName="icon-html" />}
-          />
-        </Tooltip>
-      )}
+      // extra={(
+      //   <Tooltip title={t('Html mode')}>
+      //     <Button
+      //       onClick={() => setVisible(true)}
+      //       icon={<IconFont iconName="icon-html" />}
+      //     />
+      //   </Tooltip>
+      // )}
     >
       <CollapseWrapper defaultActiveKey={['.$0', '.$1', '.$2']}>
         <Collapse.Panel
@@ -122,10 +122,10 @@ export function Text() {
           </Col>
         </Collapse.Panel>
       </CollapseWrapper>
-      <HtmlEditor
-        visible={visible}
-        setVisible={setVisible}
-      />
+      {/*<HtmlEditor*/}
+      {/*  visible={visible}*/}
+      {/*  setVisible={setVisible}*/}
+      {/*/>*/}
     </AttributesPanelWrapper>
   );
 }
