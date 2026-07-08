@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Tree, TreeSelect } from 'antd';
 import { get, isObject } from 'lodash';
-import { useBlock, useEditorProps, useFocusIdx } from '@thanhpv102/easy-email-editor';
+import { useBlock, useEditorProps, useFocusIdx, isTypedMergeTag } from '@thanhpv102/easy-email-editor';
 import { getContextMergeTags } from '@extensions/utils/getContextMergeTags';
 
 interface TreeNodeData {
@@ -51,7 +51,7 @@ export const MergeTags: React.FC<{
 
       mapData.push(currentMapData);
       const current = parent[title];
-      if (current && typeof current === 'object' && !Array.isArray(current)) {
+      if (current && typeof current === 'object' && !Array.isArray(current) && !isTypedMergeTag(current)) {
         Object.keys(current as Record<string, unknown>).forEach((childKey) =>
           deep(key + '.' + childKey, childKey, current, currentMapData.children)
         );
@@ -69,7 +69,7 @@ export const MergeTags: React.FC<{
   const onSelect = useCallback(
     (key: string) => {
       const value = get(contextMergeTags, key);
-      if (isObject(value)) {
+      if (isObject(value) && !isTypedMergeTag(value)) {
         setExpandedKeys((keys) => {
           if (keys.includes(key)) {
             return keys.filter((k) => k !== key);

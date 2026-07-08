@@ -7,6 +7,7 @@ import { HtmlStringToReactNodes } from '@/utils/HtmlStringToReactNodes';
 import { createPortal } from 'react-dom';
 import { useEditorProps } from '@/hooks/useEditorProps';
 import { getEditorRoot, getShadowRoot } from '@/utils';
+import { normalizeMergeTags } from '@/utils/mergeTagType';
 import { DATA_RENDER_COUNT, FIXED_CONTAINER_ID } from '@/constants';
 import {
   useDarkMode,
@@ -96,7 +97,7 @@ export function MjmlDomRender() {
         idx: getPageIdx(),
         context: renderPageData,
         mode: 'testing',
-        dataSource: cloneDeep(mergeTags),
+        dataSource: cloneDeep(normalizeMergeTags(mergeTags)),
       }),
     ).html;
     return renderHtml;

@@ -7,6 +7,7 @@ import {
   IconFont,
   useRefState,
   getEditorRoot,
+  getMergeTagLeafValue,
 } from '@thanhpv102/easy-email-editor';
 import { get } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -88,7 +89,7 @@ export function MergeTagBadgePrompt() {
           focusMergeTag(target);
           return;
         }
-        setText(get(mergeTags, namePath, ''));
+        setText(String(getMergeTagLeafValue(get(mergeTags, namePath, '')) ?? ''));
         setTarget(target);
 
       } else {

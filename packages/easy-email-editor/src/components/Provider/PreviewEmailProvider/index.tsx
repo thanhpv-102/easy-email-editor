@@ -13,6 +13,7 @@ import {
   LIGHT_TEXT_COLOR,
   DARK_TEXT_COLOR,
 } from '../DarkModeProvider';
+import { normalizeMergeTags } from '@/utils/mergeTagType';
 
 function replaceMergeTags(html: string, mergeTags: Record<string, unknown>): string {
   if (!mergeTags || Object.keys(mergeTags).length === 0) return html;
@@ -54,10 +55,12 @@ export const PreviewEmailProvider: React.FC<{ children?: React.ReactNode; }> = p
   const { isDarkMode } = useDarkMode();
 
   const injectData = useMemo(() => {
+    // Unwrap typed merge tags ({ type, value }) into plain preview values so
+    // substitution and MJML data-source resolution work as before.
     if (previewInjectData) {
-      return previewInjectData;
+      return normalizeMergeTags(previewInjectData);
     }
-    if (mergeTags) return mergeTags;
+    if (mergeTags) return normalizeMergeTags(mergeTags);
     return {};
   }, [mergeTags, previewInjectData]);
 
