@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
-import { ContentEditableType, DATA_CONTENT_EDITABLE_TYPE, getShadowRoot } from '@thanhpv102/easy-email-editor';
+import { ContentEditableType, DATA_CONTENT_EDITABLE_TYPE, getShadowRoot, useBlock, useFocusIdx } from '@thanhpv102/easy-email-editor';
 import { useField, useForm } from '@thanhpv102/easy-email-editor';
+import { AdvancedType, BasicType } from '@thanhpv102/easy-email-core';
+import { parseExcelTable, normalizeTextContent } from '../../../utils/excelParser';
+import { buildAdvancedTablePayload } from '../../../utils/buildAdvancedTablePayload';
 
 export interface InlineTextProps {
   idx: string;
@@ -13,6 +16,9 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
     mutators: { setFieldTouched },
   } = useForm();
 
+  const { focusBlock, setValueByIdx } = useBlock();
+  const { focusIdx } = useFocusIdx();
+
   useField(idx); // setFieldTouched will be work while register field,
 
   useEffect(() => {
@@ -22,21 +28,31 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
       if (!(e.target instanceof Element) || !e.target.getAttribute('contenteditable')) return;
       e.preventDefault();
 
-      let text = '';
       const htmlData = e.clipboardData?.getData('text/html');
-      if (htmlData) {
-        const parsedDoc = new DOMParser().parseFromString(htmlData, 'text/html');
-        const walker = parsedDoc.createTreeWalker(parsedDoc.body, NodeFilter.SHOW_COMMENT);
-        const comments: Node[] = [];
-        while (walker.nextNode()) comments.push(walker.currentNode);
-        comments.forEach((c) => c.parentNode?.removeChild(c));
 
-        text = parsedDoc.body.textContent || '';
-      } else {
-        text = e.clipboardData?.getData('text/plain') || '';
+      // Table branch: Excel/HTML table data drives AdvancedTable create/update.
+      const matrix = htmlData ? parseExcelTable(htmlData) : null;
+      if (matrix) {
+        if (focusBlock?.type === AdvancedType.TABLE) {
+          setValueByIdx(focusIdx, {
+            ...focusBlock,
+            data: {
+              ...focusBlock.data,
+              value: { ...focusBlock.data.value, tableSource: matrix },
+            },
+          });
+        } else if (
+          focusBlock &&
+          (focusBlock.type === BasicType.TEXT || focusBlock.type === AdvancedType.TEXT)
+        ) {
+          // Convert the focused text block into an AdvancedTable in place.
+          setValueByIdx(focusIdx, { ...focusBlock, ...buildAdvancedTablePayload(matrix) });
+        }
+        return;
       }
 
-      text = text.replace(/<!--[\s\S]*?-->/g, '');
+      // Non-table branch: insert normalized plain text at the selection.
+      const text = normalizeTextContent(htmlData || e.clipboardData?.getData('text/plain') || '');
 
       const selection = (shadowRoot as any)?.getSelection ? (shadowRoot as any).getSelection() : window.getSelection();
       if (selection && selection.rangeCount > 0) {
@@ -79,7 +95,7 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
       shadowRoot.removeEventListener('paste', onPaste as any, true);
       shadowRoot.removeEventListener('input', onInput);
     };
-  }, [onChange, setFieldTouched]);
+  }, [onChange, setFieldTouched, focusBlock, focusIdx, setValueByIdx]);
 
   return <>{children}</>;
 }
