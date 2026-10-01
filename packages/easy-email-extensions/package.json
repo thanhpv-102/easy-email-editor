@@ -2,7 +2,7 @@
   "name": "@thanhpv102/easy-email-extensions",
   "license": "MIT",
   "description": "Email editor",
-  "version": "4.20.2",
+  "version": "4.20.3",
   "author": "m-Ryan",
   "repository": {
     "type": "git",
@@ -90,8 +90,8 @@
     "uuid": "^14.0.0"
   },
   "peerDependencies": {
-    "@thanhpv102/easy-email-core": "^4.20.1",
-    "@thanhpv102/easy-email-editor": "^4.20.2",
+    "@thanhpv102/easy-email-core": "^4.20.3",
+    "@thanhpv102/easy-email-editor": "^4.20.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
