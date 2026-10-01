@@ -45,6 +45,12 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
             cell.col,
           );
           setValueByIdx(cell.tableIdx, block);
+          // The canvas suppresses model->DOM re-render while a contentEditable
+          // cell is focused (MjmlDomRender's isTextFocus guard). A multi-cell
+          // fill replaces whole cells, so there is no caret to preserve: blur
+          // the cell to release that guard and render the new tableSource now,
+          // instead of only after the user clicks away.
+          (e.target as HTMLElement).blur();
         }
         return;
       }
