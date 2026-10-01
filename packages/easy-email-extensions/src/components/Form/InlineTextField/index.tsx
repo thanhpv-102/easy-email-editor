@@ -45,8 +45,10 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
           focusBlock &&
           (focusBlock.type === BasicType.TEXT || focusBlock.type === AdvancedType.TEXT)
         ) {
-          // Convert the focused text block into an AdvancedTable in place.
-          setValueByIdx(focusIdx, { ...focusBlock, ...buildAdvancedTablePayload(matrix) });
+          // Convert the focused text block into a fresh default-styled
+          // AdvancedTable in place (do not carry over the text block's
+          // attributes/children).
+          setValueByIdx(focusIdx, buildAdvancedTablePayload(matrix));
         }
         return;
       }

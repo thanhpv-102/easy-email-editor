@@ -40,6 +40,15 @@ describe('parseExcelTable', () => {
       [{ content: 'v1' }, { content: 'v2' }],
     ]);
   });
+
+  it('test_parseExcelTable_flattens_nested_tables', () => {
+    // Spec: only top-level rows/cells are extracted; a nested table flattens
+    // into its containing cell's text — no phantom rows or columns.
+    const html =
+      '<table><tr><td>outer<table><tr><td>inner</td></tr></table></td><td>B</td></tr></table>';
+    const m = parseExcelTable(html);
+    expect(m).toEqual([[{ content: 'outerinner' }, { content: 'B' }]]);
+  });
 });
 
 describe('normalizeTextContent', () => {
@@ -49,5 +58,31 @@ describe('normalizeTextContent', () => {
 
   it('test_normalizeTextContent_plain_passthrough_trimmed', () => {
     expect(normalizeTextContent('  plain value  ')).toBe('plain value');
+  });
+
+  it('test_normalizeTextContent_strips_body_level_style_and_script', () => {
+    expect(normalizeTextContent('<body><style>td{color:red}</style>Hello</body>')).toBe('Hello');
+    expect(normalizeTextContent('<script>alert(1)</script>World')).toBe('World');
+  });
+
+  it('test_normalizeTextContent_inline_tags_stay_seamless', () => {
+    // Inline elements must not introduce artificial spaces.
+    expect(normalizeTextContent('<p>Hello <span>world</span></p>')).toBe('Hello world');
+    expect(normalizeTextContent('a<b>b</b>c')).toBe('abc');
+  });
+
+  it('test_normalizeTextContent_block_tags_and_br_separate_with_space', () => {
+    // Block boundaries and <br> must not fuse adjacent text together.
+    expect(normalizeTextContent('<div>A</div><div>B</div>')).toBe('A B');
+    expect(normalizeTextContent('Line1<br>Line2')).toBe('Line1 Line2');
+    expect(normalizeTextContent('<p>One</p><p>Two</p>')).toBe('One Two');
+  });
+});
+
+describe('parseExcelTable with block-level cell content', () => {
+  it('test_parseExcelTable_cell_block_content_separated', () => {
+    const html = '<table><tr><td><div>A</div><div>B</div></td><td>C</td></tr></table>';
+    const m = parseExcelTable(html);
+    expect(m).toEqual([[{ content: 'A B' }, { content: 'C' }]]);
   });
 });
