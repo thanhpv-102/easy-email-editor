@@ -19,17 +19,7 @@ export function generateAdvancedTableBlock(option: {
       return 'Advanced Table';
     },
     type: option.type,
-    validParentType: [
-      BasicType.PAGE,
-      BasicType.WRAPPER,
-      BasicType.COLUMN,
-      BasicType.GROUP,
-      BasicType.HERO,
-      AdvancedType.WRAPPER,
-      AdvancedType.COLUMN,
-      AdvancedType.GROUP,
-      AdvancedType.HERO,
-    ],
+    validParentType: option.validParentType,
     create: payload => {
       const defaultData: AdvancedTableBlock = {
         type: option.type,
@@ -117,6 +107,25 @@ function generateTableHTML(
   const isHeaderRow = headerRow != 'false';
   const textAlign = attributes['text-align'] || 'left';
   const fontStyle = attributes['font-style'] || 'normal';
+  const fontFamily = attributes['font-family'];
+  const fontSize = attributes['font-size'];
+  const color = attributes.color;
+
+  const trStyles = [
+    `text-align:${textAlign}`,
+    `font-style:${fontStyle}`,
+  ];
+  if (fontFamily) {
+    trStyles.push(`font-family:${fontFamily}`);
+  }
+  if (fontSize) {
+    trStyles.push(`font-size:${fontSize}`);
+  }
+  if (color) {
+    trStyles.push(`color:${color}`);
+  }
+
+  const trStyleStr = trStyles.join(';');
 
   return tableSource
     .map((tr, rowIndex) => {
@@ -142,7 +151,7 @@ function generateTableHTML(
         })
         .join('');
 
-      return `<tr style="text-align:${textAlign};font-style:${fontStyle};">${cells}</tr>`;
+      return `<tr style="${trStyleStr}">${cells}</tr>`;
     })
     .join('');
 }
@@ -160,6 +169,10 @@ export type AdvancedTableBlock = IBlockData<
     cellBorderColor?: string;
     headerRow?: string;
     'font-style'?: string;
+    'font-family'?: string;
+    'font-size'?: string;
+    color?: string;
+    border?: string;
     'text-align'?: string;
     width?: string;
     'css-class'?: string;
