@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { ContentEditableType, DATA_CONTENT_EDITABLE_TYPE, getShadowRoot, useBlock, useFocusIdx } from '@thanhpv102/easy-email-editor';
+import { ContentEditableType, DATA_CONTENT_EDITABLE_IDX, DATA_CONTENT_EDITABLE_TYPE, getShadowRoot, useBlock } from '@thanhpv102/easy-email-editor';
 import { useField, useForm } from '@thanhpv102/easy-email-editor';
-import { AdvancedType, BasicType } from '@thanhpv102/easy-email-core';
+import { cloneDeep, get } from 'lodash';
 import { parseExcelTable, normalizeTextContent } from '../../../utils/excelParser';
-import { buildAdvancedTablePayload } from '../../../utils/buildAdvancedTablePayload';
+import { parseCellIdx, fillTableSource } from '../../../utils/tableCellPaste';
 
 export interface InlineTextProps {
   idx: string;
@@ -16,8 +16,7 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
     mutators: { setFieldTouched },
   } = useForm();
 
-  const { focusBlock, setValueByIdx } = useBlock();
-  const { focusIdx } = useFocusIdx();
+  const { values, setValueByIdx } = useBlock();
 
   useField(idx); // setFieldTouched will be work while register field,
 
@@ -28,32 +27,33 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
       if (!(e.target instanceof Element) || !e.target.getAttribute('contenteditable')) return;
       e.preventDefault();
 
-      const htmlData = e.clipboardData?.getData('text/html');
+      const targetIdx = e.target.getAttribute(DATA_CONTENT_EDITABLE_IDX);
+      const cell = targetIdx ? parseCellIdx(targetIdx) : null;
 
-      // Table branch: Excel/HTML table data drives AdvancedTable create/update.
+      const htmlData = e.clipboardData?.getData('text/html');
       const matrix = htmlData ? parseExcelTable(htmlData) : null;
-      if (matrix) {
-        if (focusBlock?.type === AdvancedType.TABLE) {
-          setValueByIdx(focusIdx, {
-            ...focusBlock,
-            data: {
-              ...focusBlock.data,
-              value: { ...focusBlock.data.value, tableSource: matrix },
-            },
-          });
-        } else if (
-          focusBlock &&
-          (focusBlock.type === BasicType.TEXT || focusBlock.type === AdvancedType.TEXT)
-        ) {
-          // Convert the focused text block into a fresh default-styled
-          // AdvancedTable in place (do not carry over the text block's
-          // attributes/children).
-          setValueByIdx(focusIdx, buildAdvancedTablePayload(matrix));
+
+      // Table-cell target with a multi-cell clipboard matrix: fill the table's
+      // tableSource from the focused cell, clipped to the table's bounds.
+      if (cell && matrix && (matrix.length > 1 || (matrix[0]?.length ?? 0) > 1)) {
+        const block = cloneDeep(get(values, cell.tableIdx)) as any;
+        if (block?.data?.value?.tableSource) {
+          block.data.value.tableSource = fillTableSource(
+            block.data.value.tableSource,
+            matrix,
+            cell.row,
+            cell.col,
+          );
+          setValueByIdx(cell.tableIdx, block);
         }
         return;
       }
 
-      // Non-table branch: insert normalized plain text at the selection.
+      // All other cases (non-table target, or single-cell/non-table clipboard
+      // into a cell): insert normalized plain text at the selection. A focused
+      // cell persists automatically because RichTextField binds a final-form
+      // Field at the cell's DATA_CONTENT_EDITABLE_IDX, so onChange writes
+      // straight to tableSource.r.c.content.
       const text = normalizeTextContent(htmlData || e.clipboardData?.getData('text/plain') || '');
 
       const selection = (shadowRoot as any)?.getSelection ? (shadowRoot as any).getSelection() : window.getSelection();
@@ -97,7 +97,7 @@ export function InlineText({ idx, onChange, children }: InlineTextProps) {
       shadowRoot.removeEventListener('paste', onPaste as any, true);
       shadowRoot.removeEventListener('input', onInput);
     };
-  }, [onChange, setFieldTouched, focusBlock, focusIdx, setValueByIdx]);
+  }, [onChange, setFieldTouched, values, setValueByIdx]);
 
   return <>{children}</>;
 }
